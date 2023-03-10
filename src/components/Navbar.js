@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Navbar } from "react-bootstrap";
+import { Button, Form, FormControl, Navbar } from "react-bootstrap";
 
 const NavbarComponent = () => {
   return (
@@ -14,19 +14,23 @@ const NavbarComponent = () => {
         />
       </Navbar.Brand>
       <Navbar.Toggle />
-      <Navbar.Collapse className="justify-content-end">
-        <Button className="mx-2" href="signup">
-          Sign Up
-        </Button>
-        <Button className="mx-2" href="login">
-          Log In
-        </Button>
-        <Button className="mx-2" href="about">
-          About
-        </Button>
-        <Button className="mx-2" href="faqs">
-          FAQs
-        </Button>
+      <Navbar.Collapse className="justify-content-between">
+        <Form inline className="mx-auto">
+          <FormControl
+            type="text"
+            placeholder="Search for bands, concerts and venues"
+            className="mr-sm-2 rounded-pill"
+            style={{ width: "450px" }}
+          />
+        </Form>
+        <div className="ml-auto">
+          <Button className="mx-2" href="register" variant="secondary">
+            Register
+          </Button>
+          <Button className="mx-2" href="signin" variant="secondary">
+            Sign In
+          </Button>
+        </div>
       </Navbar.Collapse>
     </Navbar>
   );

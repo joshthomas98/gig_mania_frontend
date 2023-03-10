@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+function Register() {
   const [bandName, setBandName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -12,15 +12,29 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newuser = { bandName, email, username, password, genre };
+    const data = {
+      band_name: bandName,
+      email: email,
+      username: username,
+      password: password,
+      genre: genre,
+    };
 
     fetch("http://localhost:8000/bands/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newuser),
-    }).then(() => {
-      navigate("/usercreated");
-    });
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigate("/usercreated");
+        }
+      })
+      .catch((error) => {
+        console.error("Error registering user:", error);
+      });
   };
 
   return (
@@ -117,6 +131,6 @@ const Register = () => {
       </form>
     </div>
   );
-};
+}
 
 export default Register;
