@@ -24,7 +24,7 @@ const NavbarComponent = () => {
           />
         </Form>
         <div className="ml-auto">
-          <Button className="mx-2" href="register" variant="secondary">
+          <Button className="mx-2" href="/artistorvenue" variant="secondary">
             Register
           </Button>
           <Button className="mx-2" href="signin" variant="secondary">

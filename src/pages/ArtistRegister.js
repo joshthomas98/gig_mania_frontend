@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Register() {
+function ArtistRegister() {
   const [bandName, setBandName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -39,7 +39,7 @@ function Register() {
 
   return (
     <div>
-      <h1 className="text-light mb-4">Sign Up Here</h1>
+      <h1 className="text-light mb-4">Register as an Artist</h1>
 
       <form className="w-50" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -133,4 +133,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default ArtistRegister;

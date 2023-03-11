@@ -17,14 +17,8 @@ const Homepage = () => {
 
   return (
     <div>
-      {/* Showcase image */}
-      <section>
-        <img
-          className="img-fluid"
-          src="../../images/showcase_banner.jpg"
-          alt="aaaa"
-        />
-      </section>
+      {/* Showcase area displaying upcoming events by calling Bandsintown API */}
+      <section></section>
 
       {/* Info boxes section */}
       <section className="p-5">
