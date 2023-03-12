@@ -18,6 +18,7 @@ import TestFetch from "./pages/TestFetch";
 import ArtistOrVenue from "./pages/ArtistOrVenue";
 
 import UserContextProvider from "./UserContext";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
               <Route path="artistorvenue" element={<ArtistOrVenue />} />
             </Routes>
           </BrowserRouter>
+          <Footer />
         </div>
       </Container>
     </UserContextProvider>

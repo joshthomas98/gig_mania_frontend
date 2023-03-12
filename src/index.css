@@ -26,4 +26,13 @@
 .bi.bi-arrow-up-circle.h1:hover {
     color: white;
   }
+
+
+
+
+  .text-container {
+    max-width: 1000px; /* Change this value as needed */
+    margin: 0 auto;
+  }
+  
   

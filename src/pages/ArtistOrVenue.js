@@ -55,6 +55,15 @@ const ArtistOrVenue = () => {
           </div>
         </div>
       </section>
+
+      <section className="text-light text-center pb-3 lead">
+        <p>
+          Already have an account?{" "}
+          <span>
+            <a href="#">Log In</a>
+          </span>
+        </p>
+      </section>
     </>
   );
 };
