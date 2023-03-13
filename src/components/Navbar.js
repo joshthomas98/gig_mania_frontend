@@ -6,9 +6,9 @@ const NavbarComponent = () => {
     <Navbar expand="sm">
       <Navbar.Brand href="/">
         <img
-          src="../../images/gig_mania_logo.png"
-          width="200"
-          height="200"
+          src="../../images/gigsweep_logo.png"
+          width="300"
+          height="300"
           className="d-inline-block align-top"
           alt="Gig Mania Logo"
         />

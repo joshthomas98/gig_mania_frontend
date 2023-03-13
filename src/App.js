@@ -16,6 +16,7 @@ import AdvertiseGig from "./pages/AdvertiseGig";
 import UserCreated from "./pages/UserCreated";
 import TestFetch from "./pages/TestFetch";
 import ArtistOrVenue from "./pages/ArtistOrVenue";
+import ContactUs from "./pages/ContactUs";
 
 import UserContextProvider from "./UserContext";
 import Footer from "./components/Footer";
@@ -41,6 +42,7 @@ function App() {
               <Route path="usercreated" element={<UserCreated />} />
               <Route path="testfetch" element={<TestFetch />} />
               <Route path="artistorvenue" element={<ArtistOrVenue />} />
+              <Route path="contactus" element={<ContactUs />} />
             </Routes>
           </BrowserRouter>
           <Footer />
