@@ -17,6 +17,9 @@ import UserCreated from "./pages/UserCreated";
 import TestFetch from "./pages/TestFetch";
 import ArtistOrVenue from "./pages/ArtistOrVenue";
 import ContactUs from "./pages/ContactUs";
+import ProfileSettings from "./pages/ProfileSettings";
+import BrowseProfiles from "./pages/BrowseProfiles";
+import UserProfile from "./pages/UserProfile";
 
 import UserContextProvider from "./UserContext";
 import Footer from "./components/Footer";
@@ -43,6 +46,9 @@ function App() {
               <Route path="testfetch" element={<TestFetch />} />
               <Route path="artistorvenue" element={<ArtistOrVenue />} />
               <Route path="contactus" element={<ContactUs />} />
+              <Route path="profilesettings" element={<ProfileSettings />} />
+              <Route path="browseprofiles" element={<BrowseProfiles />} />
+              <Route path="userprofile" element={<UserProfile />} />
             </Routes>
           </BrowserRouter>
           <Footer />
