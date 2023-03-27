@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import Footer from "../components/Footer";
+import Carousel from "../components/Carousel";
 
 const Homepage = () => {
   const { user } = useContext(UserContext);
@@ -18,7 +19,9 @@ const Homepage = () => {
   return (
     <div>
       {/* Showcase area displaying upcoming events by calling Bandsintown API */}
-      <section></section>
+      <section>
+        <Carousel />
+      </section>
 
       {/* Info boxes section */}
       <section className="p-5">

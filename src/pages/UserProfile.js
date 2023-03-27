@@ -10,6 +10,8 @@ const UserProfile = () => {
 
   return (
     <>
+      <h1 className="text-light text-center">My Profile</h1>
+
       <section className="h-100 bg-dark">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
