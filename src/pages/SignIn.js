@@ -11,14 +11,11 @@ const SignInForm = () => {
       password: password,
     };
 
-    const response = await fetch(
-      `http://localhost:8000/bands/validate/${email}/${password}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch("http://localhost:8000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
     if (response.ok) {
       const data = await response.json();
