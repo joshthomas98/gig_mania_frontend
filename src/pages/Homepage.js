@@ -18,9 +18,33 @@ const Homepage = () => {
 
   return (
     <div>
-      {/* Showcase area displaying upcoming events by calling Bandsintown API */}
+      {/* Carousel section */}
       <section>
         <Carousel />
+      </section>
+
+      <section className="text-light text-center mt-5">
+        <h3 className="mb-4">GigSweep - The All-In-One Gigging Platform.</h3>
+        <p className="lead">
+          At GigSweep, we understand the importance of every gig to an artist.
+          That's why we created a platform where musicians and bands can
+          advertise gigs that they have booked, but can no longer play, and
+          allow other artists to come in and pick up those gigs instead. We
+          believe that every artist should have the chance to perform, and by
+          allowing musicians to collaborate and work together, we can ensure
+          that no gig goes to waste. Whether you're a solo artist, a band, or a
+          DJ, our platform provides you with the opportunity to showcase your
+          talent and perform in front of new audiences.
+        </p>
+        <p className="lead">
+          But GigSweep isn't just for musicians. We also provide a simple and
+          efficient system for music venues to find and book the best talent in
+          their local area. And for fans, we offer a convenient way to stay
+          up-to-date with their favourite artists' gigs and never miss a
+          performance. Join our community today and discover a new world of
+          opportunities. Whether you're a musician, a music venue, or a fan,
+          GigSweep is the platform for you.
+        </p>
       </section>
 
       {/* Info boxes section */}

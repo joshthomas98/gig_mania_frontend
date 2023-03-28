@@ -12,7 +12,7 @@ const SignInForm = () => {
     };
 
     const response = await fetch(
-      `http://localhost:8000/bands/validate/${email}/${password}/`,
+      `http://localhost:8000/bands/validate/${email}/${password}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
