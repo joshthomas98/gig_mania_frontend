@@ -1,4 +1,4 @@
-* {background-color: black}
+* {background-color: #121212}
 
 .text-container {
   max-width: 1000px; /* Change this value as needed */
@@ -9,9 +9,8 @@
 /* FOOTER */
 
 .footer {
-  background-color: black;
+  background-color: #121212;
   color: #fff;
-  padding: 20px;
   font-size: 14px;
 }
   

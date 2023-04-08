@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ArtistRegister() {
+  const navigate = useNavigate();
+
   const [bandName, setBandName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [genre, setGenre] = useState("");
-
-  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();

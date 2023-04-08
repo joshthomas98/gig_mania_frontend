@@ -1,29 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SignInForm = () => {
+const SignInForm = (props) => {
+  const navigate = useNavigate();
+
+  const { isArtistLoggedIn, setIsArtistLoggedIn } = props;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = {
-      email: email,
-      password: password,
-    };
-
-    const response = await fetch("http://localhost:8000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      // Perform any action you want with the response data
-    } else {
-      console.error("Failed to sign in");
-    }
+  const handleSignIn = () => {
+    setIsArtistLoggedIn(true);
+    console.log(isArtistLoggedIn);
+    navigate("/advertisegig");
   };
 
   return (
@@ -32,7 +21,7 @@ const SignInForm = () => {
         <div>
           <h3 className="text-light mb-2">LOG IN TO YOUR ACCOUNT</h3>
 
-          <form className="mb-5" onSubmit={handleSubmit}>
+          <form className="mb-5" onSubmit={handleSignIn}>
             <div className="form-group">
               <label htmlFor="email" className="text-light mb-2 mt-3">
                 Email:

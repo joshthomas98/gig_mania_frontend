@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -20,41 +21,53 @@ import ContactUs from "./pages/ContactUs";
 import ProfileSettings from "./pages/ProfileSettings";
 import BrowseProfiles from "./pages/BrowseProfiles";
 import UserProfile from "./pages/UserProfile";
+import GigAdvertised from "./pages/GigAdvertised";
 
-import UserContextProvider from "./UserContext";
 import Footer from "./components/Footer";
 
 function App() {
+  const [isArtistLoggedIn, setIsArtistLoggedIn] = useState(false);
+
   return (
-    <UserContextProvider>
-      <Container>
-        <div className="App">
-          <Navbar />
-          <BrowserRouter>
-            <Routes>
-              <Route index element={<Homepage />} />
-              <Route path="artistregister" element={<ArtistRegister />} />
-              <Route path="venueregister" element={<VenueRegister />} />
-              <Route path="login" element={<LogIn />} />
-              <Route path="about" element={<About />} />
-              <Route path="faqs" element={<FAQs />} />
-              <Route path="submitgig" element={<SubmitGig />} />
-              <Route path="signin" element={<SignIn />} />
-              <Route path="bandsearch" element={<BandSearch />} />
-              <Route path="advertisegig" element={<AdvertiseGig />} />
-              <Route path="usercreated" element={<UserCreated />} />
-              <Route path="testfetch" element={<TestFetch />} />
-              <Route path="artistorvenue" element={<ArtistOrVenue />} />
-              <Route path="contactus" element={<ContactUs />} />
-              <Route path="profilesettings" element={<ProfileSettings />} />
-              <Route path="browseprofiles" element={<BrowseProfiles />} />
-              <Route path="userprofile" element={<UserProfile />} />
-            </Routes>
-          </BrowserRouter>
-          <Footer />
-        </div>
-      </Container>
-    </UserContextProvider>
+    <Container>
+      <div className="App">
+        <Navbar />
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Homepage />} />
+            <Route path="artistregister" element={<ArtistRegister />} />
+            <Route path="venueregister" element={<VenueRegister />} />
+            <Route path="login" element={<LogIn />} />
+            <Route path="about" element={<About />} />
+            <Route path="faqs" element={<FAQs />} />
+            <Route path="submitgig" element={<SubmitGig />} />
+            <Route
+              path="signin"
+              element={
+                <SignIn
+                  isArtistLoggedIn={isArtistLoggedIn}
+                  setIsArtistLoggedIn={setIsArtistLoggedIn}
+                />
+              }
+            />
+            <Route path="bandsearch" element={<BandSearch />} />
+            <Route
+              path="advertisegig"
+              element={<AdvertiseGig isArtistLoggedIn={isArtistLoggedIn} />}
+            />
+            <Route path="usercreated" element={<UserCreated />} />
+            <Route path="testfetch" element={<TestFetch />} />
+            <Route path="artistorvenue" element={<ArtistOrVenue />} />
+            <Route path="contactus" element={<ContactUs />} />
+            <Route path="profilesettings" element={<ProfileSettings />} />
+            <Route path="browseprofiles" element={<BrowseProfiles />} />
+            <Route path="userprofile" element={<UserProfile />} />
+            <Route path="gigadvertised" element={<GigAdvertised />} />
+          </Routes>
+        </BrowserRouter>
+        <Footer />
+      </div>
+    </Container>
   );
 }
 

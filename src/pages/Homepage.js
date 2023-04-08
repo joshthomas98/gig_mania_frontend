@@ -1,19 +1,13 @@
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../UserContext";
-import Footer from "../components/Footer";
+import React from "react";
 import Carousel from "../components/Carousel";
 
+import { useNavigate } from "react-router-dom";
+
 const Homepage = () => {
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleAdvertise = () => {
-    if (user) {
-      navigate("/form");
-    } else {
-      navigate("/signin");
-    }
+  const handleAdvertiseSubmit = () => {
+    navigate("/advertisegig");
   };
 
   return (
@@ -65,7 +59,7 @@ const Homepage = () => {
                   </p>
                   <button
                     className="btn btn-primary text-light my-2"
-                    onClick={handleAdvertise}
+                    onClick={handleAdvertiseSubmit}
                   >
                     Advertise
                   </button>

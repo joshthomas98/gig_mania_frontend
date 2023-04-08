@@ -14,7 +14,10 @@ const ProfileSettings = () => {
                 alt="Profile"
               ></img>
               <span className="font-weight-bold mt-2">Edogaru</span>
-              <span className="text-black-50">edogaru@mail.com.my</span>
+              <label className="btn btn-secondary mt-3">
+                Edit profile picture
+                <input type="file" style={{ display: "none" }} />
+              </label>
             </div>
           </div>
           <div className="col-md-5 border-right">
@@ -97,25 +100,8 @@ const ProfileSettings = () => {
                     value=""
                   />
                 </div>
-                <div className="col-md-12">
-                  <label className="labels mb-1 mt-2">Area</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="enter address line 2"
-                    value=""
-                  />
-                </div>
-                <div className="col-md-12">
-                  <label className="labels mb-1 mt-2">Education</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="education"
-                    value=""
-                  />
-                </div>
               </div>
+
               <div className="row mt-3">
                 <div className="col-md-6">
                   <label className="labels mb-1 mt-2">Country</label>
@@ -149,29 +135,18 @@ const ProfileSettings = () => {
           <div className="col-md-4">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center experience">
-                <span>Edit Experience</span>
-                <span className="border px-3 p-1 add-experience">
-                  <i className="fa fa-plus"></i>&nbsp;Experience
-                </span>
+                <span>Biography</span>
               </div>
-              <br />
-              <div className="col-md-12">
-                <label className="labels mb-1">Experience in Designing</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="experience"
-                  value=""
-                />
-              </div>
-              <br />
-              <div className="col-md-12">
-                <label className="labels mb-1">Additional Details</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="additional details"
-                  value=""
+              <div className="py-2">
+                <textarea
+                  placeholder="Enter bio"
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    paddingTop: "20px",
+                    paddingLeft: "20px",
+                    backgroundColor: "#FFFFFF",
+                  }}
                 />
               </div>
             </div>
