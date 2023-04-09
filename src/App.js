@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar";
 import Homepage from "./pages/Homepage";
 import ArtistRegister from "./pages/ArtistRegister";
 import VenueRegister from "./pages/VenueRegister";
-import LogIn from "./pages/LogIn";
 import About from "./pages/About";
 import FAQs from "./pages/FAQs";
 import SubmitGig from "./pages/SubmitGig";
@@ -37,7 +36,6 @@ function App() {
             <Route index element={<Homepage />} />
             <Route path="artistregister" element={<ArtistRegister />} />
             <Route path="venueregister" element={<VenueRegister />} />
-            <Route path="login" element={<LogIn />} />
             <Route path="about" element={<About />} />
             <Route path="faqs" element={<FAQs />} />
             <Route path="submitgig" element={<SubmitGig />} />

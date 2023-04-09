@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
-function BookArtistPage(props) {
+function AdvertiseGig(props) {
   const navigate = useNavigate();
 
   const { isArtistLoggedIn } = props;
@@ -18,41 +18,23 @@ function BookArtistPage(props) {
   const [dateOfGig, setDateOfGig] = useState("");
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [venueName, setVenueName] = useState("");
-  const [genre, setGenre] = useState("");
+  const [genreOfGig, setGenreOfGig] = useState("");
   const [payment, setPayment] = useState("");
-
-  const handleArtistNameChange = (event) => {
-    setArtistName(event.target.value);
-  };
-
-  const handleDateOfGigChange = (event) => {
-    setDateOfGig(event.target.value);
-  };
-
-  const handleCountryOfVenueChange = (event) => {
-    setCountryOfVenue(event.target.value);
-  };
-
-  const handleVenueNameChange = (event) => {
-    setVenueName(event.target.value);
-  };
-
-  const handleGenreChange = (event) => {
-    setGenre(event.target.value);
-  };
-
-  const handlePaymentChange = (event) => {
-    setPayment(event.target.value);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    // convert dateOfGig to a Date object
+    const dateObj = new Date(dateOfGig);
+
+    // extract only the date portion
+    const date = dateObj.toISOString().slice(0, 10);
+
     const data = {
-      artistName: artistName,
-      dateOfGig: dateOfGig,
-      countryOfVenue: countryOfVenue,
-      venueName: venueName,
-      genre: genre,
+      artist_name: artistName,
+      date_of_gig: date,
+      country_of_venue: countryOfVenue,
+      venue_name: venueName,
+      genre_of_gig: genreOfGig,
       payment: payment,
     };
 
@@ -69,11 +51,9 @@ function BookArtistPage(props) {
         }
       })
       .catch((error) => {
-        console.error("Error advertising gig:", error);
+        console.error("Error registering user:", error);
       });
   };
-
-  console.log(dateOfGig);
 
   return (
     <div className="container-fluid">
@@ -85,7 +65,7 @@ function BookArtistPage(props) {
             placeholder="Enter your band name here"
             type="text"
             value={artistName}
-            onChange={handleArtistNameChange}
+            onChange={(event) => setArtistName(event.target.value)}
           />
         </Form.Group>
 
@@ -103,7 +83,7 @@ function BookArtistPage(props) {
           <Form.Label className="text-white">Country Of Venue:</Form.Label>
           <Form.Select
             value={countryOfVenue}
-            onChange={handleCountryOfVenueChange}
+            onChange={(event) => setCountryOfVenue(event.target.value)}
           >
             <option value="">Please select a country</option>
             <option value="England">England</option>
@@ -119,27 +99,30 @@ function BookArtistPage(props) {
             placeholder="Enter the venue name here"
             type="text"
             value={venueName}
-            onChange={handleVenueNameChange}
+            onChange={(event) => setVenueName(event.target.value)}
           />
         </Form.Group>
 
         <Form.Group className="p-3">
           <Form.Label className="text-white">Select a Genre:</Form.Label>
-          <Form.Select value={genre} onChange={handleGenreChange}>
+          <Form.Select
+            value={genreOfGig}
+            onChange={(event) => setGenreOfGig(event.target.value)}
+          >
             <option value="">Please select a genre</option>
-            <option value="rock">Rock</option>
-            <option value="pop">Pop</option>
-            <option value="jazz">Jazz</option>
-            <option value="country">Country</option>
-            <option value="hip-hop">Hip hop</option>
-            <option value="r&b">R&B</option>
-            <option value="electronic">Electronic</option>
-            <option value="classical">Classical</option>
-            <option value="reggae">Reggae</option>
-            <option value="metal">Metal</option>
-            <option value="folk">Folk</option>
-            <option value="blues">Blues</option>
-            <option value="world-music">World Music</option>
+            <option value="Rock">Rock</option>
+            <option value="Pop">Pop</option>
+            <option value="Jazz">Jazz</option>
+            <option value="Country">Country</option>
+            <option value="Hip Hop">Hip Hop</option>
+            <option value="R&B">R&B</option>
+            <option value="Electronic">Electronic</option>
+            <option value="Classical">Classical</option>
+            <option value="Reggae">Reggae</option>
+            <option value="Metal">Metal</option>
+            <option value="Folk">Folk</option>
+            <option value="Blues">Blues</option>
+            <option value="World Music">World Music</option>
           </Form.Select>
         </Form.Group>
 
@@ -149,7 +132,7 @@ function BookArtistPage(props) {
             placeholder="£ (If gig is unpaid enter 0)"
             type="number"
             value={payment}
-            onChange={handlePaymentChange}
+            onChange={(event) => setPayment(event.target.value)}
           />
         </Form.Group>
         <Button className="my-3 mx-3" variant="primary" type="submit">
@@ -160,4 +143,4 @@ function BookArtistPage(props) {
   );
 }
 
-export default BookArtistPage;
+export default AdvertiseGig;
