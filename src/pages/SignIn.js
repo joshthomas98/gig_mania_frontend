@@ -4,15 +4,28 @@ import { useNavigate } from "react-router-dom";
 const SignInForm = (props) => {
   const navigate = useNavigate();
 
-  const { isArtistLoggedIn, setIsArtistLoggedIn } = props;
+  const { setIsArtistLoggedIn } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = () => {
-    setIsArtistLoggedIn(true);
-    console.log(isArtistLoggedIn);
-    navigate("/advertisegig");
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:8000/bands/validate/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, password: password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          setIsArtistLoggedIn(true);
+          navigate("/advertisegig");
+        } else {
+          alert(data.error);
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   return (

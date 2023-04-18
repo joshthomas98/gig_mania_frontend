@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const ProfileSettings = () => {
+const ProfileSettings = (props) => {
+  const navigate = useNavigate();
+
+  const { isArtistLoggedIn } = props;
+
+  useEffect(() => {
+    if (!isArtistLoggedIn) {
+      navigate("/signin");
+    }
+  }, [isArtistLoggedIn, navigate]);
+
   return (
     <div className="text-light">
       <div className="container rounded bg-white mb-5">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function App() {
+function TestFetch() {
   const [bands, setBands] = useState([]);
 
   useEffect(() => {
@@ -17,11 +17,13 @@ function App() {
       <h1>List of Bands</h1>
       <ul>
         {bands.map((band) => (
-          <li key={band.id}>{band.band_name}</li>
+          <li key={band.id}>
+            {band.band_name} + {band.email}
+          </li>
         ))}
       </ul>
     </div>
   );
 }
 
-export default App;
+export default TestFetch;

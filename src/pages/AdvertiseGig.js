@@ -8,6 +8,8 @@ function AdvertiseGig(props) {
 
   const { isArtistLoggedIn } = props;
 
+  console.log(isArtistLoggedIn);
+
   useEffect(() => {
     if (!isArtistLoggedIn) {
       navigate("/signin");
