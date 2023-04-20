@@ -3,18 +3,14 @@ import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
-function AdvertiseGig(props) {
+function AdvertiseGig({ onUserIdChange, userId }) {
   const navigate = useNavigate();
 
-  const { isArtistLoggedIn } = props;
-
-  console.log(isArtistLoggedIn);
-
   useEffect(() => {
-    if (!isArtistLoggedIn) {
+    if (!userId) {
       navigate("/signin");
     }
-  }, [isArtistLoggedIn, navigate]);
+  }, [userId, navigate]);
 
   const [artistName, setArtistName] = useState("");
   const [dateOfGig, setDateOfGig] = useState("");

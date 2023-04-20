@@ -49,7 +49,7 @@ const Homepage = () => {
               <div className="card bg-secondary text-light">
                 <div className="card-body text-center">
                   <div className="h1 mb-3">
-                    <i class="bi bi-badge-ad"></i>
+                    <i className="bi bi-badge-ad"></i>
                   </div>
                   <h3 className="card-title mb-3">Advertise Gigs</h3>
                   <p className="card-text">
@@ -71,7 +71,7 @@ const Homepage = () => {
               <div className="card bg-secondary text-light">
                 <div className="card-body text-center">
                   <div className="h1 mb-3">
-                    <i class="bi bi-search"></i>
+                    <i className="bi bi-search"></i>
                   </div>
                   <h3 className="card-title mb-3">Find a Band</h3>
                   <p className="card-text">
@@ -90,7 +90,7 @@ const Homepage = () => {
               <div className="card bg-secondary text-light">
                 <div className="card-body text-center">
                   <div className="h1 mb-3">
-                    <i class="bi bi-ticket-detailed"></i>
+                    <i className="bi bi-ticket-detailed"></i>
                   </div>
                   <h3 className="card-title mb-3">See Gigs In Your Area</h3>
                   <p className="card-text">

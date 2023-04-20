@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
@@ -26,9 +26,13 @@ import ProfileCards from "./components/ProfileCards";
 import Footer from "./components/Footer";
 
 function App() {
-  const [isArtistLoggedIn, setIsArtistLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
-  const userId = 1;
+  function handleUserIdChange(id) {
+    setUserId(id);
+  }
+
+  console.log(userId);
 
   return (
     <Container>
@@ -44,19 +48,14 @@ function App() {
 
             <Route
               path="signin"
-              element={
-                <SignIn
-                  isArtistLoggedIn={isArtistLoggedIn}
-                  setIsArtistLoggedIn={setIsArtistLoggedIn}
-                />
-              }
+              element={<SignIn onUserIdChange={handleUserIdChange} />}
             />
 
             <Route path="bandsearch" element={<BandSearch />} />
 
             <Route
               path="advertisegig"
-              element={<AdvertiseGig isArtistLoggedIn={isArtistLoggedIn} />}
+              element={<AdvertiseGig onUserIdChange={handleUserIdChange} />}
             />
 
             <Route path="usercreated" element={<UserCreated />} />
@@ -64,10 +63,7 @@ function App() {
             <Route path="artistorvenue" element={<ArtistOrVenue />} />
             <Route path="contactus" element={<ContactUs />} />
 
-            <Route
-              path="profilesettings"
-              element={<ProfileSettings isArtistLoggedIn={isArtistLoggedIn} />}
-            />
+            <Route path="profilesettings" element={<ProfileSettings />} />
 
             <Route path="browseprofiles" element={<BrowseProfiles />} />
 

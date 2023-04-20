@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const UserProfile = ({ userId }) => {
-  const navigate = useNavigate();
-
-  const handleButtonClick = () => {
-    navigate("/profilesettings");
-  };
-
   const [availabilities, setavailabilities] = useState([]);
 
   useEffect(() => {
@@ -24,9 +17,9 @@ const UserProfile = ({ userId }) => {
       <section className="text-light">
         <div className="row py-5 px-4">
           <div className="col-lg-8 mx-auto">
-            <div className="bg-dark shadow rounded overflow-hidden">
+            <div className="bg-dark shadow rounded overflow-hidden border border-secondary">
               <div className="px-4 pt-0 pb-4 cover">
-                <div className="media align-items-end profile-head text-center">
+                <div className="media align-items-end profile-head text-center py-5">
                   <div className="profile mr-3">
                     <img
                       src="https://scontent-lcy1-1.xx.fbcdn.net/v/t1.6435-9/161891220_375450380499891_7491581544665288192_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=THcfRx9chTkAX9ETGYD&_nc_ht=scontent-lcy1-1.xx&oh=00_AfDwny0G-K6KrYbgz0d8dRUmhhPVR8OB518BYeOJFdA4Kg&oe=64655195"
@@ -41,7 +34,7 @@ const UserProfile = ({ userId }) => {
                   </div>
                   <a
                     href="/profilesettings"
-                    className="btn btn-outline-dark btn-sm btn-block text-light"
+                    className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
                   >
                     Edit profile
                   </a>
