@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingSpinner = () => {
+const SuccessAnimation = () => {
   return (
     <>
       <div className="success-animation">
@@ -27,4 +27,4 @@ const LoadingSpinner = () => {
   );
 };
 
-export default LoadingSpinner;
+export default SuccessAnimation;

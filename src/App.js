@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
@@ -26,13 +26,11 @@ import ProfileCards from "./components/ProfileCards";
 import Footer from "./components/Footer";
 
 function App() {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(1);
 
   function handleUserIdChange(id) {
     setUserId(id);
   }
-
-  console.log(userId);
 
   return (
     <Container>
@@ -68,7 +66,7 @@ function App() {
             <Route path="browseprofiles" element={<BrowseProfiles />} />
 
             <Route
-              path="userprofile"
+              path="/userprofile"
               element={<UserProfile userId={userId} />}
             />
 

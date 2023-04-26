@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SignInForm = ({ onUserIdChange }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +18,9 @@ const SignInForm = ({ onUserIdChange }) => {
       .then((response) => response.json())
       .then((data) => {
         onUserIdChange(data.id);
+        navigate(
+          location?.state?.previousUrl ? location.state.previousUrl : "/"
+        );
       });
   };
 

@@ -24,10 +24,17 @@ const NavbarComponent = () => {
           />
         </Form>
         <div className="ml-auto">
-          <Button className="mx-2" href="/artistorvenue" variant="secondary">
+          <a href="/userprofile">
+            <i class="bi bi-person h1 px-2" style={{ color: "white" }}></i>
+          </a>
+          <Button
+            className="mx-2 mb-3"
+            href="/artistorvenue"
+            variant="secondary"
+          >
             Register
           </Button>
-          <Button className="mx-2" href="signin" variant="secondary">
+          <Button className="mx-2 mb-3" href="signin" variant="secondary">
             Sign In
           </Button>
         </div>
