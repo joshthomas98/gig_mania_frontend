@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const UserProfile = ({ userId, setRedirectTo }) => {
+const ArtistUserProfile = ({ userId }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -11,7 +11,7 @@ const UserProfile = ({ userId, setRedirectTo }) => {
   useEffect(() => {
     const isUserLoggedIn = () => {
       if (userId === null) {
-        navigate("/signin", {
+        navigate("/artistorvenuesignin", {
           state: {
             previousUrl: location.pathname,
           },
@@ -60,6 +60,7 @@ const UserProfile = ({ userId, setRedirectTo }) => {
                       <div className="media-body text-white">
                         <h4 className="mt-3">{band.band_name}</h4>
                         <p>{band.county}</p>
+                        <p className="py-3">{band.genre}</p>
                       </div>
                       <a
                         href="/profilesettings"
@@ -177,4 +178,4 @@ const UserProfile = ({ userId, setRedirectTo }) => {
   );
 };
 
-export default UserProfile;
+export default ArtistUserProfile;

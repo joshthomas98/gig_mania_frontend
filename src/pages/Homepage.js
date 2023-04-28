@@ -46,8 +46,8 @@ const Homepage = () => {
         <div className="container">
           <div className="row text-center g-4">
             <div className="col-md">
-              <div className="card bg-secondary text-light">
-                <div className="card-body text-center">
+              <div className="homepage-card bg-secondary text-light">
+                <div className="card-body text-center p-3">
                   <div className="h1 mb-3">
                     <i className="bi bi-badge-ad"></i>
                   </div>
@@ -68,8 +68,8 @@ const Homepage = () => {
             </div>
 
             <div className="col-md">
-              <div className="card bg-secondary text-light">
-                <div className="card-body text-center">
+              <div className="homepage-card bg-secondary text-light">
+                <div className="card-body text-center p-3">
                   <div className="h1 mb-3">
                     <i className="bi bi-search"></i>
                   </div>
@@ -87,8 +87,8 @@ const Homepage = () => {
             </div>
 
             <div className="col-md">
-              <div className="card bg-secondary text-light">
-                <div className="card-body text-center">
+              <div className="homepage-card bg-secondary text-light">
+                <div className="card-body text-center p-3">
                   <div className="h1 mb-3">
                     <i className="bi bi-ticket-detailed"></i>
                   </div>

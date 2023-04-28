@@ -3,13 +3,15 @@ import React from "react";
 const ArtistOrVenue = () => {
   return (
     <>
-      <h1 className="text-light text-center">Are you an artist or a venue?</h1>
+      <h1 className="text-light text-center mb-5">
+        Are you an artist or a venue?
+      </h1>
 
       <section className="p-5">
         <div className="container">
-          <div className="row text-center g-4">
+          <div className="row text-center g-5">
             <div className="col-md">
-              <div className="card bg-secondary text-light">
+              <div className="register-card bg-secondary text-light">
                 <div className="card-body text-center">
                   <div className="h1 mb-3">
                     <i class="bi bi-music-note-beamed"></i>
@@ -32,7 +34,7 @@ const ArtistOrVenue = () => {
             </div>
 
             <div className="col-md">
-              <div className="card bg-secondary text-light">
+              <div className="register-card bg-secondary text-light">
                 <div className="card-body text-center">
                   <div className="h1 mb-3">
                     <i class="bi bi-building"></i>
@@ -56,7 +58,7 @@ const ArtistOrVenue = () => {
         </div>
       </section>
 
-      <section className="text-light text-center pb-3 lead">
+      <section className="text-light text-center py-5 lead">
         <p>
           Already have an account?{" "}
           <span>
