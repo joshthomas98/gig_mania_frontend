@@ -13,6 +13,7 @@ import About from "./pages/About";
 import FAQs from "./pages/FAQs";
 import ArtistSignIn from "./pages/ArtistSignIn";
 import VenueSignIn from "./pages/VenueSignIn";
+import SignIn from "./pages/SignIn";
 import BandSearch from "./pages/BandSearch";
 import AdvertiseGig from "./pages/AdvertiseGig";
 import UserCreated from "./pages/UserCreated";
@@ -32,9 +33,14 @@ import Footer from "./components/Footer";
 
 function App() {
   const [userId, setUserId] = useState(null);
+  const [loginStatus, setLoginStatus] = useState(null);
 
   function handleUserIdChange(id) {
     setUserId(id);
+  }
+
+  function handleLoginStatusChange(userStatus) {
+    setLoginStatus(userStatus);
   }
 
   return (
@@ -57,6 +63,16 @@ function App() {
             <Route
               path="venuesignin"
               element={<VenueSignIn onUserIdChange={handleUserIdChange} />}
+            />
+
+            <Route
+              path="signin"
+              element={
+                <SignIn
+                  onUserIdChange={handleUserIdChange}
+                  onLoginStatusChange={handleLoginStatusChange}
+                />
+              }
             />
 
             <Route path="bandsearch" element={<BandSearch />} />
@@ -87,12 +103,16 @@ function App() {
 
             <Route
               path="/artistuserprofile"
-              element={<ArtistUserProfile userId={userId} />}
+              element={
+                <ArtistUserProfile userId={userId} loginStatus={loginStatus} />
+              }
             />
 
             <Route
               path="/venueuserprofile"
-              element={<VenueUserProfile userId={userId} />}
+              element={
+                <VenueUserProfile userId={userId} loginStatus={loginStatus} />
+              }
             />
 
             <Route path="gigadvertised" element={<GigAdvertised />} />

@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ArtistUserProfile = ({ userId }) => {
+const ArtistUserProfile = ({ userId, loginStatus }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [bands, setBands] = useState([]);
   const [availabilities, setAvailabilities] = useState([]);
 
-  useEffect(() => {
-    const isUserLoggedIn = () => {
-      if (userId === null) {
-        navigate("/artistorvenuesignin", {
-          state: {
-            previousUrl: location.pathname,
-          },
-        });
-      }
-    };
+  const isArtist = () => {
+    console.log(loginStatus);
+    if (userId !== null && loginStatus === "A") {
+      navigate("/artistuserprofile");
+    } else {
+      navigate("/artistorvenuesignin");
+    }
+  };
 
-    isUserLoggedIn();
-  }, [userId]);
+  useEffect(() => {
+    isArtist();
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8000/bands")
@@ -44,7 +42,7 @@ const ArtistUserProfile = ({ userId }) => {
         {bands
           .filter((band) => band.id === userId)
           .map((band) => (
-            <div className="row py-5 px-4">
+            <div className="row py-5 px-4" key={band.id}>
               <div className="col-lg-8 mx-auto">
                 <div className="bg-dark shadow rounded overflow-hidden border border-secondary">
                   <div className="px-4 pt-0 pb-4 cover">
@@ -97,8 +95,8 @@ const ArtistUserProfile = ({ userId }) => {
                     <div className="text-light">
                       <h3>List of availabilities:</h3>
                       <ul>
-                        {availabilities.map((availability) => (
-                          <li key={availabilities.id}>
+                        {availabilities.map((availability, index) => (
+                          <li key={index}>
                             {availability.band} + {availability.date}
                           </li>
                         ))}
@@ -147,32 +145,6 @@ const ArtistUserProfile = ({ userId }) => {
               </div>
             </div>
           ))}
-      </section>
-
-      <section className="text-light py-5">
-        <h1>Test availability fetch</h1>
-        <div className="text-light">
-          <h3>List of availabilities:</h3>
-          <ul>
-            {availabilities.map((availability) => (
-              <li key={availabilities.id}>
-                {availability.band} + {availability.date}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="text-light py-5">
-        <h3>Band fetch test</h3>
-        <div className="text-light">
-          <h5>Band data:</h5>
-          <ul>
-            {bands.map((band) => (
-              <li key={band.id}>{band.band_name}</li>
-            ))}
-          </ul>
-        </div>
       </section>
     </>
   );

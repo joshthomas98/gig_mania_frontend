@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const VenueUserProfile = ({ userId }) => {
+const VenueUserProfile = ({ userId, loginStatus }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [venues, setVenues] = useState([]);
 
-  useEffect(() => {
-    const isUserLoggedIn = () => {
-      if (userId === null) {
-        navigate("/artistorvenuesignin", {
-          state: {
-            previousUrl: location.pathname,
-          },
-        });
-      }
-    };
+  const isVenue = () => {
+    console.log(loginStatus);
+    if (userId !== null && loginStatus === "V") {
+      navigate("/venueuserprofile");
+    } else {
+      navigate("/artistorvenuesignin");
+    }
+  };
 
-    isUserLoggedIn();
-  }, [userId]);
+  useEffect(() => {
+    isVenue();
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8000/venues")
@@ -36,7 +34,7 @@ const VenueUserProfile = ({ userId }) => {
         {venues
           .filter((venue) => venue.id === userId)
           .map((venue) => (
-            <div className="row py-5 px-4">
+            <div className="row py-5 px-4" key={venue.id}>
               <div className="col-lg-8 mx-auto">
                 <div className="bg-dark shadow rounded overflow-hidden border border-secondary">
                   <div className="px-4 pt-0 pb-4 cover">

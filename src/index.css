@@ -15,6 +15,14 @@
   padding: 1px;
 }
 
+/* ARTIST OR VENUE PAGE */
+
+.register-card {
+  border: 1px solid grey;
+  border-radius: 1px;
+  padding: 1px;
+}
+
 /* FOOTER */
 
 .footer {
