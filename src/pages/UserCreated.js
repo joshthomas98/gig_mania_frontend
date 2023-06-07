@@ -1,27 +1,17 @@
 import React from "react";
+import SuccessAnimation from "../components/SuccessAnimation";
 
 const UserCreated = () => {
   return (
-    <>
-      <section className="text-center p-5">
-        <img className="w-25" src="../../images/green-tick.png" alt="" />
-
-        <h2 className="text-light mt-3">Thank you for signing up!</h2>
-
-        <p className="text-light mt-3 lead">
-          Your account has been successfully created and you're all good to go!
-        </p>
-      </section>
-
-      <section className="text-light text-center py-2 lead">
-        <p>
-          Click here to log in{" "}
-          <span>
-            <a href="/signin">Log In</a>
-          </span>
-        </p>
-      </section>
-    </>
+    <div className="text-light text-center">
+      <h2>Thank you for signing up!</h2>
+      <h5 className="mt-3">
+        Your account has been successfully created and you're all good to go!
+      </h5>
+      <div style={{ position: "relative", top: "-110px" }}>
+        <SuccessAnimation />
+      </div>
+    </div>
   );
 };
 

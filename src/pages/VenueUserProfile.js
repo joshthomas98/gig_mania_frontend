@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const VenueUserProfile = ({ userId, loginStatus }) => {
+const VenueUserProfile = ({ userId }) => {
   const navigate = useNavigate();
 
   const [venues, setVenues] = useState([]);
-
-  const isVenue = () => {
-    console.log(loginStatus);
-    if (userId !== null && loginStatus === "V") {
-      navigate("/venueuserprofile");
-    } else {
-      navigate("/artistorvenuesignin");
-    }
-  };
-
-  useEffect(() => {
-    isVenue();
-  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8000/venues")

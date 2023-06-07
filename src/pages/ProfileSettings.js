@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProfileSettings = (props) => {
+const ProfileSettings = ({ userId, loginStatus }) => {
   const navigate = useNavigate();
 
-  const { isArtistLoggedIn } = props;
-
   useEffect(() => {
-    if (!isArtistLoggedIn) {
-      navigate("/signin");
+    if (!userId && !loginStatus) {
+      navigate("/artistorvenuesignin");
     }
-  }, [isArtistLoggedIn, navigate]);
+  }, [userId, loginStatus, navigate]);
 
   return (
     <div className="text-light">

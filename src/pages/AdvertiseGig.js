@@ -3,12 +3,12 @@ import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
-function AdvertiseGig({ onUserIdChange, userId }) {
+function AdvertiseGig({ userId }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userId) {
-      navigate("/signin");
+    if (userId === null) {
+      navigate("/artistorvenuesignin");
     }
   }, [userId, navigate]);
 
@@ -60,7 +60,7 @@ function AdvertiseGig({ onUserIdChange, userId }) {
         <Form.Group className="p-3">
           <Form.Label className="text-white">Artist Name:</Form.Label>
           <Form.Control
-            placeholder="Enter your band name here"
+            placeholder="Enter your artist name here"
             type="text"
             value={artistName}
             onChange={(event) => setArtistName(event.target.value)}

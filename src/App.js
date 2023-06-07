@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { createContext, useState } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
@@ -11,10 +11,8 @@ import ArtistRegister from "./pages/ArtistRegister";
 import VenueRegister from "./pages/VenueRegister";
 import About from "./pages/About";
 import FAQs from "./pages/FAQs";
-import ArtistSignIn from "./pages/ArtistSignIn";
-import VenueSignIn from "./pages/VenueSignIn";
 import SignIn from "./pages/SignIn";
-import BandSearch from "./pages/BandSearch";
+import ArtistSearch from "./pages/ArtistSearch";
 import AdvertiseGig from "./pages/AdvertiseGig";
 import UserCreated from "./pages/UserCreated";
 import TestFetch from "./pages/TestFetch";
@@ -22,107 +20,107 @@ import ArtistOrVenueRegister from "./pages/ArtistOrVenueRegister";
 import ArtistOrVenueSignIn from "./pages/ArtistOrVenueSignIn";
 import ContactUs from "./pages/ContactUs";
 import ProfileSettings from "./pages/ProfileSettings";
-import BrowseProfiles from "./pages/BrowseProfiles";
+import FeaturedArtists from "./components/FeaturedArtists";
 import ArtistUserProfile from "./pages/ArtistUserProfile";
 import VenueUserProfile from "./pages/VenueUserProfile";
 import GigAdvertised from "./pages/GigAdvertised";
-import SuccessAnimation from "./components/SuccessAnimation";
-import ProfileCards from "./components/ProfileCards";
+import IncorrectLoginModal from "./components/IncorrectLoginModal";
+import VenueSearchForArtist from "./pages/VenueSearchForArtist";
+import ArtistSearchResultCard from "./components/ArtistSearchResultCard";
+import NewsletterThankYou from "./pages/NewsletterThankYou";
+import Testimonials from "./components/Testimonials";
 
 import Footer from "./components/Footer";
 
-function App() {
+export const LoginContext = createContext();
+
+const App = () => {
   const [userId, setUserId] = useState(null);
-  const [loginStatus, setLoginStatus] = useState(null);
-
-  function handleUserIdChange(id) {
-    setUserId(id);
-  }
-
-  function handleLoginStatusChange(userStatus) {
-    setLoginStatus(userStatus);
-  }
+  const [artistOrVenue, setArtistOrVenue] = useState(null);
+  const loginContextValue = {
+    userId,
+    setUserId,
+    artistOrVenue,
+    setArtistOrVenue,
+  };
 
   return (
-    <Container>
-      <div className="App">
-        <Navbar />
-        <BrowserRouter>
-          <Routes>
-            <Route index element={<Homepage />} />
-            <Route path="artistregister" element={<ArtistRegister />} />
-            <Route path="venueregister" element={<VenueRegister />} />
-            <Route path="about" element={<About />} />
-            <Route path="faqs" element={<FAQs />} />
+    <LoginContext.Provider value={loginContextValue}>
+      <Container>
+        <div className="App">
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+              <Route index element={<Homepage />} />
 
-            <Route
-              path="artistsignin"
-              element={<ArtistSignIn onUserIdChange={handleUserIdChange} />}
-            />
+              <Route path="artistregister" element={<ArtistRegister />} />
 
-            <Route
-              path="venuesignin"
-              element={<VenueSignIn onUserIdChange={handleUserIdChange} />}
-            />
+              <Route path="venueregister" element={<VenueRegister />} />
 
-            <Route
-              path="signin"
-              element={
-                <SignIn
-                  onUserIdChange={handleUserIdChange}
-                  onLoginStatusChange={handleLoginStatusChange}
-                />
-              }
-            />
+              <Route path="about" element={<About />} />
 
-            <Route path="bandsearch" element={<BandSearch />} />
+              <Route path="faqs" element={<FAQs />} />
 
-            <Route
-              path="advertisegig"
-              element={<AdvertiseGig onUserIdChange={handleUserIdChange} />}
-            />
+              <Route
+                path="incorrectloginmodal"
+                element={<IncorrectLoginModal />}
+              />
 
-            <Route path="usercreated" element={<UserCreated />} />
-            <Route path="testfetch" element={<TestFetch />} />
+              <Route path="signin" element={<SignIn />} />
 
-            <Route
-              path="artistorvenueregister"
-              element={<ArtistOrVenueRegister />}
-            />
+              <Route path="artistsearch" element={<ArtistSearch />} />
 
-            <Route
-              path="artistorvenuesignin"
-              element={<ArtistOrVenueSignIn />}
-            />
+              <Route path="advertisegig" element={<AdvertiseGig />} />
 
-            <Route path="contactus" element={<ContactUs />} />
+              <Route path="usercreated" element={<UserCreated />} />
 
-            <Route path="profilesettings" element={<ProfileSettings />} />
+              <Route path="testfetch" element={<TestFetch />} />
 
-            <Route path="browseprofiles" element={<BrowseProfiles />} />
+              <Route
+                path="artistorvenueregister"
+                element={<ArtistOrVenueRegister />}
+              />
 
-            <Route
-              path="/artistuserprofile"
-              element={
-                <ArtistUserProfile userId={userId} loginStatus={loginStatus} />
-              }
-            />
+              <Route
+                path="artistorvenuesignin"
+                element={<ArtistOrVenueSignIn />}
+              />
 
-            <Route
-              path="/venueuserprofile"
-              element={
-                <VenueUserProfile userId={userId} loginStatus={loginStatus} />
-              }
-            />
+              <Route path="contactus" element={<ContactUs />} />
 
-            <Route path="gigadvertised" element={<GigAdvertised />} />
-            <Route path="profilecards" element={<ProfileCards />} />
-          </Routes>
-        </BrowserRouter>
-        <Footer />
-      </div>
-    </Container>
+              <Route path="profilesettings" element={<ProfileSettings />} />
+
+              <Route path="featuredartists" element={<FeaturedArtists />} />
+
+              <Route path="artistuserprofile" element={<ArtistUserProfile />} />
+
+              <Route path="venueuserprofile" element={<VenueUserProfile />} />
+
+              <Route path="gigadvertised" element={<GigAdvertised />} />
+
+              <Route
+                path="venuesearchforartist"
+                element={<VenueSearchForArtist />}
+              />
+
+              <Route
+                path="artistsearchresultcard"
+                element={<ArtistSearchResultCard />}
+              />
+
+              <Route
+                path="newsletterthankyou"
+                element={<NewsletterThankYou />}
+              />
+
+              <Route path="testimonials" element={<Testimonials />} />
+            </Routes>
+          </BrowserRouter>
+          <Footer />
+        </div>
+      </Container>
+    </LoginContext.Provider>
   );
-}
+};
 
 export default App;

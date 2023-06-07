@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Carousel from "../components/Carousel";
 
 import { useNavigate } from "react-router-dom";
+import FeaturedArtists from "../components/FeaturedArtists";
+import Testimonials from "../components/Testimonials";
 
 const Homepage = () => {
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
+
   const handleAdvertiseSubmit = () => {
     navigate("/advertisegig");
+  };
+
+  const handleFindGigsSubmit = () => {
+    navigate("/venuesearchforartist");
+  };
+
+  const handleNewsletterSignUp = (event) => {
+    event.preventDefault();
+    const data = {
+      email: email,
+    };
+
+    fetch("http://localhost:8000/newslettersignups/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigate("/newsletterthankyou");
+        }
+      })
+      .catch((error) => {
+        console.error("Error signing up for newsletter:", error);
+      });
   };
 
   return (
@@ -42,7 +73,7 @@ const Homepage = () => {
       </section>
 
       {/* Info boxes section */}
-      <section className="p-5">
+      <section id="functionality boxes" className="p-5">
         <div className="container">
           <div className="row text-center g-4">
             <div className="col-md">
@@ -79,9 +110,12 @@ const Homepage = () => {
                     notice or sometime in the future? Click here to filter by
                     date and see what artists are available.
                   </p>
-                  <a href="/bandsearch" className="btn btn-primary my-2">
+                  <button
+                    className="btn btn-primary text-light my-2"
+                    onClick={handleFindGigsSubmit}
+                  >
                     Find Gigs
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -110,6 +144,47 @@ const Homepage = () => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Featured artists section */}
+      <section className="py-2">
+        <FeaturedArtists />
+      </section>
+
+      {/* Testimonials section */}
+      <section>
+        <Testimonials />
+      </section>
+
+      <section className="pt-5">
+        <h2 className="text-light text-center">
+          Want to stay up to date with everything happening at GigSweep?
+        </h2>
+
+        <h4 className="text-light text-center py-3">
+          Sign up for our monthly newsletter here!
+        </h4>
+
+        <form
+          className="mb-5 d-flex flex-column align-items-center"
+          onSubmit={handleNewsletterSignUp}
+        >
+          <div className="form-group py-2">
+            <input
+              type="email"
+              placeholder="Enter your email here"
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              style={{ width: "400px" }}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary mt-3">
+            Sign Up
+          </button>
+        </form>
       </section>
     </div>
   );

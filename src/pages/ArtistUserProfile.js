@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-const ArtistUserProfile = ({ userId, loginStatus }) => {
-  const navigate = useNavigate();
-
-  const [bands, setBands] = useState([]);
-  const [availabilities, setAvailabilities] = useState([]);
-
-  const isArtist = () => {
-    console.log(loginStatus);
-    if (userId !== null && loginStatus === "A") {
-      navigate("/artistuserprofile");
-    } else {
-      navigate("/artistorvenuesignin");
-    }
-  };
+const ArtistUserProfile = ({ userId }) => {
+  const [artists, setArtists] = useState([]);
+  const [unavailabilities, setUnavailabilities] = useState([]);
 
   useEffect(() => {
-    isArtist();
+    const fetchArtists = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/artists/");
+        const data = await response.json();
+        setArtists(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchArtists();
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8000/bands")
-      .then((response) => response.json())
-      .then((data) => setBands(data))
-      .catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
-    fetch(`http://localhost:8000/availabilities/${userId}`)
-      .then((response) => response.json())
-      .then((data) => setAvailabilities(data))
-      .catch((error) => console.log(error));
+    const fetchUnavailabilities = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/unavailabilities/${userId}/`
+        );
+        const data = await response.json();
+        setUnavailabilities(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUnavailabilities();
   }, [userId]);
 
   return (
@@ -39,10 +37,10 @@ const ArtistUserProfile = ({ userId, loginStatus }) => {
       <h1 className="text-light text-center">My Profile</h1>
 
       <section className="artist-profile-output text-light">
-        {bands
-          .filter((band) => band.id === userId)
-          .map((band) => (
-            <div className="row py-5 px-4" key={band.id}>
+        {artists
+          .filter((artist) => artist.id === userId)
+          .map((artist) => (
+            <div className="row py-5 px-4" key={artist.id}>
               <div className="col-lg-8 mx-auto">
                 <div className="bg-dark shadow rounded overflow-hidden border border-secondary">
                   <div className="px-4 pt-0 pb-4 cover">
@@ -56,9 +54,9 @@ const ArtistUserProfile = ({ userId, loginStatus }) => {
                         />
                       </div>
                       <div className="media-body text-white">
-                        <h4 className="mt-3">{band.band_name}</h4>
-                        <p>{band.county}</p>
-                        <p className="py-3">{band.genre}</p>
+                        <h4 className="mt-3">{artist.artist_name}</h4>
+                        <p>{artist.county}</p>
+                        <p className="py-3">{artist.genre}</p>
                       </div>
                       <a
                         href="/profilesettings"
@@ -87,17 +85,17 @@ const ArtistUserProfile = ({ userId, loginStatus }) => {
                   <div className="px-4 py-3 text-center">
                     <h4 className="mb-3 mt-3">About</h4>
                     <div className="p-4 rounded shadow-sm bg-dark">
-                      <p className="font-italic mb-0 p-3">{band.bio}</p>
+                      <p className="font-italic mb-0 p-3">{artist.bio}</p>
                     </div>
                   </div>
                   <div className="p-5 text-center">
                     <h2>Calendar Here</h2>
                     <div className="text-light">
-                      <h3>List of availabilities:</h3>
+                      <h3>List of unavailabilities:</h3>
                       <ul>
-                        {availabilities.map((availability, index) => (
+                        {unavailabilities.map((unavailability, index) => (
                           <li key={index}>
-                            {availability.band} + {availability.date}
+                            {unavailability.artist} + {unavailability.date}
                           </li>
                         ))}
                       </ul>

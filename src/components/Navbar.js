@@ -1,7 +1,23 @@
-import React from "react";
+import { useContext } from "react";
 import { Button, Form, FormControl, Navbar } from "react-bootstrap";
+import { LoginContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const NavbarComponent = () => {
+  const navigate = useNavigate();
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
+  const handleProfileButtonClick = () => {
+    if (userId !== null && artistOrVenue === "A") {
+      navigate("/artistuserprofile");
+    } else if (userId !== null && artistOrVenue === "V") {
+      navigate("/venueuserprofile");
+    } else {
+      navigate("/signin");
+    }
+  };
+
   return (
     <Navbar expand="sm">
       <Navbar.Brand href="/">
@@ -24,9 +40,11 @@ const NavbarComponent = () => {
           />
         </Form>
         <div className="ml-auto">
-          <a href="/artistorvenuesignin">
-            <i class="bi bi-person h1 px-2" style={{ color: "white" }}></i>
-          </a>
+          <i
+            className="bi bi-person h1 px-2"
+            onClick={handleProfileButtonClick}
+            style={{ color: "white", cursor: "pointer" }}
+          ></i>
           <Button
             className="mx-2 mb-3"
             href="/artistorvenueregister"
@@ -34,12 +52,9 @@ const NavbarComponent = () => {
           >
             Register
           </Button>
-          <Button
-            className="mx-2 mb-3"
-            href="/artistorvenuesignin"
-            variant="secondary"
-          >
-            Sign In
+
+          <Button className="mx-2 mb-3" variant="secondary">
+            Logout
           </Button>
         </div>
       </Navbar.Collapse>

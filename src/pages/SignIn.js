@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import IncorrectLoginModal from "../components/IncorrectLoginModal";
+import { LoginContext } from "../App";
 
-const SignIn = ({ onUserIdChange, onLoginStatusChange }) => {
+const SignIn = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  const userType = location.state?.userType;
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   const handleSignIn = (e) => {
     e.preventDefault();
     const url =
-      userType === "A"
-        ? "http://localhost:8000/bands/validate/"
+      artistOrVenue === "A"
+        ? "http://localhost:8000/artists/validate/"
         : "http://localhost:8000/venues/validate/";
     fetch(url, {
       method: "POST",
@@ -23,20 +28,21 @@ const SignIn = ({ onUserIdChange, onLoginStatusChange }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        onUserIdChange(data.id);
-        onLoginStatusChange(userType);
+        setUserId(data.id);
+        setArtistOrVenue(artistOrVenue);
 
-        //first
-        //set the userstate LogInStatus = userType;
-        //state: { LogInStatus: userType } }
-
-        //get LogInStatus from state
-        //console.log "status loading signin page" : LogInStatus
-
-        const userProfileUrl =
-          userType === "A" ? "/artistuserprofile" : "/venueuserprofile";
-        navigate(userProfileUrl);
+        if (data.id != null && artistOrVenue === "A") {
+          navigate("/artistuserprofile");
+        } else if (data.id != null && artistOrVenue === "V") {
+          navigate("/venueuserprofile");
+        } else {
+          handleShowModal();
+        }
       });
+  };
+
+  const handleUserTypeChange = (event) => {
+    setArtistOrVenue(event.target.value === "artist" ? "A" : "V");
   };
 
   return (
@@ -74,9 +80,44 @@ const SignIn = ({ onUserIdChange, onLoginStatusChange }) => {
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="userType" className="text-light mb-2 mt-3">
+                I am...
+              </label>
+              <div className="d-flex align-items-center">
+                <label className="text-light me-3">
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="artist"
+                    checked={artistOrVenue === "A"}
+                    onChange={handleUserTypeChange}
+                  />{" "}
+                  An artist
+                </label>
+                <label className="text-light">
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="venue"
+                    checked={artistOrVenue === "V"}
+                    onChange={handleUserTypeChange}
+                  />{" "}
+                  A venue
+                </label>
+              </div>
+            </div>
+
             <button type="submit" className="btn btn-primary mt-4">
               Sign In
             </button>
+
+            {showModal && (
+              <IncorrectLoginModal
+                show={showModal}
+                handleClose={handleCloseModal}
+              />
+            )}
           </form>
         </div>
 
@@ -94,7 +135,7 @@ const SignIn = ({ onUserIdChange, onLoginStatusChange }) => {
 
             <ul className="text-light mt-2">
               <li>Access to a wider network of musicians and venues</li>
-              <li>Opportunities to fill in cancelled gigs</li>
+              <li>Opportunities to fill in canceled gigs</li>
               <li>A platform to promote your music</li>
               <li>Improved chances of getting booked</li>
               <li>Increased exposure for your music</li>
@@ -103,7 +144,7 @@ const SignIn = ({ onUserIdChange, onLoginStatusChange }) => {
 
             <a
               target={"_blank"}
-              href="/artistorvenue"
+              href="/artistorvenueregister"
               className="btn btn-secondary mt-4"
               style={{ width: "300px" }}
             >
