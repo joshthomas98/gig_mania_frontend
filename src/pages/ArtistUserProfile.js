@@ -1,8 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 
-const ArtistUserProfile = ({ userId }) => {
+const ArtistUserProfile = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
+  const navigate = useNavigate();
+
   const [artists, setArtists] = useState([]);
   const [unavailabilities, setUnavailabilities] = useState([]);
+
+  useEffect(() => {
+    if (!userId && !artistOrVenue) {
+      navigate("/signin");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchArtists = async () => {
@@ -31,6 +44,10 @@ const ArtistUserProfile = ({ userId }) => {
     };
     fetchUnavailabilities();
   }, [userId]);
+
+  useEffect(() => {
+    console.log(localStorage);
+  });
 
   return (
     <>

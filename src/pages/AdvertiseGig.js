@@ -17,6 +17,7 @@ function AdvertiseGig({ userId }) {
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [venueName, setVenueName] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
+  const [typeOfGig, setTypeOfGig] = useState("");
   const [payment, setPayment] = useState("");
 
   const handleSubmit = (event) => {
@@ -33,6 +34,7 @@ function AdvertiseGig({ userId }) {
       country_of_venue: countryOfVenue,
       venue_name: venueName,
       genre_of_gig: genreOfGig,
+      type_of_gig: typeOfGig,
       payment: payment,
     };
 
@@ -121,6 +123,23 @@ function AdvertiseGig({ userId }) {
             <option value="Folk">Folk</option>
             <option value="Blues">Blues</option>
             <option value="World Music">World Music</option>
+          </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="p-3">
+          <Form.Label className="text-white">Type Of Gig:</Form.Label>
+          <Form.Select
+            placeholder="What type of gig are you looking for?"
+            value={typeOfGig}
+            onChange={(event) => setTypeOfGig(event.target.value)}
+          >
+            <option disabled hidden value="">
+              What type of gig are you looking for?
+            </option>
+            <option value="Original Music">Original Music</option>
+            <option value="Covers">Covers</option>
+            <option value="Both">Both</option>
+            {/* <option value="Any">Any</option> */}
           </Form.Select>
         </Form.Group>
 

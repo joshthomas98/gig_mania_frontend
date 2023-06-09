@@ -18,6 +18,35 @@ const NavbarComponent = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const handleLogin = () => {
+    navigate("/signin");
+  };
+
+  const renderLogin = () => {
+    if (localStorage.userId != null && localStorage.artistOrVenue != null) {
+      return (
+        <Button
+          className="mx-2 mb-3"
+          variant="secondary"
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
+      );
+    } else {
+      return (
+        <Button className="mx-2 mb-3" variant="secondary" onClick={handleLogin}>
+          Login
+        </Button>
+      );
+    }
+  };
+
   return (
     <Navbar expand="sm">
       <Navbar.Brand href="/">
@@ -53,9 +82,7 @@ const NavbarComponent = () => {
             Register
           </Button>
 
-          <Button className="mx-2 mb-3" variant="secondary">
-            Logout
-          </Button>
+          {renderLogin()}
         </div>
       </Navbar.Collapse>
     </Navbar>

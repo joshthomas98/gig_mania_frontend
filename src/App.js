@@ -17,7 +17,6 @@ import AdvertiseGig from "./pages/AdvertiseGig";
 import UserCreated from "./pages/UserCreated";
 import TestFetch from "./pages/TestFetch";
 import ArtistOrVenueRegister from "./pages/ArtistOrVenueRegister";
-import ArtistOrVenueSignIn from "./pages/ArtistOrVenueSignIn";
 import ContactUs from "./pages/ContactUs";
 import ProfileSettings from "./pages/ProfileSettings";
 import FeaturedArtists from "./components/FeaturedArtists";
@@ -29,14 +28,15 @@ import VenueSearchForArtist from "./pages/VenueSearchForArtist";
 import ArtistSearchResultCard from "./components/ArtistSearchResultCard";
 import NewsletterThankYou from "./pages/NewsletterThankYou";
 import Testimonials from "./components/Testimonials";
+import PickUpGig from "./pages/PickUpGig";
 
 import Footer from "./components/Footer";
 
 export const LoginContext = createContext();
 
 const App = () => {
-  const [userId, setUserId] = useState(null);
-  const [artistOrVenue, setArtistOrVenue] = useState(null);
+  const [userId, setUserId] = useState(true);
+  const [artistOrVenue, setArtistOrVenue] = useState(true);
   const loginContextValue = {
     userId,
     setUserId,
@@ -81,11 +81,6 @@ const App = () => {
                 element={<ArtistOrVenueRegister />}
               />
 
-              <Route
-                path="artistorvenuesignin"
-                element={<ArtistOrVenueSignIn />}
-              />
-
               <Route path="contactus" element={<ContactUs />} />
 
               <Route path="profilesettings" element={<ProfileSettings />} />
@@ -114,6 +109,8 @@ const App = () => {
               />
 
               <Route path="testimonials" element={<Testimonials />} />
+
+              <Route path="pickupgig" element={<PickUpGig />} />
             </Routes>
           </BrowserRouter>
           <Footer />

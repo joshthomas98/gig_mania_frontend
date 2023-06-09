@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import IncorrectLoginModal from "../components/IncorrectLoginModal";
 import { LoginContext } from "../App";
@@ -29,7 +29,10 @@ const SignIn = () => {
       .then((response) => response.json())
       .then((data) => {
         setUserId(data.id);
+        localStorage.setItem("userId", data.id);
         setArtistOrVenue(artistOrVenue);
+        localStorage.setItem("artistOrVenue", artistOrVenue);
+        console.log(localStorage);
 
         if (data.id != null && artistOrVenue === "A") {
           navigate("/artistuserprofile");
