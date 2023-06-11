@@ -1,8 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function ArtistRegister() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const membershipType = location.state?.membershipType;
+  const [artistMembershipType] = useState(membershipType);
+
+  const getArtistMembershipName = () => {
+    if (artistMembershipType === 1) {
+      return "Artist standard";
+    } else if (artistMembershipType === 3) {
+      return "Artist pro";
+    }
+  };
+
+  useEffect(() => {
+    console.log(artistMembershipType);
+  });
 
   const [artistName, setArtistName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,6 +58,7 @@ function ArtistRegister() {
     formData.append("facebook", facebook);
     formData.append("twitter", twitter);
     formData.append("youtube", youtube);
+    formData.append("artist_membership_type", artistMembershipType);
 
     // Send the FormData object in the request
     fetch("http://localhost:8000/artists/", {
@@ -184,9 +201,31 @@ function ArtistRegister() {
     "Tyrone",
   ];
 
+  useEffect(() => {
+    console.log(membershipType);
+  });
+
+  const artistStepTwoMessage = () => {
+    if (membershipType === 1) {
+      return (
+        <h3 className="text-light mb-4">
+          Great choice! You've selected Artist Standard Membership.
+        </h3>
+      );
+    } else if (membershipType === 3) {
+      return (
+        <h3 className="text-light mb-4">
+          Great choice! You've selected Artist Pro Membership.
+        </h3>
+      );
+    }
+  };
+
   return (
     <div>
-      <h1 className="text-light mb-4">Register as an Artist</h1>
+      <h1 className="text-light mb-4">STEP 2 OF 3: Register as an artist</h1>
+
+      {artistStepTwoMessage()}
 
       <form className="w-50" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -450,7 +489,7 @@ function ArtistRegister() {
           </label>
           <input
             type="text"
-            placeholder="Enter your Twiiter URL here"
+            placeholder="Enter your Twitter URL here"
             className="form-control"
             id="twitter"
             value={twitter}
@@ -482,6 +521,23 @@ function ArtistRegister() {
             className="form-control"
             id="image"
             onChange={(event) => setImage(event.target.files[0])}
+          />
+        </div>
+
+        <div className="form-group">
+          <label
+            htmlFor="artistMembershipType"
+            className="text-light mb-2 mt-3"
+          >
+            Membership Type:
+          </label>
+          <input
+            type="text"
+            id="artistMembershipType"
+            className="form-control"
+            value={getArtistMembershipName()}
+            readOnly
+            style={{ backgroundColor: "#f8f9fa", color: "#6c757d" }}
           />
         </div>
 

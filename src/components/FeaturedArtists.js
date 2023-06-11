@@ -20,7 +20,7 @@ const FeaturedArtists = () => {
 
   return (
     <>
-      <div className="container text-light text-center">
+      <div className="container text-light text-center pt-5">
         <h2 className="mb-5">Featured Artists</h2>
         <div className="row">
           {featuredArtists.map((artist, index) => (

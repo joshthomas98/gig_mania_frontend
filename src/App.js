@@ -29,6 +29,7 @@ import ArtistSearchResultCard from "./components/ArtistSearchResultCard";
 import NewsletterThankYou from "./pages/NewsletterThankYou";
 import Testimonials from "./components/Testimonials";
 import PickUpGig from "./pages/PickUpGig";
+import MembershipPlans from "./components/MembershipPlans";
 
 import Footer from "./components/Footer";
 
@@ -111,6 +112,8 @@ const App = () => {
               <Route path="testimonials" element={<Testimonials />} />
 
               <Route path="pickupgig" element={<PickUpGig />} />
+
+              <Route path="membershipplans" element={<MembershipPlans />} />
             </Routes>
           </BrowserRouter>
           <Footer />

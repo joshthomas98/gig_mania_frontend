@@ -1,8 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function ArtistRegister() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const membershipType = location.state?.membershipType;
+  const [venueMembershipType] = useState(membershipType);
+
+  const getVenueMembershipName = () => {
+    if (venueMembershipType === 2) {
+      return "Venue standard";
+    } else if (venueMembershipType === 4) {
+      return "Venue pro";
+    }
+  };
+
+  useEffect(() => {
+    console.log(venueMembershipType);
+  });
 
   const [venueName, setVenueName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,6 +54,7 @@ function ArtistRegister() {
     formData.append("facebook", facebook);
     formData.append("twitter", twitter);
     formData.append("youtube", youtube);
+    formData.append("venue_membership_type", venueMembershipType);
 
     // Send the FormData object in the request
     fetch("http://localhost:8000/venues/", {
@@ -180,9 +197,31 @@ function ArtistRegister() {
     "Tyrone",
   ];
 
+  useEffect(() => {
+    console.log(membershipType);
+  });
+
+  const venueStepTwoMessage = () => {
+    if (membershipType === 2) {
+      return (
+        <h3 className="text-light mb-4">
+          Great choice! You've selected Venue Standard Membership.
+        </h3>
+      );
+    } else if (membershipType === 4) {
+      return (
+        <h3 className="text-light mb-4">
+          Great choice! You've selected Venue Pro Membership.
+        </h3>
+      );
+    }
+  };
+
   return (
     <div>
-      <h1 className="text-light mb-4">Register as a Venue</h1>
+      <h1 className="text-light mb-4">STEP 2 OF 3: Register as a venue</h1>
+
+      {venueStepTwoMessage()}
 
       <form className="w-50" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -407,7 +446,7 @@ function ArtistRegister() {
           </label>
           <input
             type="text"
-            placeholder="Enter your Twiiter URL here"
+            placeholder="Enter your Twitter URL here"
             className="form-control"
             id="twitter"
             value={twitter}
@@ -439,6 +478,20 @@ function ArtistRegister() {
             className="form-control"
             id="image"
             onChange={(event) => setImage(event.target.files[0])}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="venueMembershipType" className="text-light mb-2 mt-3">
+            Membership Type:
+          </label>
+          <input
+            type="text"
+            id="venueMembershipType"
+            className="form-control"
+            value={getVenueMembershipName()}
+            readOnly
+            style={{ backgroundColor: "#f8f9fa", color: "#6c757d" }}
           />
         </div>
 

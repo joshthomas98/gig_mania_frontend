@@ -136,18 +136,41 @@ const SignIn = () => {
 
             <h5 className="text-light mb-2">GigSweep account benefits</h5>
 
+            <p className="text-light lead mt-3">Artists:</p>
+
             <ul className="text-light mt-2">
-              <li>Access to a wider network of musicians and venues</li>
-              <li>Opportunities to fill in canceled gigs</li>
-              <li>A platform to promote your music</li>
-              <li>Improved chances of getting booked</li>
-              <li>Increased exposure for your music</li>
-              <li>Time-saving booking process</li>
+              <li>
+                More gigs, wider reach: Advertise unplayable gigs for other
+                artists.
+              </li>
+              <li>
+                Easy gig search, applications: Find and apply for gigs
+                efficiently.
+              </li>
+              <li>
+                Promotion, networking: Connect with artists, promote music,
+                collaborate effectively.
+              </li>
+            </ul>
+
+            <p className="text-light lead">Venues:</p>
+
+            <ul className="text-light mt-2">
+              <li>
+                Diverse talent pool: Discover local and national talent easily.
+              </li>
+              <li>
+                Streamlined booking: List gigs, let artists apply effortlessly.
+              </li>
+              <li>
+                Enhanced exposure, credibility: Priority placement, verified
+                bluetick, artist recommendations.
+              </li>
             </ul>
 
             <a
               target={"_blank"}
-              href="/artistorvenueregister"
+              href="/membershipplans"
               className="btn btn-secondary mt-4"
               style={{ width: "300px" }}
             >

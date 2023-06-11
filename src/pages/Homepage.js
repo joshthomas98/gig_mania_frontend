@@ -4,6 +4,7 @@ import Carousel from "../components/Carousel";
 import { useNavigate } from "react-router-dom";
 import FeaturedArtists from "../components/FeaturedArtists";
 import Testimonials from "../components/Testimonials";
+import MembershipPlans from "../components/MembershipPlans";
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -154,6 +155,10 @@ const Homepage = () => {
       {/* Testimonials section */}
       <section>
         <Testimonials />
+      </section>
+
+      <section>
+        <MembershipPlans />
       </section>
 
       <section className="pt-5">
