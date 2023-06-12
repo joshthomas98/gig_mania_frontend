@@ -496,7 +496,7 @@ function ArtistRegister() {
         </div>
 
         <button type="submit" className="btn btn-primary mt-4">
-          Submit
+          Purchase membership
         </button>
       </form>
     </div>
