@@ -145,7 +145,7 @@ const PickUpGig = () => {
               <Form.Label className="text-white">Payment For Gig:</Form.Label>
               <p>Enter the minimum amount you will play for</p>
               <Form.Control
-                placeholder="£ (If gig is unpaid enter 0)"
+                placeholder="£ (If free then enter 0)"
                 type="number"
                 value={payment}
                 onChange={(event) => setPayment(event.target.value)}
@@ -156,6 +156,7 @@ const PickUpGig = () => {
               <Button className="my-3 mx-3" variant="primary" type="submit">
                 Search
               </Button>
+
               <Button
                 className="my-3 mx-3"
                 variant="primary"
@@ -185,27 +186,33 @@ const PickUpGig = () => {
             <table className="individual-gig-details table table-bordered mt-5 mb-5 text-light">
               <thead>
                 <tr>
+                  <th>Listed by:</th>
                   <th>Date:</th>
                   <th>Venue:</th>
                   <th>Gig Type:</th>
                   <th>Fee:</th>
+                  <th>More details:</th>
                 </tr>
               </thead>
               <tbody>
                 {searchResults.map((result, index) => (
                   <tr key={index}>
+                    <td>{result.user_type}</td>
                     <td>{result.date_of_gig}</td>
                     <td>{result.venue_name}</td>
                     <td>{result.type_of_gig}</td>
                     <td>£{result.payment}</td>
+                    <td>
+                      <a href="/">Find out more</a>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : searched && searchResults.length === 0 ? (
-          <div className="artist-output-area text-light py-5">
-            <h2 className="mb-3">Sorry, no gigs were found.</h2>
+          <div className="artist-output-area text-light">
+            <h3 className="mb-3">Sorry, no gigs were found.</h3>
           </div>
         ) : null}
       </section>

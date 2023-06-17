@@ -16,7 +16,7 @@ const GigApplicationSuccess = () => {
       </div>
 
       <h3 className="mt-4">
-        Now kick back, relax and we'll send you an email if you're successful.
+        Now kick back, relax and we'll be in touch very soon!
       </h3>
     </div>
   );
