@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+// import { LoginContext } from "../App";
 
-function AdvertiseGig({ userId }) {
+function VenueAdvertiseGig() {
   const navigate = useNavigate();
+  // const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+  //   useContext(LoginContext);
 
-  useEffect(() => {
-    if (userId === null) {
-      navigate("/artistorvenuesignin");
-    }
-  }, [userId, navigate]);
+  // useEffect(() => {
+  //   if (userId === null) {
+  //     navigate("/artistorvenuesignin");
+  //   }
+  // }, [userId, navigate]);
 
-  const [artistName, setArtistName] = useState("");
+  const [venueName, setVenueName] = useState("");
   const [dateOfGig, setDateOfGig] = useState("");
   const [countryOfVenue, setCountryOfVenue] = useState("");
-  const [venueName, setVenueName] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
   const [typeOfGig, setTypeOfGig] = useState("");
   const [payment, setPayment] = useState("");
@@ -29,16 +31,15 @@ function AdvertiseGig({ userId }) {
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
-      artist_name: artistName,
+      venue_name: venueName,
       date_of_gig: date,
       country_of_venue: countryOfVenue,
-      venue_name: venueName,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
       payment: payment,
     };
 
-    fetch("http://localhost:8000/artist_listed_gigs/", {
+    fetch("http://localhost:8000/venue_listed_gigs/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,21 +52,22 @@ function AdvertiseGig({ userId }) {
         }
       })
       .catch((error) => {
-        console.error("Error registering user:", error);
+        console.error("Error advertising gig:", error);
       });
   };
 
   return (
     <div className="container-fluid">
       <h1 className="text-white px-3">Advertise Your Gig</h1>
+
       <Form onSubmit={handleSubmit} className="rounded-3 w-50">
         <Form.Group className="p-3">
-          <Form.Label className="text-white">Artist Name:</Form.Label>
+          <Form.Label className="text-white">Venue Name:</Form.Label>
           <Form.Control
-            placeholder="Enter your artist name here"
+            placeholder="Enter the name of your venue here"
             type="text"
-            value={artistName}
-            onChange={(event) => setArtistName(event.target.value)}
+            value={venueName}
+            onChange={(event) => setVenueName(event.target.value)}
           />
         </Form.Group>
 
@@ -91,16 +93,6 @@ function AdvertiseGig({ userId }) {
             <option value="Scotland">Scotland</option>
             <option value="Northern Ireland">Northern Ireland</option>
           </Form.Select>
-        </Form.Group>
-
-        <Form.Group className="p-3">
-          <Form.Label className="text-white">Name Of Venue:</Form.Label>
-          <Form.Control
-            placeholder="Enter the venue name here"
-            type="text"
-            value={venueName}
-            onChange={(event) => setVenueName(event.target.value)}
-          />
         </Form.Group>
 
         <Form.Group className="p-3">
@@ -160,4 +152,4 @@ function AdvertiseGig({ userId }) {
   );
 }
 
-export default AdvertiseGig;
+export default VenueAdvertiseGig;

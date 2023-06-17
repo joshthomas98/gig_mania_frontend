@@ -9,9 +9,12 @@ const NavbarComponent = () => {
     useContext(LoginContext);
 
   const handleProfileButtonClick = () => {
-    if (userId !== null && artistOrVenue === "A") {
+    if (localStorage.userId !== "" && localStorage.artistOrVenue === "A") {
       navigate("/artistuserprofile");
-    } else if (userId !== null && artistOrVenue === "V") {
+    } else if (
+      localStorage.userId !== "" &&
+      localStorage.artistOrVenue === "V"
+    ) {
       navigate("/venueuserprofile");
     } else {
       navigate("/signin");

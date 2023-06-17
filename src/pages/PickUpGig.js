@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import { LoginContext } from "../App";
+// import { LoginContext } from "../App";
 
 const PickUpGig = () => {
   const navigate = useNavigate();
-  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
-    useContext(LoginContext);
+  // const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+  //   useContext(LoginContext);
 
-  useEffect(() => {
-    if (!userId && !artistOrVenue) {
-      navigate("/signin");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!userId && !artistOrVenue) {
+  //     navigate("/signin");
+  //   }
+  // }, []);
 
   const [dateOfGig, setDateOfGig] = useState("");
   const [countryOfVenue, setCountryOfVenue] = useState("");
@@ -39,7 +39,7 @@ const PickUpGig = () => {
       payment: payment,
     };
 
-    fetch("http://localhost:8000/artist_listed_gigs/", {
+    fetch("http://localhost:8000/gig_search/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,11 @@ const PickUpGig = () => {
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            setSearchResults(data);
+            const combinedResults = [
+              ...data.artist_listed_gigs,
+              ...data.venue_listed_gigs,
+            ];
+            setSearchResults(combinedResults);
             setSearched(true);
           });
         }
@@ -148,10 +152,6 @@ const PickUpGig = () => {
               />
             </Form.Group>
 
-            {/* ARTIST TYPE */}
-
-            {/* EQUIPMENT REQUIREMENTS - MAYBE?? */}
-
             <div className="d-flex justify-content-between">
               <Button className="my-3 mx-3" variant="primary" type="submit">
                 Search
@@ -177,20 +177,35 @@ const PickUpGig = () => {
       </section>
 
       <section className="my-5 px-4">
-        {searchResults.length > 0 ? (
+        {searched && searchResults.length > 0 ? (
           <div className="gig-output-area">
             <h2 className="text-white mb-4">
               Gigs that meet your search criteria:
             </h2>
-            <ul>
-              {searchResults.map((result, index) => (
-                <li key={index}>{result}</li>
-              ))}
-            </ul>
+            <table className="individual-gig-details table table-bordered mt-5 mb-5 text-light">
+              <thead>
+                <tr>
+                  <th>Date:</th>
+                  <th>Venue:</th>
+                  <th>Gig Type:</th>
+                  <th>Fee:</th>
+                </tr>
+              </thead>
+              <tbody>
+                {searchResults.map((result, index) => (
+                  <tr key={index}>
+                    <td>{result.date_of_gig}</td>
+                    <td>{result.venue_name}</td>
+                    <td>{result.type_of_gig}</td>
+                    <td>£{result.payment}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : searched && searchResults.length === 0 ? (
           <div className="artist-output-area text-light py-5">
-            <h2 className="mb-3">Sorry, no artists were found.</h2>
+            <h2 className="mb-3">Sorry, no gigs were found.</h2>
           </div>
         ) : null}
       </section>

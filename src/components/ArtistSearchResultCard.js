@@ -9,7 +9,9 @@ function ArtistSearchResultCard(props) {
       <Card className="text-light text-center" style={{ width: "20rem" }}>
         <Card.Img
           variant="top"
-          src="https://scontent.fbrs4-1.fna.fbcdn.net/v/t1.6435-9/161891220_375450380499891_7491581544665288192_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=-lo-hKiTrM4AX_xgLid&_nc_ht=scontent.fbrs4-1.fna&oh=00_AfDxuRxhtDTVOvAMXagUQWLVW4BYQeUbVClggFpSHOSrrQ&oe=6484F595"
+          src={
+            "https://scontent-man2-1.xx.fbcdn.net/v/t39.30808-6/299097849_10224862540887972_2194412836427010382_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2BomWAHwWkoAX9SoAIN&_nc_ht=scontent-man2-1.xx&oh=00_AfCO6Qyb-6ljFvutuPUeTYdR-kPurtq0vvnihB76JVXi2g&oe=648D0FF2"
+          }
         />
         <Card.Body>
           <Card.Title className="mb-3">{result.artist_name}</Card.Title>

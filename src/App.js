@@ -13,7 +13,8 @@ import About from "./pages/About";
 import FAQs from "./pages/FAQs";
 import SignIn from "./pages/SignIn";
 import ArtistSearch from "./pages/ArtistSearch";
-import AdvertiseGig from "./pages/AdvertiseGig";
+import ArtistAdvertiseGig from "./pages/ArtistAdvertiseGig";
+import VenueAdvertiseGig from "./pages/VenueAdvertiseGig";
 import UserCreated from "./pages/UserCreated";
 import TestFetch from "./pages/TestFetch";
 import ArtistOrVenueRegister from "./pages/ArtistOrVenueRegister";
@@ -30,14 +31,18 @@ import NewsletterThankYou from "./pages/NewsletterThankYou";
 import Testimonials from "./components/Testimonials";
 import PickUpGig from "./pages/PickUpGig";
 import MembershipPlans from "./components/MembershipPlans";
+import ArtistGigAdvert from "./components/ArtistGigAdvert";
+import VenueGigAdvert from "./components/VenueGigAdvert";
+import IndividualGig from "./pages/IndividualGig";
+import GigApplicationSuccess from "./pages/GigApplicationSuccess";
 
 import Footer from "./components/Footer";
 
 export const LoginContext = createContext();
 
 const App = () => {
-  const [userId, setUserId] = useState(true);
-  const [artistOrVenue, setArtistOrVenue] = useState(true);
+  const [userId, setUserId] = useState("");
+  const [artistOrVenue, setArtistOrVenue] = useState("");
   const loginContextValue = {
     userId,
     setUserId,
@@ -71,7 +76,12 @@ const App = () => {
 
               <Route path="artistsearch" element={<ArtistSearch />} />
 
-              <Route path="advertisegig" element={<AdvertiseGig />} />
+              <Route
+                path="artistadvertisegig"
+                element={<ArtistAdvertiseGig />}
+              />
+
+              <Route path="venueadvertisegig" element={<VenueAdvertiseGig />} />
 
               <Route path="usercreated" element={<UserCreated />} />
 
@@ -114,6 +124,17 @@ const App = () => {
               <Route path="pickupgig" element={<PickUpGig />} />
 
               <Route path="membershipplans" element={<MembershipPlans />} />
+
+              <Route path="artistgigadvert" element={<ArtistGigAdvert />} />
+
+              <Route path="venuegigadvert" element={<VenueGigAdvert />} />
+
+              <Route path="individualgig" element={<IndividualGig />} />
+
+              <Route
+                path="gigapplicationsuccess"
+                element={<GigApplicationSuccess />}
+              />
             </Routes>
           </BrowserRouter>
           <Footer />
