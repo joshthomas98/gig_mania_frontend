@@ -253,3 +253,18 @@
 .invalid-feedback {
   color: red;
 }
+
+/* Star Rating */
+
+.star {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url(../public/images/unlit-star.png); /* Replace with your star icon */
+  background-size: cover;
+  cursor: pointer;
+}
+
+.star.lit {
+  background-image: url(../public/images/lit-star.png); /* Replace with your lit star icon */
+}

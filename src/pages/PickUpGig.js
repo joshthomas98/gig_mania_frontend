@@ -1,18 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-// import { LoginContext } from "../App";
 
 const PickUpGig = () => {
   const navigate = useNavigate();
-  // const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
-  //   useContext(LoginContext);
-
-  // useEffect(() => {
-  //   if (!userId && !artistOrVenue) {
-  //     navigate("/signin");
-  //   }
-  // }, []);
 
   const [dateOfGig, setDateOfGig] = useState("");
   const [countryOfVenue, setCountryOfVenue] = useState("");
@@ -22,13 +13,11 @@ const PickUpGig = () => {
 
   const [searchResults, setSearchResults] = useState([]);
   const [searched, setSearched] = useState(false);
+  const [resetClicked, setResetClicked] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // convert dateOfGig to a Date object
     const dateObj = new Date(dateOfGig);
-
-    // extract only the date portion
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
@@ -38,6 +27,8 @@ const PickUpGig = () => {
       type_of_gig: typeOfGig,
       payment: payment,
     };
+
+    setResetClicked(false);
 
     fetch("http://localhost:8000/gig_search/", {
       method: "POST",
@@ -61,6 +52,16 @@ const PickUpGig = () => {
       .catch((error) => {
         console.error("Error occurred:", error);
       });
+  };
+
+  const handleResetFilters = () => {
+    setDateOfGig("");
+    setCountryOfVenue("");
+    setGenreOfGig("");
+    setTypeOfGig("");
+    setPayment("");
+    setSearchResults([]);
+    setResetClicked(true);
   };
 
   return (
@@ -161,14 +162,7 @@ const PickUpGig = () => {
                 className="my-3 mx-3"
                 variant="primary"
                 type="button"
-                onClick={() => {
-                  setDateOfGig("");
-                  setCountryOfVenue("");
-                  setGenreOfGig("");
-                  setTypeOfGig("");
-                  setPayment("");
-                  setSearchResults([]);
-                }}
+                onClick={handleResetFilters}
               >
                 Reset filters
               </Button>
@@ -203,14 +197,14 @@ const PickUpGig = () => {
                     <td>{result.type_of_gig}</td>
                     <td>£{result.payment}</td>
                     <td>
-                      <a href="/">Find out more</a>
+                      <a href="/individualgig">Find out more</a>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        ) : searched && searchResults.length === 0 ? (
+        ) : searched && searchResults.length === 0 && !resetClicked ? (
           <div className="artist-output-area text-light">
             <h3 className="mb-3">Sorry, no gigs were found.</h3>
           </div>

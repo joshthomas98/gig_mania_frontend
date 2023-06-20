@@ -35,6 +35,10 @@ import ArtistGigAdvert from "./components/ArtistGigAdvert";
 import VenueGigAdvert from "./components/VenueGigAdvert";
 import IndividualGig from "./pages/IndividualGig";
 import GigApplicationSuccess from "./pages/GigApplicationSuccess";
+import ArtistWriteReview from "./pages/ArtistWriteReview";
+import VenueWriteReview from "./pages/VenueWriteReview";
+import ThanksForReview from "./pages/ThanksForReview";
+import StarRating from "./components/StarRating";
 
 import Footer from "./components/Footer";
 
@@ -135,6 +139,14 @@ const App = () => {
                 path="gigapplicationsuccess"
                 element={<GigApplicationSuccess />}
               />
+
+              <Route path="artistwritereview" element={<ArtistWriteReview />} />
+
+              <Route path="venuewritereview" element={<VenueWriteReview />} />
+
+              <Route path="thanksforreview" element={<ThanksForReview />} />
+
+              <Route path="starrating" element={<StarRating />} />
             </Routes>
           </BrowserRouter>
           <Footer />
