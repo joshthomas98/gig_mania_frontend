@@ -39,6 +39,7 @@ import ArtistWriteReview from "./pages/ArtistWriteReview";
 import VenueWriteReview from "./pages/VenueWriteReview";
 import ThanksForReview from "./pages/ThanksForReview";
 import StarRating from "./components/StarRating";
+import ReviewSubjectBox from "./components/ReviewSubjectBox";
 
 import Footer from "./components/Footer";
 
@@ -147,6 +148,8 @@ const App = () => {
               <Route path="thanksforreview" element={<ThanksForReview />} />
 
               <Route path="starrating" element={<StarRating />} />
+
+              <Route path="reviewsubjectbox" element={<ReviewSubjectBox />} />
             </Routes>
           </BrowserRouter>
           <Footer />

@@ -163,14 +163,14 @@
 
 /* SIGN IN */
 
-.grid-container {
+.sign-in-grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 15rem;
   position: relative; /* add position relative to grid container */
 }
 
-.grid-container::after {
+.sign-in-grid-container::after {
   content: "";
   border-left: 1px solid rgba(255, 255, 255, 0.2);
   position: absolute;
@@ -267,4 +267,93 @@
 
 .star.lit {
   background-image: url(../public/images/lit-star.png); /* Replace with your lit star icon */
+}
+
+/* ARTIST WRITE REVIEW */
+
+.awr-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15rem;
+  position: relative; /* add position relative to grid container */
+}
+
+.awr-grid-container::after {
+  content: "";
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 35%; /* change top position to 50% */
+  bottom: 0;
+  right: 50%;
+  transform: translateY(
+    -40%
+  ); /* add translateY with negative 50% to center line */
+}
+
+/* REVIEW SUBJECT BOX */
+
+.review-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.review-image {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.review-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-content {
+  text-align: center;
+}
+
+.review-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.review-description {
+  font-size: 14px;
+  margin: 5px 0 0;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.rating-stars {
+  color: #fcb900;
+}
+
+.rating-value {
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.review-info {
+  margin-top: 10px;
+}
+
+.review-date,
+.review-username {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
 }

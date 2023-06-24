@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import StarRating from "../components/StarRating";
+import ReviewSubjectBox from "../components/ReviewSubjectBox";
 
 const ArtistWriteReview = () => {
   const navigate = useNavigate();
@@ -46,76 +47,96 @@ const ArtistWriteReview = () => {
   };
 
   return (
-    <div className="text-light">
+    <div className="awr-grid-container">
+      <div className="text-light">
+        <section>
+          <h1 className="pb-3 px-5">Write your review for the venue</h1>
+        </section>
+
+        <section className="py-3 px-5">
+          <h3>What rating would you give this venue?</h3>
+          <StarRating
+            selectedRating={selectedRating}
+            setSelectedRating={setSelectedRating}
+          />
+
+          <Form onSubmit={handleSubmit} className="rounded-3 w-50 mt-4">
+            <Form.Group className="text-white" controlId="date">
+              <Form.Label>Date of Performance:</Form.Label>
+              <p>Enter the date you performed at the venue</p>
+              <Form.Control
+                type="date"
+                name="dateOfPerformance"
+                value={dateOfPerformance}
+                onChange={(event) => setDateOfPerformance(event.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label htmlFor="artistName" className="text-light mb-2 mt-3">
+                Artist Name:
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your artist name"
+                id="artistName"
+                value={artistName}
+                onChange={(event) => setArtistName(event.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label htmlFor="venueName" className="text-light mb-2 mt-3">
+                Venue Name:
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter the name of the venue you're reviewing"
+                id="venueName"
+                value={venueName}
+                onChange={(event) => setVenueName(event.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label htmlFor="review" className="text-light mb-2 mt-3">
+                Review:
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={5}
+                placeholder="Enter your review here"
+                id="review"
+                value={review}
+                onChange={(event) => setReview(event.target.value)}
+              />
+            </Form.Group>
+
+            <div className="d-flex justify-content-between">
+              <Button className="mt-4" variant="primary" type="submit">
+                Submit
+              </Button>
+            </div>
+          </Form>
+        </section>
+      </div>
+
       <section>
-        <h1 className="pb-3 px-5">Write your review for the venue</h1>
-      </section>
-
-      <section className="py-3 px-5">
-        <h3>What rating would you give this venue?</h3>
-        <StarRating
-          selectedRating={selectedRating}
-          setSelectedRating={setSelectedRating}
-        />
-
-        <Form onSubmit={handleSubmit} className="rounded-3 w-50 mt-4">
-          <Form.Group className="text-white" controlId="date">
-            <Form.Label>Date of Performance:</Form.Label>
-            <p>Enter the date you performed at the venue</p>
-            <Form.Control
-              type="date"
-              name="dateOfPerformance"
-              value={dateOfPerformance}
-              onChange={(event) => setDateOfPerformance(event.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label htmlFor="artistName" className="text-light mb-2 mt-3">
-              Artist Name:
-            </Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your artist name"
-              id="artistName"
-              value={artistName}
-              onChange={(event) => setArtistName(event.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label htmlFor="venueName" className="text-light mb-2 mt-3">
-              Venue Name:
-            </Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter the name of the venue you're reviewing"
-              id="venueName"
-              value={venueName}
-              onChange={(event) => setVenueName(event.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label htmlFor="review" className="text-light mb-2 mt-3">
-              Review:
-            </Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={5}
-              placeholder="Enter your review here"
-              id="review"
-              value={review}
-              onChange={(event) => setReview(event.target.value)}
-            />
-          </Form.Group>
-
-          <div className="d-flex justify-content-between">
-            <Button className="mt-4" variant="primary" type="submit">
-              Submit
-            </Button>
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <h3 className="text-light text-center mb-5">
+              How was your experience with The Patriot?
+            </h3>
+            <ReviewSubjectBox />
           </div>
-        </Form>
+        </div>
       </section>
     </div>
   );

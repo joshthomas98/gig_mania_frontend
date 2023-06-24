@@ -50,7 +50,7 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="grid-container">
+      <div className="sign-in-grid-container">
         <div>
           <h3 className="text-light mb-2">LOG IN TO YOUR ACCOUNT</h3>
 
