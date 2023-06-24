@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const VenueUserProfile = ({ userId }) => {
   const navigate = useNavigate();
@@ -45,6 +46,10 @@ const VenueUserProfile = ({ userId }) => {
                       >
                         Edit profile
                       </a>
+
+                      <div className="leave-artist-feedback-btn text-cente pt-5">
+                        <Button href="/venuewritereview">Leave feedback</Button>
+                      </div>
                     </div>
                   </div>
                   <div className="bg-dark p-4 d-flex justify-content-end text-center">

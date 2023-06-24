@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
 
 const ArtistUserProfile = () => {
@@ -55,7 +56,7 @@ const ArtistUserProfile = () => {
 
       <section className="artist-profile-output text-light">
         {artists
-          .filter((artist) => artist.id === userId)
+          // .filter((artist) => artist.id === userId)
           .map((artist) => (
             <div className="row py-5 px-4" key={artist.id}>
               <div className="col-lg-8 mx-auto">
@@ -70,6 +71,7 @@ const ArtistUserProfile = () => {
                           className="rounded mb-2 img-thumbnail"
                         />
                       </div>
+
                       <div className="media-body text-white">
                         <h4 className="mt-3">{artist.artist_name}</h4>
                         <p>{artist.county}</p>
@@ -81,8 +83,13 @@ const ArtistUserProfile = () => {
                       >
                         Edit profile
                       </a>
+
+                      <div className="leave-artist-feedback-btn text-cente pt-5">
+                        <Button href="/venuewritereview">Leave feedback</Button>
+                      </div>
                     </div>
                   </div>
+
                   <div className="bg-dark p-4 d-flex justify-content-end text-center">
                     <ul className="list-inline mb-0">
                       <li className="list-inline-item">
@@ -99,6 +106,7 @@ const ArtistUserProfile = () => {
                       </li>
                     </ul>
                   </div>
+
                   <div className="px-4 py-3 text-center">
                     <h4 className="mb-3 mt-3">About</h4>
                     <div className="p-4 rounded shadow-sm bg-dark">

@@ -28,7 +28,7 @@ const ArtistWriteReview = () => {
       rating: selectedRating,
     };
 
-    fetch("http://localhost:8000/artist_written_reviews/", {
+    fetch("http://localhost:8000/check_profanities/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
