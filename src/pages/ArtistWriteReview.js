@@ -29,7 +29,7 @@ const ArtistWriteReview = () => {
       rating: selectedRating,
     };
 
-    fetch("http://localhost:8000/check_profanities/", {
+    fetch("http://localhost:8000/artist_written_review_check_profanities/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,10 +50,12 @@ const ArtistWriteReview = () => {
     <div className="awr-grid-container">
       <div className="text-light">
         <section>
-          <h1 className="pb-3 px-5">Write your review for the venue</h1>
+          <h1 className="awr-title-section pb-3 px-5">
+            Write your review for the venue
+          </h1>
         </section>
 
-        <section className="py-3 px-5">
+        <section className="awr-create-review-section py-3 px-5">
           <h3>What rating would you give this venue?</h3>
           <StarRating
             selectedRating={selectedRating}
@@ -69,6 +71,7 @@ const ArtistWriteReview = () => {
                 name="dateOfPerformance"
                 value={dateOfPerformance}
                 onChange={(event) => setDateOfPerformance(event.target.value)}
+                style={{ width: "200%" }}
               />
             </Form.Group>
 
@@ -82,6 +85,7 @@ const ArtistWriteReview = () => {
                 id="artistName"
                 value={artistName}
                 onChange={(event) => setArtistName(event.target.value)}
+                style={{ width: "200%" }}
               />
             </Form.Group>
 
@@ -95,6 +99,7 @@ const ArtistWriteReview = () => {
                 id="venueName"
                 value={venueName}
                 onChange={(event) => setVenueName(event.target.value)}
+                style={{ width: "200%" }}
               />
             </Form.Group>
 
@@ -109,6 +114,7 @@ const ArtistWriteReview = () => {
                 id="review"
                 value={review}
                 onChange={(event) => setReview(event.target.value)}
+                style={{ width: "200%" }}
               />
             </Form.Group>
 
@@ -121,7 +127,7 @@ const ArtistWriteReview = () => {
         </section>
       </div>
 
-      <section>
+      <section className="awr-review-subject-box-section">
         <div>
           <div
             style={{

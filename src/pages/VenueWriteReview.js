@@ -28,7 +28,7 @@ const VenueWriteReview = () => {
       rating: selectedRating,
     };
 
-    fetch("http://localhost:8000/venue_written_reviews/", {
+    fetch("http://localhost:8000/venue_written_review_check_profanities/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
