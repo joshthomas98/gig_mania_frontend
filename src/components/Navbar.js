@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Button, Form, FormControl, Navbar } from "react-bootstrap";
 import { LoginContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 const NavbarComponent = () => {
   const navigate = useNavigate();
@@ -57,20 +58,16 @@ const NavbarComponent = () => {
           src="../../images/gigsweep_logo.png"
           width="300"
           height="300"
-          className="d-inline-block align-top"
+          className="d-inline-block align-top mb-5"
           alt="Gig Mania Logo"
         />
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-between">
-        <Form inline className="mx-auto">
-          <FormControl
-            type="text"
-            placeholder="Search for bands, concerts and venues"
-            className="mr-sm-2 rounded-pill"
-            style={{ width: "450px" }}
-          />
-        </Form>
+        <div inline className="mx-auto">
+          <SearchBar />
+        </div>
+
         <div className="ml-auto">
           <i
             className="bi bi-person h1 px-2"

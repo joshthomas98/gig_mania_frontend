@@ -1,5 +1,5 @@
 * {
-  background-color: #121212;
+  background-color: #212121;
 }
 
 .text-container {
@@ -26,7 +26,7 @@
 /* FOOTER */
 
 .footer {
-  background-color: #121212;
+  background-color: #212121;
   color: #fff;
   font-size: 14px;
 }
@@ -356,4 +356,17 @@
   font-size: 14px;
   color: #999;
   margin: 0;
+}
+
+/* SEARCH BAR */
+
+.search-bar-container {
+  position: sticky;
+  top: 1px; /* Adjust the top offset as needed */
+  z-index: 999;
+}
+
+.suggestion-dropdown {
+  max-height: 120px; /* Set the maximum height of the dropdown */
+  overflow-y: auto; /* Enable vertical scroll when the content exceeds the height */
 }

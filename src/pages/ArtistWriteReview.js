@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import StarRating from "../components/StarRating";
 import ReviewSubjectBox from "../components/ReviewSubjectBox";
+import { useParams } from "react-router-dom";
 
 const ArtistWriteReview = () => {
+  const { venueId } = useParams();
   const navigate = useNavigate();
 
   const [dateOfPerformance, setDateOfPerformance] = useState("");
@@ -12,6 +14,19 @@ const ArtistWriteReview = () => {
   const [venueName, setVenueName] = useState("");
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
+
+  useEffect(() => {
+    // Fetch venue details using venueId
+    fetch(`http://localhost:8000/venues/${venueId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the venueName state variable with the fetched venue name
+        setVenueName(data.name);
+      })
+      .catch((error) => {
+        console.error("Error fetching venue details:", error);
+      });
+  }, [venueId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -138,9 +153,9 @@ const ArtistWriteReview = () => {
             }}
           >
             <h3 className="text-light text-center mb-5">
-              How was your experience with The Patriot?
+              How was your experience with {venueName}?
             </h3>
-            <ReviewSubjectBox />
+            <ReviewSubjectBox venueName={venueName} />
           </div>
         </div>
       </section>

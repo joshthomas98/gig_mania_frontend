@@ -69,7 +69,7 @@ const Footer = () => {
             alignItems: "center",
           }}
         >
-          <p className="footer__text" style={{ marginRight: "auto" }}>
+          <p className="footer__text px-2" style={{ marginRight: "auto" }}>
             &copy; {new Date().getFullYear()} GigSweep
           </p>
           <div

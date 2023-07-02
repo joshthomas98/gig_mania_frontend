@@ -1,6 +1,6 @@
 import React from "react";
 
-const ReviewSubjectBox = () => {
+const ReviewSubjectBox = ({ venueName }) => {
   return (
     <div className="text-light">
       <div className="review-box">
@@ -11,7 +11,7 @@ const ReviewSubjectBox = () => {
           />
         </div>
         <div className="review-content">
-          <h3 className="review-title mt-2">The Patriot</h3>
+          <h3 className="review-title mt-2">{venueName}</h3>
           <p className="review-description">
             Main St, Crumlin, Newport NP11 4PT <br />
             Wales, UK

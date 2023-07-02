@@ -40,6 +40,7 @@ import VenueWriteReview from "./pages/VenueWriteReview";
 import ThanksForReview from "./pages/ThanksForReview";
 import StarRating from "./components/StarRating";
 import ReviewSubjectBox from "./components/ReviewSubjectBox";
+import SearchBar from "./components/SearchBar";
 
 import Footer from "./components/Footer";
 
@@ -141,7 +142,10 @@ const App = () => {
                 element={<GigApplicationSuccess />}
               />
 
-              <Route path="artistwritereview" element={<ArtistWriteReview />} />
+              <Route
+                path="artistwritereview/:venueId"
+                element={<ArtistWriteReview />}
+              />
 
               <Route path="venuewritereview" element={<VenueWriteReview />} />
 
@@ -150,6 +154,8 @@ const App = () => {
               <Route path="starrating" element={<StarRating />} />
 
               <Route path="reviewsubjectbox" element={<ReviewSubjectBox />} />
+
+              <Route path="searchbar" element={<SearchBar />} />
             </Routes>
           </BrowserRouter>
           <Footer />

@@ -14,7 +14,8 @@ const IncorrectLoginModal = ({ show, handleClose }) => {
         <Modal.Title style={{ color: "#fff" }}>Ooops!</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        You have entered an invalid username and/or password, please try again.
+        You have either entered an invalid username and/or password or selected
+        the incorrect user type, please try again.
       </Modal.Body>
       <Modal.Footer style={{ backgroundColor: "#444" }}>
         <Button variant="secondary" onClick={handleClose}>
