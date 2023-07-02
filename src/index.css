@@ -361,12 +361,28 @@
 /* SEARCH BAR */
 
 .search-bar-container {
-  position: sticky;
-  top: 1px; /* Adjust the top offset as needed */
-  z-index: 999;
+  position: relative;
 }
 
 .suggestion-dropdown {
-  max-height: 120px; /* Set the maximum height of the dropdown */
-  overflow-y: auto; /* Enable vertical scroll when the content exceeds the height */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 999;
+}
+
+.suggestion-dropdown li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-dropdown li:hover {
+  background-color: black;
 }
