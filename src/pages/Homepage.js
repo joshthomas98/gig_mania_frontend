@@ -12,7 +12,7 @@ const Homepage = () => {
   const [email, setEmail] = useState("");
 
   const handleAdvertiseSubmit = () => {
-    navigate("/advertisegig");
+    navigate("/artistadvertisegig");
   };
 
   const handleFindGigsSubmit = () => {

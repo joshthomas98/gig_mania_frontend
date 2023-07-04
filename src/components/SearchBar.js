@@ -51,7 +51,7 @@ const SearchBar = () => {
       const venueData = await venueResponse.json();
       const venueSuggestions = venueData.map((venue) => ({
         id: venue.id,
-        name: venue._venue_name,
+        name: venue.venue_name,
         type: "Venue",
       }));
 
@@ -63,16 +63,16 @@ const SearchBar = () => {
         // If the query is empty, don't show any suggestions
         filteredSuggestions = [];
       } else {
-        // Create a regular expression pattern with wildcard characters
-        const pattern = new RegExp(query.replace(/\*/g, ".*"), "i");
-
-        // Filter the suggestions based on the regular expression pattern
+        // Filter the suggestions based on the query string
         filteredSuggestions = combinedSuggestions.filter((profile) =>
-          pattern.test(profile.name)
+          profile.name.toLowerCase().startsWith(query.toLowerCase())
         );
+
+        // Sort the suggestions alphabetically by name
+        filteredSuggestions.sort((a, b) => a.name.localeCompare(b.name));
       }
 
-      // Update the suggestions state with the filtered results
+      // Update the suggestions state with the filtered and sorted results
       setSuggestions(filteredSuggestions);
 
       // Show or hide the suggestions dropdown based on the number of suggestions
@@ -111,9 +111,14 @@ const SearchBar = () => {
               <li
                 key={profile.id}
                 onClick={() => handleProfileClick(profile)}
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
               >
-                {profile.name}
+                <span>{profile.name}</span>
+                <span style={{ color: "gray" }}>{profile.type}</span>
               </li>
             ))}
           </ul>

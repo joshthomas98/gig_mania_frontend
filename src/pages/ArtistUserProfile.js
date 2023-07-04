@@ -30,9 +30,7 @@ const ArtistUserProfile = () => {
     const fetchArtist = async () => {
       try {
         const artistId = localStorage.getItem("userId"); // Fetch the artist ID from local storage
-        const response = await fetch(
-          `http://localhost:8000/artists/${artistId}/`
-        );
+        const response = await fetch(`${SERVER_BASE_URL}artists/${artistId}/`);
         const data = await response.json();
         console.log(data);
         setArtist([data]); // Set the fetched artist as an array with a single element
@@ -47,7 +45,7 @@ const ArtistUserProfile = () => {
     const fetchUnavailabilities = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/unavailabilities/${userId}/`
+          `${SERVER_BASE_URL}unavailabilities/${userId}/`
         );
         const data = await response.json();
         setUnavailabilities(data);
