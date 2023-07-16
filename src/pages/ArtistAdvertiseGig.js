@@ -12,7 +12,6 @@ function ArtistAdvertiseGig() {
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
   const [typeOfGig, setTypeOfGig] = useState("");
-  const [artistType, setArtistType] = useState("");
   const [payment, setPayment] = useState("");
 
   const handleSubmit = (event) => {
@@ -30,7 +29,6 @@ function ArtistAdvertiseGig() {
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
-      artist_type: artistType,
       payment: payment,
     };
 
@@ -60,7 +58,7 @@ function ArtistAdvertiseGig() {
         className="rounded-3 w-50 mx-auto text-light"
       >
         <Row className="justify-content-center">
-          <Col md={4}>
+          <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Artist Name:</Form.Label>
               <Form.Control
@@ -71,7 +69,7 @@ function ArtistAdvertiseGig() {
               />
             </Form.Group>
           </Col>
-          <Col md={4}>
+          <Col md={6}>
             <Form.Group className="p-3 text-center" controlId="date">
               <Form.Label>Date of Gig:</Form.Label>
               <Form.Control
@@ -82,7 +80,9 @@ function ArtistAdvertiseGig() {
               />
             </Form.Group>
           </Col>
-          <Col md={4}>
+        </Row>
+        <Row className="justify-content-center">
+          <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Name Of Venue:</Form.Label>
               <Form.Control
@@ -93,17 +93,14 @@ function ArtistAdvertiseGig() {
               />
             </Form.Group>
           </Col>
-        </Row>
-
-        <Row className="justify-content-center">
-          <Col md={4}>
+          <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Country Of Venue:</Form.Label>
               <Form.Select
                 value={countryOfVenue}
                 onChange={(event) => setCountryOfVenue(event.target.value)}
               >
-                <option value="">Select a country</option>
+                <option value="">Select country</option>
                 <option value="England">England</option>
                 <option value="Wales">Wales</option>
                 <option value="Scotland">Scotland</option>
@@ -111,7 +108,9 @@ function ArtistAdvertiseGig() {
               </Form.Select>
             </Form.Group>
           </Col>
-          <Col md={4}>
+        </Row>
+        <Row className="justify-content-center">
+          <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Select a Genre:</Form.Label>
               <Form.Select
@@ -135,7 +134,7 @@ function ArtistAdvertiseGig() {
               </Form.Select>
             </Form.Group>
           </Col>
-          <Col md={4}>
+          <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Type Of Gig:</Form.Label>
               <Form.Select
@@ -144,7 +143,7 @@ function ArtistAdvertiseGig() {
                 onChange={(event) => setTypeOfGig(event.target.value)}
               >
                 <option disabled hidden value="">
-                  Type of gig you are looking for
+                  Type of gig
                 </option>
                 <option value="Original Music">Original Music</option>
                 <option value="Covers">Covers</option>
@@ -153,9 +152,8 @@ function ArtistAdvertiseGig() {
             </Form.Group>
           </Col>
         </Row>
-
         <Row className="justify-content-center">
-          <Col md={8}>
+          <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Payment For Gig:</Form.Label>
               <Form.Control
@@ -167,7 +165,6 @@ function ArtistAdvertiseGig() {
             </Form.Group>
           </Col>
         </Row>
-
         <div className="text-center">
           <Button className="my-3 mx-3" variant="primary" type="submit">
             Submit

@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 
 const PickUpGig = () => {
-  const navigate = useNavigate();
-
   const [dateOfGig, setDateOfGig] = useState("");
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
@@ -197,7 +194,11 @@ const PickUpGig = () => {
                     <td>{result.type_of_gig}</td>
                     <td>£{result.payment}</td>
                     <td>
-                      <a href="/individualgig">Find out more</a>
+                      <a
+                        href={`/individualgig/${result.user_type}-listed/${result.id}`}
+                      >
+                        Find out more
+                      </a>
                     </td>
                   </tr>
                 ))}

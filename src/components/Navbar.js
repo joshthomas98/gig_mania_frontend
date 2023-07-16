@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, Form, FormControl, Navbar } from "react-bootstrap";
+import { Button, Navbar } from "react-bootstrap";
 import { LoginContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
@@ -80,6 +80,9 @@ const NavbarComponent = () => {
             variant="secondary"
           >
             Register
+          </Button>
+          <Button className="mx-2 mb-3" href="/pickupgig" variant="secondary">
+            Find Gigs
           </Button>
 
           {renderLogin()}

@@ -41,6 +41,7 @@ import ThanksForReview from "./pages/ThanksForReview";
 import StarRating from "./components/StarRating";
 import ReviewSubjectBox from "./components/ReviewSubjectBox";
 import SearchBar from "./components/SearchBar";
+import ApplyForGig from "./pages/ApplyForGig";
 
 import Footer from "./components/Footer";
 
@@ -135,7 +136,10 @@ const App = () => {
 
               <Route path="venuegigadvert" element={<VenueGigAdvert />} />
 
-              <Route path="individualgig" element={<IndividualGig />} />
+              <Route
+                path="/individualgig/:userType-listed/:gigId"
+                element={<IndividualGig />}
+              />
 
               <Route
                 path="gigapplicationsuccess"
@@ -156,6 +160,8 @@ const App = () => {
               <Route path="reviewsubjectbox" element={<ReviewSubjectBox />} />
 
               <Route path="searchbar" element={<SearchBar />} />
+
+              <Route path="applyforgig" element={<ApplyForGig />} />
             </Routes>
           </BrowserRouter>
           <Footer />
