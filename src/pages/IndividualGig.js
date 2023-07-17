@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { LoginContext } from "../App";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const IndividualGig = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const { userType, gigId } = useParams();
   const [gigDetails, setGigDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Make a fetch call based on the userType and gigId
-    const fetchData = async () => {
+    const fetchGigData = async () => {
       try {
         let url = "";
         if (userType === "Artist") {
@@ -26,8 +31,40 @@ const IndividualGig = () => {
       }
     };
 
-    fetchData();
+    fetchGigData();
   }, [userType, gigId]);
+
+  const handleApplyNowClick = async () => {
+    setIsLoading(true);
+
+    const storedUserId = localStorage.getItem("userId");
+    const storedUserType = localStorage.getItem("artistOrVenue");
+    if (storedUserId && storedUserType === "A") {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/artists/${storedUserId}/`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const individualArtistData = data;
+          console.log("Retrieved artist data:", individualArtistData);
+        } else {
+          console.error("Request failed with status:", response.status);
+        }
+      } catch (error) {
+        console.error("Error occurred:", error);
+      }
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <div className="individual-gig-container text-light">
@@ -76,12 +113,16 @@ const IndividualGig = () => {
           </p>
 
           <div className="individual-gig-apply-button text-center">
-            <a
-              href="/individualgig"
-              className="individual-gig-apply-btn btn btn-secondary"
-            >
-              Apply Now
-            </a>
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <a
+                className="individual-gig-apply-btn btn btn-secondary"
+                onClick={handleApplyNowClick}
+              >
+                Apply Now
+              </a>
+            )}
           </div>
         </>
       )}

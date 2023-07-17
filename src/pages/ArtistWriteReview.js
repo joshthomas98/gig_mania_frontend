@@ -4,6 +4,7 @@ import { Form, Button } from "react-bootstrap";
 import StarRating from "../components/StarRating";
 import ReviewSubjectBox from "../components/ReviewSubjectBox";
 import { useParams } from "react-router-dom";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ArtistWriteReview = () => {
   const { venueId } = useParams();
@@ -14,26 +15,28 @@ const ArtistWriteReview = () => {
   const [venueName, setVenueName] = useState("");
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Fetch venue details using venueId
+    setIsLoading(true);
+
     fetch(`http://localhost:8000/venues/${venueId}`)
       .then((response) => response.json())
       .then((data) => {
-        // Update the venueName state variable with the fetched venue name
         setVenueName(data.name);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching venue details:", error);
+        setIsLoading(false);
       });
   }, [venueId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // convert dateOfGig to a Date object
-    const dateObj = new Date(dateOfPerformance);
+    setIsLoading(true);
 
-    // extract only the date portion
+    const dateObj = new Date(dateOfPerformance);
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
@@ -53,11 +56,13 @@ const ArtistWriteReview = () => {
     })
       .then((response) => {
         if (response.ok) {
+          setIsLoading(false);
           navigate("/thanksforreview");
         }
       })
       .catch((error) => {
         console.error("Error posting review:", error);
+        setIsLoading(false);
       });
   };
 
@@ -134,9 +139,15 @@ const ArtistWriteReview = () => {
             </Form.Group>
 
             <div className="d-flex justify-content-between">
-              <Button className="mt-4" variant="primary" type="submit">
-                Submit
-              </Button>
+              {isLoading ? (
+                <div className="py-4">
+                  <LoadingSpinner />
+                </div>
+              ) : (
+                <Button className="mt-4" variant="primary" type="submit">
+                  Submit
+                </Button>
+              )}
             </div>
           </Form>
         </section>

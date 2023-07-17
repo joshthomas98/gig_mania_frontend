@@ -42,6 +42,7 @@ import StarRating from "./components/StarRating";
 import ReviewSubjectBox from "./components/ReviewSubjectBox";
 import SearchBar from "./components/SearchBar";
 import ApplyForGig from "./pages/ApplyForGig";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 import Footer from "./components/Footer";
 
@@ -147,7 +148,7 @@ const App = () => {
               />
 
               <Route
-                path="artistwritereview/:venueId"
+                path="artistwritereview/"
                 element={<ArtistWriteReview />}
               />
 
@@ -162,6 +163,8 @@ const App = () => {
               <Route path="searchbar" element={<SearchBar />} />
 
               <Route path="applyforgig" element={<ApplyForGig />} />
+
+              <Route path="loadingspinner" element={<LoadingSpinner />} />
             </Routes>
           </BrowserRouter>
           <Footer />

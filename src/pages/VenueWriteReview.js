@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import StarRating from "../components/StarRating";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const VenueWriteReview = () => {
   const navigate = useNavigate();
@@ -11,13 +12,13 @@ const VenueWriteReview = () => {
   const [artistName, setArtistName] = useState("");
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // convert dateOfGig to a Date object
-    const dateObj = new Date(dateOfPerformance);
+    setIsLoading(true);
 
-    // extract only the date portion
+    const dateObj = new Date(dateOfPerformance);
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
@@ -37,6 +38,7 @@ const VenueWriteReview = () => {
     })
       .then((response) => {
         if (response.ok) {
+          setIsLoading(false);
           navigate("/thanksforreview");
         }
       })
@@ -111,9 +113,15 @@ const VenueWriteReview = () => {
           </Form.Group>
 
           <div className="d-flex justify-content-between">
-            <Button className="mt-4" variant="primary" type="submit">
-              Submit
-            </Button>
+            {isLoading ? (
+              <div className="py-4">
+                <LoadingSpinner />
+              </div>
+            ) : (
+              <Button className="mt-4" variant="primary" type="submit">
+                Submit
+              </Button>
+            )}
           </div>
         </Form>
       </section>
