@@ -19,6 +19,8 @@ import UserCreated from "./pages/UserCreated";
 import TestFetch from "./pages/TestFetch";
 import ArtistOrVenueRegister from "./pages/ArtistOrVenueRegister";
 import ContactUs from "./pages/ContactUs";
+import TermsOfUse from "./pages/TermsOfUse";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProfileSettings from "./pages/ProfileSettings";
 import FeaturedArtists from "./components/FeaturedArtists";
 import ArtistUserProfile from "./pages/ArtistUserProfile";
@@ -43,6 +45,7 @@ import ReviewSubjectBox from "./components/ReviewSubjectBox";
 import SearchBar from "./components/SearchBar";
 import ApplyForGig from "./pages/ApplyForGig";
 import LoadingSpinner from "./components/LoadingSpinner";
+import MyListedGigs from "./pages/MyListedGigs";
 
 import Footer from "./components/Footer";
 
@@ -101,6 +104,10 @@ const App = () => {
               />
 
               <Route path="contactus" element={<ContactUs />} />
+
+              <Route path="termsofuse" element={<TermsOfUse />} />
+
+              <Route path="privacy" element={<PrivacyPolicy />} />
 
               <Route path="profilesettings" element={<ProfileSettings />} />
 
@@ -165,6 +172,8 @@ const App = () => {
               <Route path="applyforgig" element={<ApplyForGig />} />
 
               <Route path="loadingspinner" element={<LoadingSpinner />} />
+
+              <Route path="mylistedgigs" element={<MyListedGigs />} />
             </Routes>
           </BrowserRouter>
           <Footer />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -7,9 +7,13 @@ const IndividualGig = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
 
+  const navigate = useNavigate();
+
   const { userType, gigId } = useParams();
   const [gigDetails, setGigDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // fetchGigData function
 
   useEffect(() => {
     const fetchGigData = async () => {
@@ -34,11 +38,14 @@ const IndividualGig = () => {
     fetchGigData();
   }, [userType, gigId]);
 
+  // handleApplyNowClick function
+
   const handleApplyNowClick = async () => {
     setIsLoading(true);
 
     const storedUserId = localStorage.getItem("userId");
     const storedUserType = localStorage.getItem("artistOrVenue");
+
     if (storedUserId && storedUserType === "A") {
       try {
         const response = await fetch(
@@ -55,11 +62,33 @@ const IndividualGig = () => {
           const data = await response.json();
           const individualArtistData = data;
           console.log("Retrieved artist data:", individualArtistData);
+
+          try {
+            const postResponse = await fetch(
+              "http://localhost:8000/gigapplications/",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(individualArtistData),
+              }
+            );
+
+            if (postResponse.ok) {
+              console.log("Data sent successfully");
+              navigate("/gigapplicationsuccess");
+            } else {
+              console.error("Request failed with status:", postResponse.status);
+            }
+          } catch (error) {
+            console.error("Error occurred while sending data:", error);
+          }
         } else {
           console.error("Request failed with status:", response.status);
         }
       } catch (error) {
-        console.error("Error occurred:", error);
+        console.error("Error occurred while retrieving data:", error);
       }
     }
 

@@ -102,6 +102,10 @@ const ArtistUserProfile = () => {
                   </div>
                 </div>
 
+                <div className="show-listed-gigs text-center pb-4">
+                  <a href="/mylistedgigs">Show my listed gigs</a>
+                </div>
+
                 <div className="bg-dark p-4 d-flex justify-content-end text-center">
                   <ul className="list-inline mb-0">
                     <li className="list-inline-item">
