@@ -84,6 +84,13 @@ const NavbarComponent = () => {
           <Button className="mx-2 mb-3" href="/pickupgig" variant="secondary">
             Find Gigs
           </Button>
+          <Button
+            className="mx-2 mb-3"
+            href="/mylistedgigs"
+            variant="secondary"
+          >
+            MLG's
+          </Button>
 
           {renderLogin()}
         </div>
