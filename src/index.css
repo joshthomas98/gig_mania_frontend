@@ -386,3 +386,11 @@
 .suggestion-dropdown li:hover {
   background-color: black;
 }
+
+/* EDIT GIG */
+
+.edit-gig-only-artist-name-greyed-out {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}

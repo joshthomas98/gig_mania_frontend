@@ -51,7 +51,13 @@ const MyListedGigs = () => {
   };
 
   const handleEditGig = (gigId) => {
-    navigate(`/editgig/${gigId}`); // Navigates to the EditGig component with the gigId in the URL
+    if (storedUserType === "A") {
+      navigate(`/artisteditgig/${gigId}`); // Navigates to the ArtistEditGig component with the gigId in the URL
+    } else if (storedUserType === "V") {
+      navigate(`/venueeditgig/${gigId}`); // Navigates to the VenueEditGig component with the gigId in the URL
+    } else {
+      navigate("/signin");
+    }
   };
 
   console.log(artistGigs);
@@ -61,10 +67,13 @@ const MyListedGigs = () => {
     <div className="text-light">
       <div className="row">
         <div className="col-md-6">
-          {artistGigs.length === 1 ? (
+          {artistGigs.length || venueGigs.length === 1 ? (
             <h2>You currently have 1 gig listed:</h2>
-          ) : artistGigs.length > 1 ? (
-            <h2>You currently have {artistGigs.length} gigs listed:</h2>
+          ) : artistGigs.length || venueGigs.length > 1 ? (
+            <h2>
+              You currently have {artistGigs.length || venueGigs.length} gigs
+              listed:
+            </h2>
           ) : (
             <h2>You currently have 0 gigs listed:</h2>
           )}
@@ -77,28 +86,59 @@ const MyListedGigs = () => {
       </div>
 
       <ul>
-        {artistGigs.length > 0 ? (
-          artistGigs.map((gig, index) => (
+        {storedUserType === "A" ? (
+          artistGigs.length > 0 ? (
+            artistGigs.map((gig, index) => (
+              <li className="py-4" key={index}>
+                <strong>Artist Name:</strong> {gig.artist_name}
+                <br />
+                <strong>Artist Type:</strong> {gig.artist_type}
+                <br />
+                <strong>Country of Venue:</strong> {gig.country_of_venue}
+                <br />
+                <strong>Date of Gig:</strong> {gig.date_of_gig}
+                <br />
+                <strong>Genre of Gig:</strong> {gig.genre_of_gig}
+                <br />
+                <strong>ID:</strong> {gig.id}
+                <br />
+                <strong>Payment:</strong> {gig.payment}
+                <br />
+                <strong>Type of Gig:</strong> {gig.type_of_gig}
+                <br />
+                <strong>User Type:</strong> {gig.user_type}
+                <br />
+                <strong>Venue Name:</strong> {gig.venue_name}
+                <br />
+                <Button
+                  variant="secondary"
+                  className="mt-4"
+                  onClick={() => handleEditGig(gig.id)}
+                >
+                  Edit this gig
+                </Button>
+              </li>
+            ))
+          ) : (
+            <li>No gigs listed</li>
+          )
+        ) : // Venue User
+        venueGigs.length > 0 ? (
+          venueGigs.map((gig, index) => (
             <li className="py-4" key={index}>
-              <strong>Artist Name:</strong> {gig.artist_name}
-              <br />
-              <strong>Artist Type:</strong> {gig.artist_type}
-              <br />
-              <strong>Country of Venue:</strong> {gig.country_of_venue}
+              <strong>Venue Name:</strong> {gig.venue}
               <br />
               <strong>Date of Gig:</strong> {gig.date_of_gig}
               <br />
+              <strong>Country of Venue:</strong> {gig.country_of_venue}
+              <br />
               <strong>Genre of Gig:</strong> {gig.genre_of_gig}
-              <br />
-              <strong>ID:</strong> {gig.id}
-              <br />
-              <strong>Payment:</strong> {gig.payment}
               <br />
               <strong>Type of Gig:</strong> {gig.type_of_gig}
               <br />
-              <strong>User Type:</strong> {gig.user_type}
+              <strong>Artist Type:</strong> {gig.artist_type}
               <br />
-              <strong>Venue Name:</strong> {gig.venue_name}
+              <strong>Payment:</strong> {gig.payment}
               <br />
               <Button
                 variant="secondary"
