@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MyListedGigs = () => {
   const navigate = useNavigate();
+  // const gigId = useParams();
+
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
 
@@ -48,7 +50,12 @@ const MyListedGigs = () => {
     }
   };
 
+  const handleEditGig = (gigId) => {
+    navigate(`/editgig/${gigId}`); // Navigates to the EditGig component with the gigId in the URL
+  };
+
   console.log(artistGigs);
+  console.log(venueGigs);
 
   return (
     <div className="text-light">
@@ -93,7 +100,11 @@ const MyListedGigs = () => {
               <br />
               <strong>Venue Name:</strong> {gig.venue_name}
               <br />
-              <Button variant="secondary" className="mt-4">
+              <Button
+                variant="secondary"
+                className="mt-4"
+                onClick={() => handleEditGig(gig.id)}
+              >
                 Edit this gig
               </Button>
             </li>

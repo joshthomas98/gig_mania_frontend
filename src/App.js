@@ -46,6 +46,8 @@ import SearchBar from "./components/SearchBar";
 import ApplyForGig from "./pages/ApplyForGig";
 import LoadingSpinner from "./components/LoadingSpinner";
 import MyListedGigs from "./pages/MyListedGigs";
+import EditGig from "./pages/EditGig";
+import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
 
 import Footer from "./components/Footer";
 
@@ -174,6 +176,13 @@ const App = () => {
               <Route path="loadingspinner" element={<LoadingSpinner />} />
 
               <Route path="mylistedgigs" element={<MyListedGigs />} />
+
+              <Route path="/editgig/:gigId" element={<EditGig />} />
+
+              <Route
+                path="gigsuccessfullyupdated"
+                element={<GigSuccessfullyUpdated />}
+              />
             </Routes>
           </BrowserRouter>
           <Footer />
