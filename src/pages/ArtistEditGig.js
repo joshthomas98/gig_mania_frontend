@@ -14,7 +14,6 @@ const ArtistEditGig = () => {
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
   const [typeOfGig, setTypeOfGig] = useState("");
-  const [artistType, setArtistType] = useState("");
   const [payment, setPayment] = useState("");
 
   // Fetches data for the form fields from the server based on gigId parameter in the URL
@@ -45,48 +44,44 @@ const ArtistEditGig = () => {
       setCountryOfVenue(gigFormFieldData.country_of_venue);
       setGenreOfGig(gigFormFieldData.genre_of_gig);
       setTypeOfGig(gigFormFieldData.type_of_gig);
-      setArtistType(gigFormFieldData.artist_type);
       setPayment(gigFormFieldData.payment);
     }
   }, [gigFormFieldData]);
 
-  // Handles the form submission when the "Save Changes" button is clicked
   const handleSubmit = (event) => {
     event.preventDefault();
+    // convert dateOfGig to a Date object
+    const dateObj = new Date(dateOfGig);
 
-    // Prepare the data to be sent in the PUT request
-    const gigData = {
-      artist_name: artistName,
-      date_of_gig: dateOfGig,
+    // extract only the date portion
+    const date = dateObj.toISOString().slice(0, 10);
+
+    const data = {
+      artist: artistName,
+      date_of_gig: date,
       venue_name: venueName,
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
-      artist_type: artistType,
       payment: payment,
     };
 
-    // Make the PUT request using fetch API
     fetch(`http://localhost:8000/artist_listed_gigs/${gigId}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(gigData),
+      body: JSON.stringify(data),
     })
       .then((response) => {
         if (response.ok) {
-          // Handle successful response here (e.g., show success message)
-          console.log("Gig data updated successfully!");
           navigate("/gigsuccessfullyupdated");
         } else {
-          // Handle error response here (e.g., show error message)
-          console.error("Failed to update gig data");
+          console.error("Error editing gig:", response.status);
         }
       })
       .catch((error) => {
-        // Handle any network or fetch-related errors
-        console.error("Error updating gig data:", error);
+        console.error("Error editing gig:", error);
       });
   };
 
@@ -170,19 +165,6 @@ const ArtistEditGig = () => {
           <option value="Original Music">Original Music</option>
           <option value="Covers">Covers</option>
           <option value="Both">Both</option>
-        </Form.Select>
-      </Form.Group>
-
-      <Form.Group className="p-3">
-        <Form.Label className="text-white">Artist Type:</Form.Label>
-        <Form.Select
-          value={artistType}
-          onChange={(event) => setArtistType(event.target.value)}
-        >
-          <option value="">Please select an artist type</option>
-          <option value="Full band">Full band</option>
-          <option value="Solo artist">Solo artist</option>
-          <option value="Duo">Duo</option>
         </Form.Select>
       </Form.Group>
 

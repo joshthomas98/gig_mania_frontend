@@ -49,6 +49,7 @@ import MyListedGigs from "./pages/MyListedGigs";
 import ArtistEditGig from "./pages/ArtistEditGig";
 import VenueEditGig from "./pages/VenueEditGig";
 import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
+import DeleteListedGigModal from "./components/DeleteListedGigModal";
 
 import Footer from "./components/Footer";
 
@@ -181,6 +182,11 @@ const App = () => {
               <Route path="/artisteditgig/:gigId" element={<ArtistEditGig />} />
 
               <Route path="/venueeditgig/:gigId" element={<VenueEditGig />} />
+
+              <Route
+                path="deletelistedgigmodal"
+                element={<DeleteListedGigModal />}
+              />
 
               <Route
                 path="gigsuccessfullyupdated"

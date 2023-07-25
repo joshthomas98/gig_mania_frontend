@@ -9,10 +9,19 @@ import MembershipPlans from "../components/MembershipPlans";
 const Homepage = () => {
   const navigate = useNavigate();
 
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
   const [email, setEmail] = useState("");
 
   const handleAdvertiseSubmit = () => {
-    navigate("/artistadvertisegig");
+    if (storedUserId && storedUserType === "A") {
+      navigate("/artistadvertisegig");
+    } else if (storedUserId && storedUserType === "V") {
+      navigate("/venueadvertisegig");
+    } else if (!storedUserId && !storedUserType) {
+      navigate("/signin");
+    }
   };
 
   const handleFindGigsSubmit = () => {

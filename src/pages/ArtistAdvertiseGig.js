@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
 function ArtistAdvertiseGig() {
   const navigate = useNavigate();
+
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
+  const [fetchedArtistDetails, setFetchedArtistDetails] = useState();
 
   const [artistName, setArtistName] = useState("");
   const [dateOfGig, setDateOfGig] = useState("");
@@ -13,6 +18,30 @@ function ArtistAdvertiseGig() {
   const [genreOfGig, setGenreOfGig] = useState("");
   const [typeOfGig, setTypeOfGig] = useState("");
   const [payment, setPayment] = useState("");
+
+  const fetchArtistName = () => {
+    fetch(`http://localhost:8000/artists/${storedUserId}/`)
+      .then((response) => response.json())
+      .then((data) => {
+        setFetchedArtistDetails(data);
+        console.log(data?.id); // Use optional chaining here
+      })
+      .catch((error) => {
+        console.error("Error fetching artist name:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchArtistName();
+  }, [storedUserId]);
+
+  useEffect(() => {
+    // Once the data is fetched and stored in gigFormFieldData state,
+    // set the individual form field values using that data
+    if (fetchedArtistDetails?.artist_name) {
+      setArtistName(fetchedArtistDetails.artist_name);
+    }
+  }, [fetchedArtistDetails]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,13 +52,17 @@ function ArtistAdvertiseGig() {
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
-      artist_name: artistName,
+      artist: fetchedArtistDetails ? fetchedArtistDetails.id : "", // Include the fetched artist name
       date_of_gig: date,
       venue_name: venueName,
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
+      type_of_artist: fetchedArtistDetails
+        ? fetchedArtistDetails.type_of_artist
+        : "",
       payment: payment,
+      user_type: storedUserType === "A" ? "Artist" : "",
     };
 
     fetch("http://localhost:8000/artist_listed_gigs/", {
@@ -42,6 +75,8 @@ function ArtistAdvertiseGig() {
       .then((response) => {
         if (response.ok) {
           navigate("/gigadvertised");
+        } else {
+          console.error("Error advertising gig:", response.status);
         }
       })
       .catch((error) => {
@@ -61,11 +96,14 @@ function ArtistAdvertiseGig() {
           <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Artist Name:</Form.Label>
-              <Form.Control
-                placeholder="Enter artist name"
-                type="text"
+              {/* Non-editable text element to display the artist name */}
+              <div>{artistName}</div>
+              {/* Hidden input field to store and send the artist name in the POST request */}
+              <input
+                type="hidden"
+                name="artistName"
                 value={artistName}
-                onChange={(event) => setArtistName(event.target.value)}
+                readOnly // Make the input read-only
               />
             </Form.Group>
           </Col>

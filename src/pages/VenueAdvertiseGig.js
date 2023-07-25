@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 
 function VenueAdvertiseGig() {
   const navigate = useNavigate();
+
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
+  const [fetchedVenueDetails, setFetchedVenueDetails] = useState();
+
   // const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
   //   useContext(LoginContext);
 
@@ -22,6 +28,30 @@ function VenueAdvertiseGig() {
   const [typeOfGig, setTypeOfGig] = useState("");
   const [payment, setPayment] = useState("");
 
+  const fetchVenueName = () => {
+    fetch(`http://localhost:8000/venues/${storedUserId}/`)
+      .then((response) => response.json())
+      .then((data) => {
+        setFetchedVenueDetails(data);
+        console.log(fetchedVenueDetails.venue_name);
+      })
+      .catch((error) => {
+        console.error("Error fetching venue name:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchVenueName();
+  }, [storedUserId]);
+
+  useEffect(() => {
+    // Once the data is fetched and stored in gigFormFieldData state,
+    // set the individual form field values using that data
+    if (fetchedVenueDetails) {
+      setVenueName(fetchedVenueDetails.venue_name);
+    }
+  }, [fetchedVenueDetails]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // convert dateOfGig to a Date object
@@ -31,7 +61,7 @@ function VenueAdvertiseGig() {
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
-      venue_name: venueName,
+      venue: fetchedVenueDetails ? fetchedVenueDetails.venue_name : "", // Include the fetched venue name
       date_of_gig: date,
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
@@ -39,6 +69,7 @@ function VenueAdvertiseGig() {
       payment: payment,
     };
 
+    // Replace Axios with Fetch API here
     fetch("http://localhost:8000/venue_listed_gigs/", {
       method: "POST",
       headers: {
@@ -49,6 +80,8 @@ function VenueAdvertiseGig() {
       .then((response) => {
         if (response.ok) {
           navigate("/gigadvertised");
+        } else {
+          console.error("Error advertising gig:", response.status);
         }
       })
       .catch((error) => {

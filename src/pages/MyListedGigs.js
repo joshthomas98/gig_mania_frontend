@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import DeleteListedGig from "../components/DeleteListedGigModal";
 
 const MyListedGigs = () => {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ const MyListedGigs = () => {
 
   const [artistGigs, setArtistGigs] = useState("");
   const [venueGigs, setVenueGigs] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
 
   //   useEffect(() => {
   //     if user with userId(id) > 0 gigs then display gigs else display no gigs
@@ -60,6 +63,14 @@ const MyListedGigs = () => {
     }
   };
 
+  const handleTrashIconClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   console.log(artistGigs);
   console.log(venueGigs);
 
@@ -67,25 +78,23 @@ const MyListedGigs = () => {
     <div className="text-light">
       <div className="row">
         <div className="col-md-6">
-          {artistGigs.length || venueGigs.length === 1 ? (
-            <h2>You currently have 1 gig listed:</h2>
-          ) : artistGigs.length || venueGigs.length > 1 ? (
-            <h2>
-              You currently have {artistGigs.length || venueGigs.length} gigs
+          {artistGigs.length + venueGigs.length === 1 ? (
+            <h2 className="px-4">You currently have 1 gig listed:</h2>
+          ) : (
+            <h2 className="px-4">
+              You currently have {artistGigs.length + venueGigs.length} gigs
               listed:
             </h2>
-          ) : (
-            <h2>You currently have 0 gigs listed:</h2>
           )}
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 text-center">
           <Button variant="secondary" onClick={artistOrVenueAdvertiseGig}>
             List a new gig
           </Button>
         </div>
       </div>
 
-      <ul>
+      <ul className="px-5">
         {storedUserType === "A" ? (
           artistGigs.length > 0 ? (
             artistGigs.map((gig, index) => (
@@ -117,6 +126,13 @@ const MyListedGigs = () => {
                 >
                   Edit this gig
                 </Button>
+                <h4 className="pt-3">
+                  <i
+                    onClick={handleTrashIconClick}
+                    className="bi bi-trash"
+                    style={{ cursor: "pointer" }} // Inline style to change cursor to pointer on hover
+                  ></i>
+                </h4>
               </li>
             ))
           ) : (
@@ -153,6 +169,9 @@ const MyListedGigs = () => {
           <li>No gigs listed</li>
         )}
       </ul>
+
+      {/* Conditionally render the DeleteListedGig component based on showModal state */}
+      <DeleteListedGig show={showModal} handleClose={handleCloseModal} />
     </div>
   );
 };

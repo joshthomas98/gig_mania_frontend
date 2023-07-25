@@ -50,43 +50,40 @@ const VenueEditGig = () => {
     }
   }, [gigFormFieldData]);
 
-  // Handles the form submission when the "Save Changes" button is clicked
   const handleSubmit = (event) => {
     event.preventDefault();
+    // convert dateOfGig to a Date object
+    const dateObj = new Date(dateOfGig);
 
-    // Prepare the data to be sent in the PUT request
-    const gigData = {
+    // extract only the date portion
+    const date = dateObj.toISOString().slice(0, 10);
+
+    const data = {
       venue: venue,
-      date_of_gig: dateOfGig,
+      date_of_gig: date,
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
-      artist_type: artistType,
       payment: payment,
-      user_type: userType,
     };
 
-    // Make the PUT request using fetch API
+    // Replace Axios with Fetch API here
     fetch(`http://localhost:8000/venue_listed_gigs/${gigId}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(gigData),
+      body: JSON.stringify(data),
     })
       .then((response) => {
         if (response.ok) {
-          // Handle successful response here (e.g., show success message)
-          console.log("Gig data updated successfully!");
           navigate("/gigsuccessfullyupdated");
         } else {
-          // Handle error response here (e.g., show error message)
-          console.error("Failed to update gig data");
+          console.error("Error editing gig:", response.status);
         }
       })
       .catch((error) => {
-        // Handle any network or fetch-related errors
-        console.error("Error updating gig data:", error);
+        console.error("Error editing gig:", error);
       });
   };
 
