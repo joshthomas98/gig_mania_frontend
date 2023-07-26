@@ -6,6 +6,9 @@ const VenueEditGig = () => {
   const navigate = useNavigate();
   const { gigId } = useParams();
 
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
   const [gigFormFieldData, setGigFormFieldData] = useState("");
 
   const [venue, setVenue] = useState("");
@@ -15,7 +18,6 @@ const VenueEditGig = () => {
   const [typeOfGig, setTypeOfGig] = useState("");
   const [artistType, setArtistType] = useState("");
   const [payment, setPayment] = useState("");
-  const [userType, setUserType] = useState("");
 
   // Fetches data for the form fields from the server based on gigId parameter in the URL
   const fetchDataForFormFields = () => {
@@ -46,7 +48,6 @@ const VenueEditGig = () => {
       setTypeOfGig(gigFormFieldData.type_of_gig);
       setArtistType(gigFormFieldData.artist_type);
       setPayment(gigFormFieldData.payment);
-      setUserType(gigFormFieldData.user_type);
     }
   }, [gigFormFieldData]);
 
@@ -64,7 +65,9 @@ const VenueEditGig = () => {
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
+      artist_type: artistType,
       payment: payment,
+      user_type: storedUserType === "V" ? "Venue" : "",
     };
 
     // Replace Axios with Fetch API here
@@ -180,16 +183,6 @@ const VenueEditGig = () => {
           placeholder="Enter payment amount"
           value={payment}
           onChange={(e) => setPayment(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group className="p-3">
-        <Form.Label className="text-white">User type:</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter user type"
-          value={userType}
-          onChange={(e) => setUserType(e.target.value)}
         />
       </Form.Group>
 

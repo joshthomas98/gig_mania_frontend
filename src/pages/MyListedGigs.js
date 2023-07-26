@@ -5,7 +5,6 @@ import DeleteListedGig from "../components/DeleteListedGigModal";
 
 const MyListedGigs = () => {
   const navigate = useNavigate();
-  // const gigId = useParams();
 
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
@@ -13,6 +12,7 @@ const MyListedGigs = () => {
   const [artistGigs, setArtistGigs] = useState("");
   const [venueGigs, setVenueGigs] = useState("");
 
+  const [selectedGigId, setSelectedGigId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   //   useEffect(() => {
@@ -63,7 +63,8 @@ const MyListedGigs = () => {
     }
   };
 
-  const handleTrashIconClick = () => {
+  const handleTrashIconClick = (gigId) => {
+    setSelectedGigId(gigId);
     setShowModal(true);
   };
 
@@ -71,8 +72,48 @@ const MyListedGigs = () => {
     setShowModal(false);
   };
 
-  console.log(artistGigs);
-  console.log(venueGigs);
+  const handleDeleteGig = () => {
+    if (storedUserType === "A") {
+      fetch(`http://localhost:8000/artist_listed_gigs/${selectedGigId}/`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("DELETE request successful");
+            // Page reloads after the DELETE request is successful
+            window.location.reload();
+          } else {
+            console.error("DELETE request failed");
+          }
+        })
+        .catch((error) => {
+          console.error(
+            "Error occurred while processing DELETE request:",
+            error
+          );
+        });
+    } else if (storedUserType === "V") {
+      fetch(`http://localhost:8000/venue_listed_gigs/${selectedGigId}/`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("DELETE request successful");
+            // Page reloads after the DELETE request is successful
+            window.location.reload();
+          } else {
+            console.error("DELETE request failed");
+          }
+        })
+        .catch((error) => {
+          console.error(
+            "Error occurred while processing DELETE request:",
+            error
+          );
+        });
+    }
+    setShowModal(false); // Close the modal after handling the DELETE request
+  };
 
   return (
     <div className="text-light">
@@ -99,9 +140,7 @@ const MyListedGigs = () => {
           artistGigs.length > 0 ? (
             artistGigs.map((gig, index) => (
               <li className="py-4" key={index}>
-                <strong>Artist Name:</strong> {gig.artist_name}
-                <br />
-                <strong>Artist Type:</strong> {gig.artist_type}
+                <strong>Venue Name:</strong> {gig.venue_name}
                 <br />
                 <strong>Country of Venue:</strong> {gig.country_of_venue}
                 <br />
@@ -109,15 +148,9 @@ const MyListedGigs = () => {
                 <br />
                 <strong>Genre of Gig:</strong> {gig.genre_of_gig}
                 <br />
-                <strong>ID:</strong> {gig.id}
-                <br />
-                <strong>Payment:</strong> {gig.payment}
-                <br />
                 <strong>Type of Gig:</strong> {gig.type_of_gig}
                 <br />
-                <strong>User Type:</strong> {gig.user_type}
-                <br />
-                <strong>Venue Name:</strong> {gig.venue_name}
+                <strong>Payment:</strong> {gig.payment}
                 <br />
                 <Button
                   variant="secondary"
@@ -128,9 +161,9 @@ const MyListedGigs = () => {
                 </Button>
                 <h4 className="pt-3">
                   <i
-                    onClick={handleTrashIconClick}
+                    onClick={() => handleTrashIconClick(gig.id)}
                     className="bi bi-trash"
-                    style={{ cursor: "pointer" }} // Inline style to change cursor to pointer on hover
+                    style={{ cursor: "pointer" }}
                   ></i>
                 </h4>
               </li>
@@ -163,6 +196,13 @@ const MyListedGigs = () => {
               >
                 Edit this gig
               </Button>
+              <h4 className="pt-3">
+                <i
+                  onClick={() => handleTrashIconClick(gig.id)}
+                  className="bi bi-trash"
+                  style={{ cursor: "pointer" }}
+                ></i>
+              </h4>
             </li>
           ))
         ) : (
@@ -171,7 +211,12 @@ const MyListedGigs = () => {
       </ul>
 
       {/* Conditionally render the DeleteListedGig component based on showModal state */}
-      <DeleteListedGig show={showModal} handleClose={handleCloseModal} />
+      <DeleteListedGig
+        show={showModal}
+        handleClose={handleCloseModal}
+        gigId={selectedGigId}
+        handleDeleteGig={handleDeleteGig}
+      />
     </div>
   );
 };
