@@ -55,6 +55,10 @@ function ArtistRegister() {
     formData.append("country", country);
     formData.append("county", county);
     formData.append("type_of_artist", typeOfArtist);
+    formData.append(
+      "user_type",
+      artistMembershipType === 1 || artistMembershipType === 3 ? "Artist" : ""
+    );
     formData.append("facebook", facebook);
     formData.append("twitter", twitter);
     formData.append("youtube", youtube);

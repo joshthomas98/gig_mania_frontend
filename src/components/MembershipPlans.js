@@ -53,6 +53,8 @@ const MembershipPlans = () => {
     );
   };
 
+  console.log(membershipOptions);
+
   return (
     <div className="pt-3">
       <h1 className="text-light text-center mb-4">
@@ -64,7 +66,7 @@ const MembershipPlans = () => {
       <div className="text-light d-flex justify-content-center align-items-center">
         <div className="row">
           {membershipOptions.map((membership, index) => (
-            <div className="col-md-6 d-flex justify-content-center" key={index}>
+            <div className="col-md-3 d-flex justify-content-center" key={index}>
               <Card className="mb-5" style={{ width: "28rem" }}>
                 <Card.Body>
                   <h2 className="text-center" style={{ color: "#89CFF0" }}>
@@ -73,7 +75,11 @@ const MembershipPlans = () => {
                   <h4 className="text-center mt-3">{membership.title}</h4>
                   <Card.Text className="text-left mt-4">
                     <h6 className="text-light text-left px-3 mb-3 lead">
-                      GigSweep Standard benefits:
+                      {membership.id === 1 || membership.id === 2
+                        ? "GigSweep Standard benefits:"
+                        : membership.id === 3 || membership.id === 4
+                        ? "GigSweep Pro benefits:"
+                        : "Invalid membership option"}
                     </h6>
                     <div
                       dangerouslySetInnerHTML={{
@@ -83,6 +89,7 @@ const MembershipPlans = () => {
                     <p className="text-center mt-4 lead">{membership.price}</p>
                     <p className="text-center">{membership.disclosure}</p>
                   </Card.Text>
+
                   <div className="text-center">{renderButton(1, "Select")}</div>
                 </Card.Body>
               </Card>

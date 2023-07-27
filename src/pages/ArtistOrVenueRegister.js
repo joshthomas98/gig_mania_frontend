@@ -26,7 +26,7 @@ const ArtistOrVenue = () => {
                   </div>
                   <a
                     target={"_blank"}
-                    href="/artistregister"
+                    href="/membershipplans"
                     className="btn btn-primary my-2 mb-4"
                   >
                     I'm an Artist
@@ -50,7 +50,7 @@ const ArtistOrVenue = () => {
                   </div>
                   <a
                     target={"_blank"}
-                    href="/venueregister"
+                    href="/membershipplans"
                     className="btn btn-primary my-2 mb-4"
                   >
                     I'm a Venue
