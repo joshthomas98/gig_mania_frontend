@@ -394,3 +394,13 @@
   color: #6c757d;
   cursor: not-allowed;
 }
+
+.position-relative {
+  position: relative;
+}
+
+.profile-button {
+  position: absolute;
+  margin-bottom: 3rem;
+  left: 62%;
+}
