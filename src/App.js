@@ -50,6 +50,7 @@ import ArtistEditGig from "./pages/ArtistEditGig";
 import VenueEditGig from "./pages/VenueEditGig";
 import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
 import DeleteListedGigModal from "./components/DeleteListedGigModal";
+import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
 
 import Footer from "./components/Footer";
 
@@ -191,6 +192,11 @@ const App = () => {
               <Route
                 path="gigsuccessfullyupdated"
                 element={<GigSuccessfullyUpdated />}
+              />
+
+              <Route
+                path="/profilesuccessfullyupdated"
+                element={<ProfileSuccessfullyUpdated />}
               />
             </Routes>
           </BrowserRouter>

@@ -98,7 +98,7 @@ const SearchBar = () => {
         <Form inline className="mx-auto">
           <FormControl
             type="text"
-            placeholder="Search for bands, concerts and venues"
+            placeholder="Search for artists and venues"
             className="mr-sm-2 rounded-pill"
             style={{ width: "450px" }}
             value={searchQuery}

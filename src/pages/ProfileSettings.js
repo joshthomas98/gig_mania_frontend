@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
+import {
+  countiesInEngland,
+  countiesInWales,
+  countiesInScotland,
+  countiesInNorthernIreland,
+} from "../components/CountyData";
 
 const ProfileSettings = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
@@ -17,6 +23,7 @@ const ProfileSettings = () => {
   const [venue, setVenue] = useState([]);
 
   const [editedArtistName, setEditedArtistName] = useState("");
+  const [editedVenueName, setEditedVenueName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
   const [editedPassword, setEditedPassword] = useState("");
   const [editedPhoneNumber, setEditedPhoneNumber] = useState("");
@@ -28,11 +35,13 @@ const ProfileSettings = () => {
 
   // Fetch and set artistOrVenue context value from local storage
   useEffect(() => {
-    if (artistOrVenueFromLocalStorage) {
+    if (userIdFromLocalStorage && artistOrVenueFromLocalStorage) {
+      setUserId(userIdFromLocalStorage);
       setArtistOrVenue(artistOrVenueFromLocalStorage);
     }
-  }, [setArtistOrVenue]);
+  }, [setUserId, setArtistOrVenue]);
 
+  // Navigate to relevant page depending on whether user is logged in or not
   useEffect(() => {
     if (userIdFromLocalStorage && artistOrVenueFromLocalStorage) {
       navigate("/profilesettings");
@@ -41,6 +50,7 @@ const ProfileSettings = () => {
     }
   }, [userId, navigate]);
 
+  // Fetch individual artist or venue data from API depending on type of user logged in
   useEffect(() => {
     if (artistOrVenueFromLocalStorage === "A") {
       const fetchArtist = async () => {
@@ -71,7 +81,63 @@ const ProfileSettings = () => {
       };
       fetchVenue();
     }
-  }, []);
+  }, [artistOrVenueFromLocalStorage]);
+
+  // Save profile button click
+  const handleProfileSaveClick = (event) => {
+    event.preventDefault();
+
+    let endpoint = ""; // The endpoint URL for the fetch request
+    let formData = {}; // The data to be submitted
+
+    if (artistOrVenue === "A") {
+      // User is an artist
+      endpoint = `${SERVER_BASE_URL}artists/${userId}/`;
+      formData = {
+        artist_name: editedArtistName,
+        email: editedEmail,
+        password: editedPassword,
+        phone_number: editedPhoneNumber,
+        genre: editedGenre,
+        country: editedCountry,
+        county: editedCounty,
+        summary: editedSummary,
+        bio: editedBio,
+      };
+    } else if (artistOrVenue === "V") {
+      // User is a venue
+      endpoint = `${SERVER_BASE_URL}venues/${userId}/`;
+      formData = {
+        venue_name: editedVenueName,
+        email: editedEmail,
+        password: editedPassword,
+        phone_number: editedPhoneNumber,
+        country: editedCountry,
+        county: editedCounty,
+        bio: editedBio,
+      };
+    }
+
+    fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigate("/profilesuccessfullyupdated");
+        } else {
+          console.error("Error editing profile:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error editing profile:", error);
+      });
+  };
+
+  console.log(editedArtistName);
 
   return (
     <section className="profile-edit-area text-light">
@@ -82,7 +148,7 @@ const ProfileSettings = () => {
               <div className="col-md-4 border-right">
                 <div className="d-flex flex-column align-items-center text-center">
                   <img
-                    className="rounded-circle mt-5"
+                    className="rounded-circle"
                     width="150px"
                     src={SERVER_BASE_URL + artist.image}
                     alt="Profile picture"
@@ -107,85 +173,90 @@ const ProfileSettings = () => {
                   <div className="col-md-12">
                     <label className="labels mb-2">
                       {artistOrVenue === "A"
-                        ? artist.artist_name
-                        : venue.venue_name}
+                        ? "Artist/Band Name:"
+                        : "Venue Name"}
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="band/artist name"
                       value={
-                        editedArtistName !== ""
-                          ? editedArtistName
-                          : artistOrVenue === "A"
-                          ? artist.artist_name
-                          : venue.venue_name
+                        artistOrVenue === "A"
+                          ? editedArtistName || artist.artist_name
+                          : artistOrVenue === "V"
+                          ? editedVenueName || venue.venue_name
+                          : ""
                       }
-                      onChange={(e) => setEditedArtistName(e.target.value)}
+                      onChange={(e) =>
+                        artistOrVenue === "A"
+                          ? setEditedArtistName(e.target.value)
+                          : artistOrVenue === "V"
+                          ? setEditedVenueName(e.target.value)
+                          : null
+                      }
                     />
                   </div>
                 </div>
 
                 {/* A or V Email */}
-                {artistOrVenue === "A" && (
-                  <div className="col-md-12 mt-2">
-                    <label className="labels mb-2 mt-2">Email</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="enter email address"
-                      value={
-                        editedEmail !== ""
-                          ? editedEmail
-                          : artistOrVenue === "A"
-                          ? artist.email
-                          : venue.email
+                <div className="col-md-12 mt-2">
+                  <label className="labels mb-2 mt-2">Email</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="enter email address"
+                    value={
+                      editedEmail ||
+                      (artistOrVenue === "A" ? artist.email : venue.email)
+                    }
+                    onChange={(e) => {
+                      if (artistOrVenue === "A" || artistOrVenue === "V") {
+                        setEditedEmail(e.target.value);
                       }
-                      onChange={(e) => setEditedEmail(e.target.value)}
-                    />
-                  </div>
-                )}
+                    }}
+                  />
+                </div>
 
                 {/* A or V Password */}
-                {artistOrVenue === "A" && (
-                  <div className="col-md-12 mt-2">
-                    <label className="labels mb-2 mt-2">Password</label>
+                <div className="col-md-12 mt-2">
+                  <label className="labels mb-2 mt-2">Password</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={
+                      editedPassword ||
+                      (artistOrVenue === "A" ? artist.password : venue.password)
+                    }
+                    onChange={(e) => {
+                      if (artistOrVenue === "A" || artistOrVenue === "V") {
+                        setEditedPassword(e.target.value);
+                      }
+                    }}
+                  />
+                </div>
+
+                {/* A or V Phone Number */}
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <label className="labels mb-2">Phone Number</label>
                     <input
                       type="text"
                       className="form-control"
+                      placeholder="enter phone number"
                       value={
-                        editedPassword !== ""
-                          ? editedPassword
-                          : artistOrVenue === "A"
-                          ? artist.password
-                          : venue.password
+                        editedPhoneNumber ||
+                        (artistOrVenue === "A"
+                          ? artist.phone_number
+                          : venue.phone_number)
                       }
-                      onChange={(e) => setEditedPassword(e.target.value)}
+                      onChange={(e) => {
+                        if (artistOrVenue === "A" || artistOrVenue === "V") {
+                          setEditedPhoneNumber(e.target.value);
+                        }
+                      }}
                     />
                   </div>
-                )}
-
-                {/* A or V Phone Number */}
-                {artistOrVenue === "A" && (
-                  <div className="row mt-3">
-                    <div className="col-md-12">
-                      <label className="labels mb-2">Phone Number</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="enter phone number"
-                        value={
-                          editedPhoneNumber !== ""
-                            ? editedPhoneNumber
-                            : artistOrVenue === "A"
-                            ? artist.phone_number
-                            : venue.phone_number
-                        }
-                        onChange={(e) => setEditedPhoneNumber(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                )}
+                </div>
 
                 {/* A Genre */}
                 {artistOrVenue === "A" && (
@@ -221,37 +292,68 @@ const ProfileSettings = () => {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <label className="labels mb-2 mt-2">Country</label>
-                    <input
-                      type="text"
+                    <select
                       className="form-control"
-                      placeholder="country"
                       value={
-                        editedCountry !== ""
-                          ? editedCountry
-                          : artistOrVenue === "A"
-                          ? artist.country
-                          : venue.country
+                        editedCountry ||
+                        (artistOrVenue === "A" ? artist.country : venue.country)
                       }
-                      onChange={(e) => setEditedCountry(e.target.value)}
-                    />
+                      onChange={(e) => {
+                        if (artistOrVenue === "A" || artistOrVenue === "V") {
+                          setEditedCountry(e.target.value);
+                        }
+                      }}
+                    >
+                      <option value="">Select a country</option>
+                      <option value="England">England</option>
+                      <option value="Wales">Wales</option>
+                      <option value="Scotland">Scotland</option>
+                      <option value="Northern Ireland">Northern Ireland</option>
+                    </select>
                   </div>
 
                   {/* A or V County */}
                   <div className="col-md-6">
                     <label className="labels mb-2 mt-2">County</label>
-                    <input
-                      type="text"
+                    <select
                       className="form-control"
                       value={
-                        editedCounty !== ""
-                          ? editedCounty
-                          : artistOrVenue === "A"
-                          ? artist.county
-                          : venue.county
+                        editedCounty ||
+                        (artistOrVenue === "A" ? artist.county : venue.county)
                       }
-                      onChange={(e) => setEditedCounty(e.target.value)}
-                      placeholder="county"
-                    />
+                      onChange={(e) => {
+                        if (artistOrVenue === "A" || artistOrVenue === "V") {
+                          setEditedCounty(e.target.value);
+                        }
+                      }}
+                    >
+                      <option value="">Select a county</option>
+                      {editedCountry === "England"
+                        ? countiesInEngland.map((county) => (
+                            <option key={county} value={county}>
+                              {county}
+                            </option>
+                          ))
+                        : editedCountry === "Wales"
+                        ? countiesInWales.map((county) => (
+                            <option key={county} value={county}>
+                              {county}
+                            </option>
+                          ))
+                        : editedCountry === "Scotland"
+                        ? countiesInScotland.map((county) => (
+                            <option key={county} value={county}>
+                              {county}
+                            </option>
+                          ))
+                        : editedCountry === "Northern Ireland"
+                        ? countiesInNorthernIreland.map((county) => (
+                            <option key={county} value={county}>
+                              {county}
+                            </option>
+                          ))
+                        : null}
+                    </select>
                   </div>
                 </div>
 
@@ -293,13 +395,14 @@ const ProfileSettings = () => {
                   <div className="py-2">
                     <textarea
                       value={
-                        editedBio !== ""
-                          ? editedBio
-                          : artistOrVenue === "A"
-                          ? artist.bio
-                          : venue.bio
+                        editedBio ||
+                        (artistOrVenue === "A" ? artist.bio : venue.bio)
                       }
-                      onChange={(e) => setEditedBio(e.target.value)}
+                      onChange={(e) => {
+                        if (artistOrVenue === "A" || artistOrVenue === "V") {
+                          setEditedBio(e.target.value);
+                        }
+                      }}
                       placeholder="Enter bio"
                       className="form-control"
                       style={{
@@ -317,6 +420,7 @@ const ProfileSettings = () => {
                 <button
                   className="btn btn-primary profile-button mt-4"
                   type="button"
+                  onClick={handleProfileSaveClick}
                 >
                   Save Profile
                 </button>
