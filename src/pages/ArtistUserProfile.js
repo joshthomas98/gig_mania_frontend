@@ -90,7 +90,7 @@ const ArtistUserProfile = () => {
                       <p className="py-3">{artist.genre}</p>
                     </div>
                     <a
-                      href="/profilesettings"
+                      href="/artistprofilesettings"
                       className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
                     >
                       Edit profile

@@ -21,7 +21,8 @@ import ArtistOrVenueRegister from "./pages/ArtistOrVenueRegister";
 import ContactUs from "./pages/ContactUs";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import ProfileSettings from "./pages/ProfileSettings";
+import ArtistProfileSettings from "./pages/ArtistProfileSettings";
+import VenueProfileSettings from "./pages/VenueProfileSettings";
 import FeaturedArtists from "./components/FeaturedArtists";
 import ArtistUserProfile from "./pages/ArtistUserProfile";
 import VenueUserProfile from "./pages/VenueUserProfile";
@@ -114,7 +115,15 @@ const App = () => {
 
               <Route path="privacy" element={<PrivacyPolicy />} />
 
-              <Route path="profilesettings" element={<ProfileSettings />} />
+              <Route
+                path="artistprofilesettings"
+                element={<ArtistProfileSettings />}
+              />
+
+              <Route
+                path="venueprofilesettings"
+                element={<VenueProfileSettings />}
+              />
 
               <Route path="featuredartists" element={<FeaturedArtists />} />
 

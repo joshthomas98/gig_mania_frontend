@@ -69,7 +69,7 @@ const VenueUserProfile = () => {
                       <p>{venue.county}</p>
                     </div>
                     <a
-                      href="/profilesettings"
+                      href="/venueprofilesettings"
                       className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
                     >
                       Edit profile
