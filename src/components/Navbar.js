@@ -195,7 +195,7 @@ const NavbarComponent = () => {
                       src={SERVER_BASE_URL + artist[0].image}
                       alt="..."
                       width={50}
-                      className="rounded mb-2 img-thumbnail mt-3 mx-2"
+                      className="rounded mb-2 img-thumbnail mt-2 mx-2"
                       style={{ color: "white", cursor: "pointer" }}
                     />
                   ) : null}
@@ -215,14 +215,14 @@ const NavbarComponent = () => {
               ) : null}
               <Nav.Link
                 href="/artistorvenueregister"
-                className="text-light mt-4"
+                className="text-light mt-3"
                 style={{ fontSize: "18px" }}
               >
                 Register
               </Nav.Link>
               <Nav.Link
                 href="/pickupgig"
-                className="text-light mt-4"
+                className="text-light mt-3"
                 style={{ fontSize: "18px" }}
               >
                 Find Gigs
@@ -231,7 +231,7 @@ const NavbarComponent = () => {
               localStorage.artistOrVenue != null ? (
                 <Nav.Link
                   onClick={handleLogout}
-                  className="text-light mb-4 mt-4"
+                  className="text-light mb-4 mt-3"
                   style={{ fontSize: "18px" }}
                 >
                   Logout
@@ -239,7 +239,7 @@ const NavbarComponent = () => {
               ) : (
                 <Nav.Link
                   href="/signin"
-                  className="text-light mt-4"
+                  className="text-light mt-3"
                   style={{ fontSize: "18px" }}
                 >
                   Login
