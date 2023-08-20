@@ -1,7 +1,26 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 
 const PickUpGig = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem("userId");
+    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
+
+    if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
+      navigate("/signin");
+    } else {
+      setUserId(userIdFromLocalStorage);
+      setArtistOrVenue(artistOrVenueFromLocalStorage);
+    }
+  }, []);
+
   const [dateOfGig, setDateOfGig] = useState("");
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");

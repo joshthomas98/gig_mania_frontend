@@ -163,13 +163,15 @@ const NavbarComponent = () => {
                 ) : null}
               </Nav.Link>
             ) : null}
-            <Nav.Link
-              href="/pickupgig"
-              className="text-light mt-3 mx-2"
-              style={{ fontSize: "18px" }}
-            >
-              Find Gigs
-            </Nav.Link>
+            {storedUserId && storedUserType ? (
+              <Nav.Link
+                href="/pickupgig"
+                className="text-light mt-3 mx-2"
+                style={{ fontSize: "18px" }}
+              >
+                Find Gigs
+              </Nav.Link>
+            ) : null}
             {localStorage.userId != null &&
             localStorage.artistOrVenue != null ? (
               <Nav.Link

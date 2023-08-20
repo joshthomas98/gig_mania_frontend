@@ -41,7 +41,7 @@ const FeaturedArtists = () => {
                     Active | Band | Formed: 10.01.2015
                   </p>
                   <hr />
-                  <p className="container m-t-15 text-muted">
+                  <p className="container m-t-15 text-light">
                     {artist.summary}
                   </p>
                   <hr />
