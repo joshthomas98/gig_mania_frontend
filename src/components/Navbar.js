@@ -139,7 +139,7 @@ const NavbarComponent = () => {
                 ></i>
               </Nav.Link>
             ) : storedUserId && storedUserType === "A" ? (
-              <Nav.Link href="/artistuserprofile">
+              <Nav.Link href={`/artistuserprofile/${storedUserId}`}>
                 {artist.length > 0 ? (
                   <img
                     src={SERVER_BASE_URL + artist[0].image}
@@ -151,7 +151,7 @@ const NavbarComponent = () => {
                 ) : null}
               </Nav.Link>
             ) : storedUserId && storedUserType === "V" ? (
-              <Nav.Link href="/venueuserprofile">
+              <Nav.Link href={`/venueuserprofile/${storedUserId}`}>
                 {venue.length > 0 ? (
                   <img
                     src={SERVER_BASE_URL + venue[0].image}

@@ -209,11 +209,12 @@ const PickUpGig = () => {
                   <tr key={index}>
                     <td>{result.user_type}</td>
                     <td>{result.date_of_gig}</td>
-                    {result.user_type === "Artist" ? (
-                      <td>{result.venue_name}</td>
-                    ) : (
-                      <td>{result.venue}</td>
-                    )}
+                    <td>
+                      {result.user_type === "Artist" ||
+                      result.user_type === "Venue"
+                        ? result.venue_name
+                        : result.venue}
+                    </td>
                     <td>{result.type_of_gig}</td>
                     <td>£{result.payment}</td>
                     <td>

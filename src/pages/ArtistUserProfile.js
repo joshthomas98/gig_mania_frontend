@@ -1,11 +1,13 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
 
 const ArtistUserProfile = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
+
+  const { profileId } = useParams();
 
   const navigate = useNavigate();
 
@@ -29,36 +31,39 @@ const ArtistUserProfile = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const artistId = localStorage.getItem("userId"); // Fetch the artist ID from local storage
-        const response = await fetch(`${SERVER_BASE_URL}artists/${artistId}/`);
+        const response = await fetch(`${SERVER_BASE_URL}artists/${profileId}/`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch artist data");
+        }
         const data = await response.json();
         console.log(data);
-        setArtist([data]); // Set the fetched artist as an array with a single element
+        setArtist([data]);
       } catch (error) {
         console.log(error);
       }
     };
+
     fetchArtist();
-  }, []);
+  }, [profileId]);
 
   useEffect(() => {
     const fetchUnavailabilities = async () => {
       try {
         const response = await fetch(
-          `${SERVER_BASE_URL}unavailabilities/${userId}/`
+          `${SERVER_BASE_URL}unavailabilities/${profileId}/`
         );
+        if (!response.ok) {
+          throw new Error("Failed to fetch unavailabilities data");
+        }
         const data = await response.json();
         setUnavailabilities(data);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchUnavailabilities();
-  }, [userId]);
 
-  useEffect(() => {
-    console.log(localStorage);
-  });
+    fetchUnavailabilities();
+  }, [profileId]);
 
   useEffect(() => {
     console.log(artist);
@@ -86,25 +91,34 @@ const ArtistUserProfile = () => {
 
                     <div className="media-body text-white">
                       <h4 className="mt-3">{artist.artist_name}</h4>
+
                       <p>{artist.county}</p>
+
                       <p className="py-3">{artist.genre}</p>
                     </div>
-                    <a
-                      href="/artistprofilesettings"
-                      className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
-                    >
-                      Edit profile
-                    </a>
 
-                    <div className="leave-artist-feedback-btn text-cente pt-5">
-                      <Button href="/venuewritereview">Leave feedback</Button>
-                    </div>
+                    {userId === profileId ? (
+                      <a
+                        href="/artistprofilesettings"
+                        className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
+                      >
+                        Edit profile
+                      </a>
+                    ) : null}
+
+                    {userId !== profileId && (
+                      <div className="leave-artist-feedback-btn text-center pt-5">
+                        <Button href="/venuewritereview">Leave feedback</Button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="show-listed-gigs text-center pb-4">
-                  <a href="/mylistedgigs">Show my listed gigs</a>
-                </div>
+                {userId === profileId ? (
+                  <div className="show-listed-gigs text-center pb-4">
+                    <a href="/mylistedgigs">View my listed gigs</a>
+                  </div>
+                ) : null}
 
                 <div className="bg-dark p-4 d-flex justify-content-end text-center">
                   <ul className="list-inline mb-0">
@@ -112,10 +126,12 @@ const ArtistUserProfile = () => {
                       <h5 className="font-weight-bold mb-0 d-block">215</h5>
                       <small className="text-light">Photos</small>
                     </li>
+
                     <li className="list-inline-item">
                       <h5 className="font-weight-bold mb-0 d-block">745</h5>
                       <small className="text-light">Followers</small>
                     </li>
+
                     <li className="list-inline-item">
                       <h5 className="font-weight-bold mb-0 d-block">340</h5>
                       <small className="text-light">Following</small>

@@ -83,9 +83,11 @@ const SearchBar = () => {
   };
 
   const handleProfileClick = (profile) => {
+    setShowSuggestions(false);
+
     // Navigate to the profile page based on the profile's type (artist or venue)
     const profilePage =
-      profile.type === "Artist" ? "/artistprofile" : "/venueprofile";
+      profile.type === "Artist" ? "/artistuserprofile" : "/venueuserprofile";
     navigate(`${profilePage}/${profile.id}`);
   };
 

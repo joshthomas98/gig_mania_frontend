@@ -34,10 +34,13 @@ const SignIn = () => {
         localStorage.setItem("artistOrVenue", artistOrVenue);
         console.log(localStorage);
 
-        if (data.id != null && artistOrVenue === "A") {
-          navigate("/artistuserprofile");
-        } else if (data.id != null && artistOrVenue === "V") {
-          navigate("/venueuserprofile");
+        if (data.id != null) {
+          const storedUserId = localStorage.getItem("userId");
+          if (artistOrVenue === "A") {
+            navigate(`/artistuserprofile/${storedUserId}`);
+          } else if (artistOrVenue === "V") {
+            navigate(`/venueuserprofile/${storedUserId}`);
+          }
         } else {
           handleShowModal();
         }

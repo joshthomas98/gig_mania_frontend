@@ -54,6 +54,7 @@ import DeleteListedGigModal from "./components/DeleteListedGigModal";
 import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
 
 import Footer from "./components/Footer";
+import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
 
 export const LoginContext = createContext();
 
@@ -127,9 +128,15 @@ const App = () => {
 
               <Route path="featuredartists" element={<FeaturedArtists />} />
 
-              <Route path="artistuserprofile" element={<ArtistUserProfile />} />
+              <Route
+                path="artistuserprofile/:profileId"
+                element={<ArtistUserProfile />}
+              />
 
-              <Route path="venueuserprofile" element={<VenueUserProfile />} />
+              <Route
+                path="venueuserprofile/:venueId"
+                element={<VenueUserProfile />}
+              />
 
               <Route path="gigadvertised" element={<GigAdvertised />} />
 
@@ -206,6 +213,11 @@ const App = () => {
               <Route
                 path="/profilesuccessfullyupdated"
                 element={<ProfileSuccessfullyUpdated />}
+              />
+
+              <Route
+                path="alreadyappliedforgig"
+                element={<AlreadyAppliedForGig />}
               />
             </Routes>
           </BrowserRouter>
