@@ -1,11 +1,13 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
 
 const VenueUserProfile = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
+
+  const { profileId } = useParams();
 
   const navigate = useNavigate();
 
@@ -28,17 +30,20 @@ const VenueUserProfile = () => {
   useEffect(() => {
     const fetchVenue = async () => {
       try {
-        const venueId = localStorage.getItem("userId"); // Fetch the artist ID from local storage
-        const response = await fetch(`${SERVER_BASE_URL}venues/${venueId}/`);
+        const response = await fetch(`${SERVER_BASE_URL}venues/${profileId}/`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch artist data");
+        }
         const data = await response.json();
         console.log(data);
-        setVenue([data]); // Set the fetched artist as an array with a single element
+        setVenue([data]);
       } catch (error) {
         console.log(error);
       }
     };
+
     fetchVenue();
-  }, []);
+  }, [profileId]);
 
   useEffect(() => {
     console.log(venue);
@@ -48,7 +53,7 @@ const VenueUserProfile = () => {
     <>
       <h1 className="text-light text-center">My Profile</h1>
 
-      <section className="artist-profile-output text-light">
+      <section className="venue-profile-output text-light">
         {venue.map((venue) => (
           <div className="row py-5 px-4" key={venue.id}>
             <div className="col-lg-8 mx-auto">
@@ -66,24 +71,34 @@ const VenueUserProfile = () => {
 
                     <div className="media-body text-white">
                       <h4 className="mt-3">{venue.venue_name}</h4>
-                      <p>{venue.county}</p>
-                    </div>
-                    <a
-                      href="/venueprofilesettings"
-                      className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
-                    >
-                      Edit profile
-                    </a>
 
-                    <div className="leave-artist-feedback-btn text-cente pt-5">
-                      <Button href="/venuewritereview">Leave feedback</Button>
+                      <p>{venue.county}</p>
+
+                      <p className="py-3">{venue.genre}</p>
                     </div>
+
+                    {userId === profileId ? (
+                      <a
+                        href="/venueprofilesettings"
+                        className="btn btn-outline-dark btn-sm btn-block text-light border-secondary mt-3"
+                      >
+                        Edit profile
+                      </a>
+                    ) : null}
+
+                    {userId !== profileId && (
+                      <div className="leave-venue-feedback-btn text-center pt-5">
+                        <Button href="/venuewritereview">Leave feedback</Button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="show-listed-gigs text-center pb-4">
-                  <a href="/mylistedgigs">Show my listed gigs</a>
-                </div>
+                {userId === profileId ? (
+                  <div className="show-listed-gigs text-center pb-4">
+                    <a href="/mylistedgigs">View my listed gigs</a>
+                  </div>
+                ) : null}
 
                 <div className="bg-dark p-4 d-flex justify-content-end text-center">
                   <ul className="list-inline mb-0">
@@ -91,10 +106,12 @@ const VenueUserProfile = () => {
                       <h5 className="font-weight-bold mb-0 d-block">215</h5>
                       <small className="text-light">Photos</small>
                     </li>
+
                     <li className="list-inline-item">
                       <h5 className="font-weight-bold mb-0 d-block">745</h5>
                       <small className="text-light">Followers</small>
                     </li>
+
                     <li className="list-inline-item">
                       <h5 className="font-weight-bold mb-0 d-block">340</h5>
                       <small className="text-light">Following</small>

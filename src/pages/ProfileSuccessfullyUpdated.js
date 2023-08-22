@@ -2,6 +2,7 @@ import React from "react";
 import SuccessAnimation from "../components/SuccessAnimation";
 
 const ProfileSuccessfullyUpdated = () => {
+  const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
 
   return (
@@ -10,7 +11,11 @@ const ProfileSuccessfullyUpdated = () => {
 
       <a
         className="pb-3"
-        href={storedUserType === "A" ? "artistuserprofile" : "venueuserprofile"}
+        href={
+          storedUserType === "A"
+            ? `artistuserprofile/${storedUserId}`
+            : `venueuserprofile/${storedUserId}`
+        }
       >
         Back to my profile
       </a>

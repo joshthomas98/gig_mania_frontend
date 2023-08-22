@@ -19,6 +19,7 @@ const ArtistProfileSettings = () => {
 
   const [artist, setArtist] = useState([]);
 
+  const [selectedImage, setSelectedImage] = useState(null);
   const [editedArtistName, setEditedArtistName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
   const [editedPassword, setEditedPassword] = useState("");
@@ -61,47 +62,47 @@ const ArtistProfileSettings = () => {
   }, [userId]);
 
   // Save profile button click
-  const handleProfileSaveClick = (event) => {
+  const handleProfileSaveClick = async (event) => {
     event.preventDefault();
 
     const endpoint = `${SERVER_BASE_URL}artists/${userId}/`;
-    const formData = {
-      artist_name: editedArtistName || artist[0].artist_name,
-      email: editedEmail || artist[0].email,
-      password: editedPassword || artist[0].password,
-      phone_number: editedPhoneNumber || artist[0].phone_number,
-      genre: editedGenre || artist[0].genre,
-      country: editedCountry || artist[0].country,
-      county: editedCounty || artist[0].county,
-      summary: editedSummary || artist[0].summary,
-      bio: editedBio || artist[0].bio,
-    };
+
+    const formData = new FormData();
+    formData.append("image", selectedImage || artist[0].image);
+    formData.append("artist_name", editedArtistName || artist[0].artist_name);
+    formData.append("email", editedEmail || artist[0].email);
+    formData.append("password", editedPassword || artist[0].password);
+    formData.append(
+      "phone_number",
+      editedPhoneNumber || artist[0].phone_number
+    );
+    formData.append("genre", editedGenre || artist[0].genre);
+    formData.append("country", editedCountry || artist[0].country);
+    formData.append("county", editedCounty || artist[0].county);
+    formData.append("summary", editedSummary || artist[0].summary);
+    formData.append("bio", editedBio || artist[0].bio);
 
     // Remove empty fields from formData
-    const filteredFormData = {};
-    for (const key in formData) {
-      if (formData[key]) {
-        filteredFormData[key] = formData[key];
+    for (const [key, value] of formData.entries()) {
+      if (!value) {
+        formData.delete(key);
       }
     }
 
-    fetch(endpoint, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(filteredFormData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate("/profilesuccessfullyupdated");
-        } else {
-          console.error("Error editing profile:", response.status);
-        }
-      })
-      .catch((error) => {
-        console.error("Error editing profile:", error);
+    try {
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        body: formData,
       });
+
+      if (response.ok) {
+        navigate("/profilesuccessfullyupdated");
+      } else {
+        console.error("Error editing profile:", response.status);
+      }
+    } catch (error) {
+      console.error("Error editing profile:", error);
+    }
   };
 
   return (
@@ -116,7 +117,11 @@ const ArtistProfileSettings = () => {
                   <img
                     className="rounded-circle"
                     width="150px"
-                    src={SERVER_BASE_URL + artistData.image}
+                    src={
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : SERVER_BASE_URL + artistData.image
+                    }
                     alt="Profile picture"
                   />
                   <span className="font-weight-bold pt-3">
@@ -124,7 +129,15 @@ const ArtistProfileSettings = () => {
                   </span>
                   <label className="btn btn-secondary mt-3">
                     Edit profile picture
-                    <input type="file" style={{ display: "none" }} />
+                    <input
+                      type="file"
+                      style={{ display: "none" }}
+                      accept="image/*"
+                      onChange={(e) => {
+                        setSelectedImage(e.target.files[0]);
+                        e.target.value = null; // Reset the input value
+                      }}
+                    />
                   </label>
                 </div>
               </div>
@@ -306,7 +319,7 @@ const ArtistProfileSettings = () => {
                       className="form-control"
                       style={{
                         width: "100%",
-                        minHeight: "150px",
+                        minHeight: "250px",
                         backgroundColor: "#FFFFFF",
                         border: "1px solid #ced4da",
                         resize: "vertical",

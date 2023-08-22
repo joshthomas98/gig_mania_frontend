@@ -134,7 +134,7 @@ const App = () => {
               />
 
               <Route
-                path="venueuserprofile/:venueId"
+                path="venueuserprofile/:profileId"
                 element={<VenueUserProfile />}
               />
 
