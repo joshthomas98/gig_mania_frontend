@@ -107,8 +107,12 @@ const ArtistUserProfile = () => {
                     ) : null}
 
                     {userId !== profileId && (
-                      <div className="leave-artist-feedback-btn text-center pt-5">
-                        <Button href="/venuewritereview">Leave feedback</Button>
+                      <div className="leave-venue-feedback-btn text-center pt-5">
+                        <Button
+                          href={`/venuewritereview?artistId=${artist.id}`}
+                        >
+                          Leave feedback
+                        </Button>
                       </div>
                     )}
                   </div>

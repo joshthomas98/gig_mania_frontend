@@ -88,7 +88,9 @@ const VenueUserProfile = () => {
 
                     {userId !== profileId && (
                       <div className="leave-venue-feedback-btn text-center pt-5">
-                        <Button href="/venuewritereview">Leave feedback</Button>
+                        <Button href={`/artistwritereview?venueId=${venue.id}`}>
+                          Leave feedback
+                        </Button>
                       </div>
                     )}
                   </div>

@@ -42,7 +42,8 @@ import ArtistWriteReview from "./pages/ArtistWriteReview";
 import VenueWriteReview from "./pages/VenueWriteReview";
 import ThanksForReview from "./pages/ThanksForReview";
 import StarRating from "./components/StarRating";
-import ReviewSubjectBox from "./components/ReviewSubjectBox";
+import ArtistReviewBox from "./components/ArtistReviewBox";
+import VenueReviewBox from "./components/VenueReviewBox";
 import SearchBar from "./components/SearchBar";
 import ApplyForGig from "./pages/ApplyForGig";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -52,9 +53,9 @@ import VenueEditGig from "./pages/VenueEditGig";
 import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
 import DeleteListedGigModal from "./components/DeleteListedGigModal";
 import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
+import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
 
 import Footer from "./components/Footer";
-import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
 
 export const LoginContext = createContext();
 
@@ -186,7 +187,9 @@ const App = () => {
 
               <Route path="starrating" element={<StarRating />} />
 
-              <Route path="reviewsubjectbox" element={<ReviewSubjectBox />} />
+              <Route path="artistreviewbox" element={<ArtistReviewBox />} />
+
+              <Route path="venuereviewbox" element={<VenueReviewBox />} />
 
               <Route path="searchbar" element={<SearchBar />} />
 

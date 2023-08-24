@@ -19,6 +19,7 @@ const VenueProfileSettings = () => {
 
   const [venue, setVenue] = useState([]);
 
+  const [selectedImage, setSelectedImage] = useState(null);
   const [editedVenueName, setEditedVenueName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
   const [editedPassword, setEditedPassword] = useState("");
@@ -59,45 +60,41 @@ const VenueProfileSettings = () => {
   }, [userId]);
 
   // Save profile button click
-  const handleProfileSaveClick = (event) => {
+  const handleProfileSaveClick = async (event) => {
     event.preventDefault();
 
     const endpoint = `${SERVER_BASE_URL}venues/${userId}/`;
-    const formData = {
-      venue_name: editedVenueName || venue[0].venue_name,
-      email: editedEmail || venue[0].email,
-      password: editedPassword || venue[0].password,
-      phone_number: editedPhoneNumber || venue[0].phone_number,
-      country: editedCountry || venue[0].country,
-      county: editedCounty || venue[0].county,
-      bio: editedBio || venue[0].bio,
-    };
 
-    // Remove empty fields from formData
-    const filteredFormData = {};
-    for (const key in formData) {
-      if (formData[key]) {
-        filteredFormData[key] = formData[key];
+    const formData = new FormData();
+    formData.append("image", selectedImage || venue[0].image);
+    formData.append("venue_name", editedVenueName || venue[0].venue_name);
+    formData.append("email", editedEmail || venue[0].email);
+    formData.append("password", editedPassword || venue[0].password);
+    formData.append("phone_number", editedPhoneNumber || venue[0].phone_number);
+    formData.append("country", editedCountry || venue[0].country);
+    formData.append("county", editedCounty || venue[0].county);
+    formData.append("bio", editedBio || venue[0].bio);
+
+    for (const [key, value] of formData.entries()) {
+      if (!value) {
+        formData.delete(key);
       }
     }
 
-    fetch(endpoint, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(filteredFormData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate("/profilesuccessfullyupdated");
-        } else {
-          console.error("Error editing profile:", response.status);
-        }
-      })
-      .catch((error) => {
-        console.error("Error editing profile:", error);
+    try {
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        body: formData,
       });
+
+      if (response.ok) {
+        navigate("/profilesuccessfullyupdated");
+      } else {
+        console.error("Error editing profile:", response.status);
+      }
+    } catch (error) {
+      console.error("Error editing profile:", error);
+    }
   };
 
   return (
@@ -112,7 +109,11 @@ const VenueProfileSettings = () => {
                   <img
                     className="rounded-circle"
                     width="150px"
-                    src={SERVER_BASE_URL + venueData.image}
+                    src={
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : SERVER_BASE_URL + venueData.image
+                    }
                     alt="Profile picture"
                   />
                   <span className="font-weight-bold pt-3">
@@ -120,7 +121,15 @@ const VenueProfileSettings = () => {
                   </span>
                   <label className="btn btn-secondary mt-3">
                     Edit profile picture
-                    <input type="file" style={{ display: "none" }} />
+                    <input
+                      type="file"
+                      style={{ display: "none" }}
+                      accept="image/*"
+                      onChange={(e) => {
+                        setSelectedImage(e.target.files[0]);
+                        e.target.value = null; // Reset the input value
+                      }}
+                    />
                   </label>
                 </div>
               </div>

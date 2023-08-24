@@ -1,21 +1,18 @@
 import React from "react";
 
-const ReviewSubjectBox = ({ venueName }) => {
+const ArtistReviewBox = ({ venueInfo }) => {
+  const { image, venueName, address, facebook, youtube, twitter } = venueInfo;
+
+  const SERVER_BASE_URL = "http://localhost:8000/";
   return (
     <div className="text-light">
       <div className="review-box">
         <div className="review-image">
-          <img
-            src="https://lh5.googleusercontent.com/p/AF1QipM4xrWhXI4YycIGDFY_ccipmYwxF2cjTcIWZZUl"
-            alt="Image"
-          />
+          <img src={SERVER_BASE_URL + image} alt="Image" />
         </div>
         <div className="review-content">
           <h3 className="review-title mt-2">{venueName}</h3>
-          <p className="review-description">
-            Main St, Crumlin, Newport NP11 4PT <br />
-            Wales, UK
-          </p>
+          <p className="review-description">{address}</p>
           <div className="review-rating">
             <span className="rating-stars">★★★★★</span>
             <span className="rating-value">5.0</span>
@@ -24,17 +21,17 @@ const ReviewSubjectBox = ({ venueName }) => {
             <span className="review-date">Share this venue:</span>
             <div className="row justify-content-center user-social-link mt-2">
               <div className="col-auto">
-                <a target={"_blank"} href="https://www.facebook.com">
+                <a target={"_blank"} href={facebook}>
                   <i className="fa fa-facebook text-facebook" />
                 </a>
               </div>
               <div className="col-auto">
-                <a target={"_blank"} href="https://www.instagram.com">
-                  <i className="fa fa-instagram text-instagram" />
+                <a target={"_blank"} href={youtube}>
+                  <i className="fa fa-youtube text-youtube" />
                 </a>
               </div>
               <div className="col-auto">
-                <a target={"_blank"} href="https://www.twitter.com">
+                <a target={"_blank"} href={twitter}>
                   <i className="fa fa-twitter text-twitter" />
                 </a>
               </div>
@@ -46,4 +43,4 @@ const ReviewSubjectBox = ({ venueName }) => {
   );
 };
 
-export default ReviewSubjectBox;
+export default ArtistReviewBox;
