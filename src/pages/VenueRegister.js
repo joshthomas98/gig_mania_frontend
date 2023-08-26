@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { LoginContext } from "../App";
 
 function ArtistRegister() {
+  const { userId, setUserId } = useContext(LoginContext);
+
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const membershipType = location.state?.membershipType;
   const [venueMembershipType] = useState(membershipType);
+
+  useEffect(() => {
+    if (storedUserId && storedUserType === "V") {
+      navigate(`/venueuserprofile/${storedUserId}`);
+    }
+  });
 
   const getVenueMembershipName = () => {
     if (venueMembershipType === 2) {
@@ -500,7 +512,7 @@ function ArtistRegister() {
         </div>
 
         <button type="submit" className="btn btn-primary mt-4">
-          Purchase membership
+          Sign up
         </button>
       </form>
     </div>

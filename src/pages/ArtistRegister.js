@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   countiesInEngland,
@@ -6,19 +6,35 @@ import {
   countiesInScotland,
   countiesInNorthernIreland,
 } from "../components/CountyData";
+import { LoginContext } from "../App";
 
 function ArtistRegister() {
+  const { userId, setUserId } = useContext(LoginContext);
+
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const membershipType = location.state?.membershipType;
   const [artistMembershipType] = useState(membershipType);
 
+  useEffect(() => {
+    if (storedUserId && storedUserType === "A") {
+      navigate(`/artistuserprofile/${storedUserId}`);
+    }
+  });
+
   const getArtistMembershipName = () => {
     if (artistMembershipType === 1) {
-      return "Artist standard";
+      return "Artist Standard";
+    } else if (artistMembershipType === 2) {
+      return "Venue Standard";
     } else if (artistMembershipType === 3) {
-      return "Artist pro";
+      return "Artist Pro";
+    } else if (artistMembershipType === 4) {
+      return "Venue Pro";
     }
   };
 
@@ -434,7 +450,7 @@ function ArtistRegister() {
         </div>
 
         <button type="submit" className="btn btn-primary mt-4">
-          Purchase membership
+          Sign up
         </button>
       </form>
     </div>

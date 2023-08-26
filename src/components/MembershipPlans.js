@@ -90,7 +90,9 @@ const MembershipPlans = () => {
                     <p className="text-center">{membership.disclosure}</p>
                   </Card.Text>
 
-                  <div className="text-center">{renderButton(1, "Select")}</div>
+                  <div className="text-center">
+                    {renderButton(membership.id, "Select")}
+                  </div>
                 </Card.Body>
               </Card>
             </div>

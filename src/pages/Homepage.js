@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import Carousel from "../components/Carousel";
-
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Carousel from "../components/Carousel";
+import { LoginContext } from "../App";
+
 import FeaturedArtists from "../components/FeaturedArtists";
 import Testimonials from "../components/Testimonials";
 import MembershipPlans from "../components/MembershipPlans";
 
 const Homepage = () => {
+  const { userId, setUserId } = useContext(LoginContext);
+
   const navigate = useNavigate();
 
   const storedUserId = localStorage.getItem("userId");
@@ -83,78 +86,154 @@ const Homepage = () => {
       </section>
 
       {/* Info boxes section */}
-      <section id="functionality boxes" className="p-5">
-        <div className="container">
-          <div className="row text-center g-4">
-            <div className="col-md">
-              <div className="homepage-card bg-secondary text-light">
-                <div className="card-body text-center p-3">
-                  <div className="h1 mb-3">
-                    <i className="bi bi-badge-ad"></i>
+      {storedUserId && storedUserType === "A" ? (
+        <section id="artist-functionality_boxes" className="p-5">
+          <div className="container">
+            <div className="row text-center g-4">
+              <div className="col-md">
+                <div className="homepage-card bg-secondary text-light">
+                  <div className="card-body text-center p-3">
+                    <div className="h1 mb-3">
+                      <i className="bi bi-search"></i>
+                    </div>
+                    <h3 className="card-title mb-3">Fill Your Schedule</h3>
+                    <p className="card-text">
+                      Looking to fill your your gig calendar? Browse available
+                      slots at great venues. Whether you're a solo artist, duo
+                      or part of a band, discover chances to shine and connect
+                      with fresh fans.
+                    </p>
+                    <button
+                      className="btn btn-primary text-light my-2"
+                      onClick={handleAdvertiseSubmit}
+                    >
+                      Advertise
+                    </button>
                   </div>
-                  <h3 className="card-title mb-3">Advertise Gigs</h3>
-                  <p className="card-text">
-                    Artists! Got a gig booked in that you can no longer play for
-                    whatever reason? Click here to advertise your gig and let
-                    another artist pick it up.
-                  </p>
-                  <button
-                    className="btn btn-primary text-light my-2"
-                    onClick={handleAdvertiseSubmit}
-                  >
-                    Advertise
-                  </button>
                 </div>
               </div>
-            </div>
 
-            <div className="col-md">
-              <div className="homepage-card bg-secondary text-light">
-                <div className="card-body text-center p-3">
-                  <div className="h1 mb-3">
-                    <i className="bi bi-search"></i>
+              <div className="col-md">
+                <div className="homepage-card bg-secondary text-light">
+                  <div className="card-body text-center p-3">
+                    <div className="h1 mb-3">
+                      <i className="bi bi-badge-ad"></i>
+                    </div>
+                    <h3 className="card-title mb-3">Advertise Gigs</h3>
+                    <p className="card-text">
+                      Got a gig that you can't play anymore? Advertise it here
+                      and let fellow artists pick up the gig instead. Share your
+                      stage and keep the music alive.
+                    </p>
+                    <button
+                      className="btn btn-primary text-light my-2"
+                      onClick={handleFindGigsSubmit}
+                    >
+                      Find Gigs
+                    </button>
                   </div>
-                  <h3 className="card-title mb-3">Find a Band</h3>
-                  <p className="card-text">
-                    Do you run a venue/pub and need a band/artist at short
-                    notice or sometime in the future? Click here to filter by
-                    date and see what artists are available.
-                  </p>
-                  <button
-                    className="btn btn-primary text-light my-2"
-                    onClick={handleFindGigsSubmit}
-                  >
-                    Find Gigs
-                  </button>
                 </div>
               </div>
-            </div>
 
-            <div className="col-md">
-              <div className="homepage-card bg-secondary text-light">
-                <div className="card-body text-center p-3">
-                  <div className="h1 mb-3">
-                    <i className="bi bi-ticket-detailed"></i>
+              <div className="col-md">
+                <div className="homepage-card bg-secondary text-light">
+                  <div className="card-body text-center p-3">
+                    <div className="h1 mb-3">
+                      <i class="bi bi-pencil"></i>
+                    </div>
+                    <h3 className="card-title mb-3">Venue Feedback</h3>
+                    <p className="card-text">
+                      Share your experience with venues you've performed at.
+                      Review and rate venues and guide fellow artists to the
+                      best stages for informed bookings.
+                    </p>
+                    <a
+                      target={"_blank"}
+                      href="https://www.bandsintown.com"
+                      className="btn btn-primary my-2"
+                    >
+                      Find Gigs
+                    </a>
                   </div>
-                  <h3 className="card-title mb-3">See Gigs In Your Area</h3>
-                  <p className="card-text">
-                    Craving your next live music experience? Click here to find
-                    out what artists are playing in your area soon via
-                    Bandsintown and never miss your favourites!
-                  </p>
-                  <a
-                    target={"_blank"}
-                    href="https://www.bandsintown.com"
-                    className="btn btn-primary my-2"
-                  >
-                    Find Gigs
-                  </a>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : storedUserId && storedUserType === "V" ? (
+        <section id="venue-functionality_boxes" className="p-5">
+          <div className="container">
+            <div className="row text-center g-4">
+              <div className="col-md">
+                <div className="homepage-card bg-secondary text-light">
+                  <div className="card-body text-center p-3">
+                    <div className="h1 mb-3">
+                      <i className="bi bi-search"></i>
+                    </div>
+                    <h3 className="card-title mb-3">Book Your Acts</h3>
+                    <p className="card-text">
+                      Ready for live music? Discover a varied artist lineup for
+                      your venue. Filter by genre, location, and availability to
+                      find exact matches for your requirements.
+                    </p>
+                    <button
+                      className="btn btn-primary text-light my-2"
+                      onClick={handleAdvertiseSubmit}
+                    >
+                      Advertise
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md">
+                <div className="homepage-card bg-secondary text-light">
+                  <div className="card-body text-center p-3">
+                    <div className="h1 mb-3">
+                      <i class="bi bi-calendar-week"></i>
+                    </div>
+                    <h3 className="card-title mb-3">Effortless Management</h3>
+                    <p className="card-text">
+                      Streamline artist bookings with our integrated booking
+                      system. Control your venue's entertainment calendar,
+                      creating seamless shows from start to encore.
+                    </p>
+                    <button
+                      className="btn btn-primary text-light my-2"
+                      onClick={handleFindGigsSubmit}
+                    >
+                      Find Gigs
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md">
+                <div className="homepage-card bg-secondary text-light">
+                  <div className="card-body text-center p-3">
+                    <div className="h1 mb-3">
+                      <i class="bi bi-pencil"></i>
+                    </div>
+                    <h3 className="card-title mb-3">Artist Reviews</h3>
+                    <p className="card-text">
+                      Review hosted artists. Rate performances and provide
+                      feedback to assist fellow venues in discovering top
+                      talents for their stages whilst making informed decisions.
+                    </p>
+                    <a
+                      target={"_blank"}
+                      href="https://www.bandsintown.com"
+                      className="btn btn-primary my-2"
+                    >
+                      Find Gigs
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Featured artists section */}
       <section className="py-2">
