@@ -15,7 +15,17 @@ const PickUpGig = () => {
 
     if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
       navigate("/signin");
-    } else {
+    } else if (
+      userIdFromLocalStorage &&
+      artistOrVenueFromLocalStorage !== "A"
+    ) {
+      // Redirect or handle the case where the user's role is not "V"
+      navigate("/"); // For example, redirect to another page
+    } else if (
+      userIdFromLocalStorage &&
+      artistOrVenueFromLocalStorage === "A"
+    ) {
+      // Set user data or perform other actions for venue users
       setUserId(userIdFromLocalStorage);
       setArtistOrVenue(artistOrVenueFromLocalStorage);
     }

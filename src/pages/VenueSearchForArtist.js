@@ -1,18 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import ArtistSearchResultCard from "../components/ArtistSearchResultCard";
+import { LoginContext } from "../App";
 
-const VenueSearchForArtist = ({ userId }) => {
+const VenueSearchForArtist = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userId === null) {
-      navigate("/artistorvenuesignin");
-    } else {
-      navigate("/venuesearchforartist");
+    const userIdFromLocalStorage = localStorage.getItem("userId");
+    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
+
+    if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
+      navigate("/signin");
+    } else if (
+      userIdFromLocalStorage &&
+      artistOrVenueFromLocalStorage !== "V"
+    ) {
+      // Redirect or handle the case where the user's role is not "V"
+      navigate("/"); // For example, redirect to another page
+    } else if (
+      userIdFromLocalStorage &&
+      artistOrVenueFromLocalStorage === "V"
+    ) {
+      // Set user data or perform other actions for venue users
+      setUserId(userIdFromLocalStorage);
+      setArtistOrVenue(artistOrVenueFromLocalStorage);
     }
-  }, [userId]);
+  }, []);
 
   const [dateOfGig, setDateOfGig] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");

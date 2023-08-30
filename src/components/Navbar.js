@@ -163,13 +163,21 @@ const NavbarComponent = () => {
                 ) : null}
               </Nav.Link>
             ) : null}
-            {storedUserId && storedUserType ? (
+            {storedUserId && storedUserType === "A" ? (
               <Nav.Link
                 href="/pickupgig"
                 className="text-light mt-3 mx-2"
                 style={{ fontSize: "18px" }}
               >
                 Find Gigs
+              </Nav.Link>
+            ) : storedUserId && storedUserType === "V" ? (
+              <Nav.Link
+                href="/venuesearchforartist"
+                className="text-light mt-3 mx-2"
+                style={{ fontSize: "18px" }}
+              >
+                Find Artists
               </Nav.Link>
             ) : null}
             {localStorage.userId != null &&

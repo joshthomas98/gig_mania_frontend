@@ -54,6 +54,8 @@ import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
 import DeleteListedGigModal from "./components/DeleteListedGigModal";
 import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
 import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
+import RequestToBook from "./pages/RequestToBook";
+import BookingRequestSent from "./pages/BookingRequestSent";
 
 import Footer from "./components/Footer";
 
@@ -147,7 +149,7 @@ const App = () => {
               />
 
               <Route
-                path="artistsearchresultcard"
+                path="artistsearchresultcard/:resultId"
                 element={<ArtistSearchResultCard />}
               />
 
@@ -221,6 +223,16 @@ const App = () => {
               <Route
                 path="alreadyappliedforgig"
                 element={<AlreadyAppliedForGig />}
+              />
+
+              <Route
+                path="requesttobook/:resultId"
+                element={<RequestToBook />}
+              />
+
+              <Route
+                path="bookingrequestsent"
+                element={<BookingRequestSent />}
               />
             </Routes>
           </BrowserRouter>
