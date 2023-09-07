@@ -17,6 +17,10 @@ const Homepage = () => {
 
   const [email, setEmail] = useState("");
 
+  const handlePickUpGigClick = () => {
+    navigate("/pickupgig");
+  };
+
   const handleAdvertiseSubmit = () => {
     if (storedUserId && storedUserType === "A") {
       navigate("/artistadvertisegig");
@@ -27,8 +31,16 @@ const Homepage = () => {
     }
   };
 
-  const handleFindGigsSubmit = () => {
+  const handleArtistProfileInfoBoxClick = () => {
+    navigate(`/artistuserprofile/${storedUserId}`);
+  };
+
+  const handleVenueFindArtistsClick = () => {
     navigate("/venuesearchforartist");
+  };
+
+  const handleVenueProfileInfoBoxClick = () => {
+    navigate(`/venueuserprofile/${storedUserId}`);
   };
 
   const handleNewsletterSignUp = (event) => {
@@ -105,9 +117,9 @@ const Homepage = () => {
                     </p>
                     <button
                       className="btn btn-primary text-light my-2"
-                      onClick={handleAdvertiseSubmit}
+                      onClick={handlePickUpGigClick}
                     >
-                      Advertise
+                      Search
                     </button>
                   </div>
                 </div>
@@ -127,9 +139,9 @@ const Homepage = () => {
                     </p>
                     <button
                       className="btn btn-primary text-light my-2"
-                      onClick={handleFindGigsSubmit}
+                      onClick={handleAdvertiseSubmit}
                     >
-                      Find Gigs
+                      Advertise
                     </button>
                   </div>
                 </div>
@@ -139,21 +151,20 @@ const Homepage = () => {
                 <div className="homepage-card bg-secondary text-light">
                   <div className="card-body text-center p-3">
                     <div className="h1 mb-3">
-                      <i class="bi bi-pencil"></i>
+                      <i className="bi bi-play"></i>
                     </div>
-                    <h3 className="card-title mb-3">Venue Feedback</h3>
+                    <h3 className="card-title mb-3">Be Seen, Be Heard</h3>
                     <p className="card-text">
-                      Share your experience with venues you've performed at.
-                      Review and rate venues and guide fellow artists to the
-                      best stages for informed bookings.
+                      Enhance your artistic presence online and get found by
+                      more people. Curate and showcase your media seamlessly,
+                      building a comprehensive artist profile.
                     </p>
-                    <a
-                      target={"_blank"}
-                      href="https://www.bandsintown.com"
-                      className="btn btn-primary my-2"
+                    <button
+                      className="btn btn-primary text-light my-2"
+                      onClick={handleArtistProfileInfoBoxClick}
                     >
-                      Find Gigs
-                    </a>
+                      Profile
+                    </button>
                   </div>
                 </div>
               </div>
@@ -178,9 +189,9 @@ const Homepage = () => {
                     </p>
                     <button
                       className="btn btn-primary text-light my-2"
-                      onClick={handleAdvertiseSubmit}
+                      onClick={handleVenueFindArtistsClick}
                     >
-                      Advertise
+                      Book Artists
                     </button>
                   </div>
                 </div>
@@ -200,9 +211,9 @@ const Homepage = () => {
                     </p>
                     <button
                       className="btn btn-primary text-light my-2"
-                      onClick={handleFindGigsSubmit}
+                      onClick={handleVenueProfileInfoBoxClick}
                     >
-                      Find Gigs
+                      View Bookings
                     </button>
                   </div>
                 </div>
@@ -212,21 +223,21 @@ const Homepage = () => {
                 <div className="homepage-card bg-secondary text-light">
                   <div className="card-body text-center p-3">
                     <div className="h1 mb-3">
-                      <i class="bi bi-pencil"></i>
+                      <i className="bi bi-play"></i>
                     </div>
-                    <h3 className="card-title mb-3">Artist Reviews</h3>
+                    <h3 className="card-title mb-3">Let The Music Play</h3>
                     <p className="card-text">
-                      Review hosted artists. Rate performances and provide
-                      feedback to assist fellow venues in discovering top
-                      talents for their stages whilst making informed decisions.
+                      Elevate your venue's presence and event promotion. Use
+                      your profile to highlight your space, and showcase
+                      upcoming events to attract talented artists and
+                      enthusiastic fans.
                     </p>
-                    <a
-                      target={"_blank"}
-                      href="https://www.bandsintown.com"
-                      className="btn btn-primary my-2"
+                    <button
+                      className="btn btn-primary text-light my-2"
+                      onClick={handleVenueProfileInfoBoxClick}
                     >
-                      Find Gigs
-                    </a>
+                      Profile
+                    </button>
                   </div>
                 </div>
               </div>

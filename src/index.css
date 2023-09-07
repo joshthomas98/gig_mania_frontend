@@ -426,3 +426,41 @@
   margin-bottom: 3rem;
   left: 62%;
 }
+
+/* Red dates (unavailable) */
+.unavailable-date {
+  background-color: red; /* Background color for unavailable dates */
+  color: white; /* Text color for unavailable dates */
+  border-radius: 0; /* Remove border-radius to make dates square */
+}
+
+/* Green dates (available) */
+.available-date {
+  background-color: green; /* Background color for available dates */
+  color: white; /* Text color for available dates */
+  border-radius: 0; /* Remove border-radius to make dates square */
+}
+
+/* Style for selected date (optional) */
+.react-calendar__tile--active {
+  background-color: blue; /* Background color for the selected date */
+  color: white; /* Text color for the selected date */
+  border-radius: 0; /* Remove border-radius to make the selected date square */
+}
+
+/* Customize the month and year scroller text color */
+.react-calendar__navigation__label {
+  color: white !important;
+  margin-bottom: 10px; /* Add space below the scroller text */
+}
+
+/* Customize the month and year scroller arrow color */
+.react-calendar__navigation button {
+  color: white !important;
+}
+
+/* Customize the month and year scroller background color */
+.react-calendar__navigation {
+  background-color: transparent !important;
+  margin-bottom: 20px; /* Add space below the scroller */
+}

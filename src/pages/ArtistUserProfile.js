@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
+import Calendar from "react-calendar";
 
 const ArtistUserProfile = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
@@ -15,6 +16,7 @@ const ArtistUserProfile = () => {
 
   const [artist, setArtist] = useState([]);
   const [unavailabilities, setUnavailabilities] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem("userId");
@@ -65,9 +67,23 @@ const ArtistUserProfile = () => {
     fetchUnavailabilities();
   }, [profileId]);
 
-  useEffect(() => {
-    console.log(artist);
-  });
+  // Function to handle date selection
+  const handleDateSelect = (date) => {
+    const dateString = date.toISOString().split("T")[0];
+    const isDateUnavailable = unavailabilities.some(
+      (u) => u.date === dateString
+    );
+
+    if (!isDateUnavailable) {
+      if (selectedDate && date.toDateString() === selectedDate.toDateString()) {
+        // Deselect the date if it's already selected
+        setSelectedDate(null);
+      } else {
+        // Select the date if it's not selected
+        setSelectedDate(date);
+      }
+    }
+  };
 
   return (
     <>
@@ -119,6 +135,14 @@ const ArtistUserProfile = () => {
                 </div>
 
                 {userId === profileId ? (
+                  <div className="advertise-new-gig text-center pb-4">
+                    <Button href="/artistadvertisegig">
+                      Advertise a New Gig
+                    </Button>
+                  </div>
+                ) : null}
+
+                {userId === profileId ? (
                   <div className="show-listed-gigs text-center pb-4">
                     <a href="/mylistedgigs">View my listed gigs</a>
                   </div>
@@ -149,6 +173,7 @@ const ArtistUserProfile = () => {
                     <p className="font-italic mb-0 p-3">{artist.bio}</p>
                   </div>
                 </div>
+
                 <div className="p-5 text-center">
                   <h2>Calendar Here</h2>
                   <div className="text-light">
@@ -161,7 +186,22 @@ const ArtistUserProfile = () => {
                       ))}
                     </ul>
                   </div>
+
+                  {/* Display the calendar */}
+                  <Calendar
+                    className="pt-3"
+                    value={selectedDate}
+                    onChange={handleDateSelect}
+                    tileClassName={({ date, view }) => {
+                      // Customize the CSS class for each date cell based on availability
+                      const dateString = date.toISOString().split("T")[0];
+                      return unavailabilities.find((u) => u.date === dateString)
+                        ? "unavailable-date"
+                        : "available-date";
+                    }}
+                  />
                 </div>
+
                 <div className="py-4 px-4">
                   <div className="d-flex align-items-center justify-content-between mb-3">
                     <h5 className="mb-0">Recent photos</h5>

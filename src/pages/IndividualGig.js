@@ -7,13 +7,16 @@ const IndividualGig = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
 
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
   const navigate = useNavigate();
 
   const { userType, gigId } = useParams();
+
   const [gigDetails, setGigDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  // fetchGigData function
+  const [venueId, setVenueId] = useState(null);
 
   useEffect(() => {
     const fetchGigData = async () => {
@@ -38,18 +41,11 @@ const IndividualGig = () => {
     fetchGigData();
   }, [userType, gigId]);
 
-  // handleApplyNowClick function
-
-  const handleApplyNowClick = async () => {
-    setIsLoading(true);
-
-    const storedUserId = localStorage.getItem("userId");
-    const storedUserType = localStorage.getItem("artistOrVenue");
-
-    if (storedUserId && storedUserType === "A") {
+  useEffect(() => {
+    const fetchVenueData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/artists/${storedUserId}/`,
+          `http://localhost:8000/gigapplications/${gigId}`,
           {
             method: "GET",
             headers: {
@@ -60,41 +56,47 @@ const IndividualGig = () => {
 
         if (response.ok) {
           const data = await response.json();
-          const individualArtistData = data;
-          console.log("Retrieved artist data:", individualArtistData);
-
-          try {
-            const postResponse = await fetch(
-              "http://localhost:8000/gigapplications/",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  artist_name: individualArtistData.artist_name,
-                  venue_name: gigDetails.venue_name,
-                  date_of_gig: gigDetails.date_of_gig,
-                  email: individualArtistData.email,
-                }),
-              }
-            );
-
-            if (postResponse.ok) {
-              console.log("Data sent successfully");
-              navigate("/gigapplicationsuccess");
-            } else {
-              console.error("Request failed with status:", postResponse.status);
-            }
-          } catch (error) {
-            console.error("Error occurred while sending data:", error);
-          }
-        } else {
-          console.error("Request failed with status:", response.status);
+          const venue = data.venue; // Assuming "venue" is the key in the response
+          setVenueId(venue);
         }
       } catch (error) {
-        console.error("Error occurred while retrieving data:", error);
+        console.error("Error fetching venue data:", error);
       }
+    };
+
+    fetchVenueData();
+  }, [gigId]);
+
+  const handleApplyNowClick = async () => {
+    setIsLoading(true);
+
+    try {
+      // Assuming you have "individualArtistData" and "gigDetails" defined earlier
+      const postResponse = await fetch(
+        "http://localhost:8000/gigapplications/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            artist: gigDetails.artist,
+            venue: venueId, // Use the fetched venueId
+            date_of_gig: gigDetails.date_of_gig,
+            email: gigDetails.email,
+          }),
+        }
+      );
+
+      if (postResponse.ok) {
+        console.log("Data sent successfully");
+        console.log(venueId);
+        navigate("/gigapplicationsuccess");
+      } else {
+        console.error("Request failed with status:", postResponse.status);
+      }
+    } catch (error) {
+      console.error("Error occurred while sending data:", error);
     }
 
     setIsLoading(false);
