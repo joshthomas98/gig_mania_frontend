@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
 import Calendar from "react-calendar";
+import { format } from "date-fns-tz";
 
 const ArtistUserProfile = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
@@ -85,6 +86,12 @@ const ArtistUserProfile = () => {
     }
   };
 
+  // Function to format a date in the desired timezone
+  const formatWithTimezone = (date) => {
+    const tz = "Europe/London";
+    return format(date, "yyyy-MM-dd", { timeZone: tz });
+  };
+
   return (
     <>
       <h1 className="text-light text-center">My Profile</h1>
@@ -122,7 +129,7 @@ const ArtistUserProfile = () => {
                       </a>
                     ) : null}
 
-                    {userId !== profileId && (
+                    {userId && artistOrVenue === "V" ? (
                       <div className="leave-venue-feedback-btn text-center pt-5">
                         <Button
                           href={`/venuewritereview?artistId=${artist.id}`}
@@ -130,7 +137,7 @@ const ArtistUserProfile = () => {
                           Leave feedback
                         </Button>
                       </div>
-                    )}
+                    ) : userId && artistOrVenue === "A" ? null : null}
                   </div>
                 </div>
 
@@ -174,18 +181,8 @@ const ArtistUserProfile = () => {
                   </div>
                 </div>
 
-                <div className="p-5 text-center">
-                  <h2>Calendar Here</h2>
-                  <div className="text-light">
-                    <h3>List of unavailabilities:</h3>
-                    <ul>
-                      {unavailabilities.map((unavailability, index) => (
-                        <li key={index}>
-                          {unavailability.artist} + {unavailability.date}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="py-3 px-4 text-center">
+                  <h2>Availability</h2>
 
                   {/* Display the calendar */}
                   <Calendar
@@ -193,13 +190,18 @@ const ArtistUserProfile = () => {
                     value={selectedDate}
                     onChange={handleDateSelect}
                     tileClassName={({ date, view }) => {
-                      // Customize the CSS class for each date cell based on availability
-                      const dateString = date.toISOString().split("T")[0];
+                      const dateString = formatWithTimezone(date); // Format date with timezone
                       return unavailabilities.find((u) => u.date === dateString)
                         ? "unavailable-date"
                         : "available-date";
                     }}
                   />
+
+                  <div className="pt-4">
+                    {artistOrVenue === "A" && userId === profileId ? (
+                      <Button href="/">Edit my availability</Button>
+                    ) : null}
+                  </div>
                 </div>
 
                 <div className="py-4 px-4">
