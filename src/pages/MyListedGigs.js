@@ -152,6 +152,8 @@ const MyListedGigs = () => {
                 <br />
                 <strong>Payment:</strong> {gig.payment}
                 <br />
+                <strong>Number of applications:</strong> {gig.payment}
+                <br />
                 <Button
                   variant="secondary"
                   className="mt-4"

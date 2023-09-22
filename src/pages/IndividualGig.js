@@ -90,22 +90,29 @@ const IndividualGig = () => {
     setIsLoading(true);
 
     try {
-      // Assuming you have "individualArtistData" and "gigDetails" defined earlier
-      const postResponse = await fetch(
-        "http://localhost:8000/gigapplications/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            artist: applyingArtist.id,
-            venue: gigDetails.venue_name,
-            date_of_gig: gigDetails.date_of_gig,
-            email: applyingArtist.email,
-          }),
-        }
-      );
+      let endpoint, bodyData;
+
+      if (gigDetails.userType === "Artist") {
+        endpoint = "http://localhost:8000/artistgigapplications/";
+        bodyData = {
+          artist: applyingArtist.id,
+          artist_gig: gigDetails.id,
+        };
+      } else {
+        endpoint = "http://localhost:8000/venuegigapplications/";
+        bodyData = {
+          artist: applyingArtist.id,
+          venue_gig: gigDetails.id,
+        };
+      }
+
+      const postResponse = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+      });
 
       if (postResponse.ok) {
         console.log("Data sent successfully");
@@ -116,9 +123,9 @@ const IndividualGig = () => {
       }
     } catch (error) {
       console.error("Error occurred while sending data:", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
