@@ -12,11 +12,14 @@ const IndividualGig = () => {
 
   const navigate = useNavigate();
 
+  const SERVER_BASE_URL = "http://localhost:8000/";
+
   const { userType, gigId } = useParams();
 
   const [gigDetails, setGigDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [venueId, setVenueId] = useState(null);
+  const [applyingArtist, setApplyingArtist] = useState(null);
 
   useEffect(() => {
     const fetchGigData = async () => {
@@ -56,7 +59,7 @@ const IndividualGig = () => {
 
         if (response.ok) {
           const data = await response.json();
-          const venue = data.venue; // Assuming "venue" is the key in the response
+          const venue = data.venue;
           setVenueId(venue);
         }
       } catch (error) {
@@ -66,6 +69,22 @@ const IndividualGig = () => {
 
     fetchVenueData();
   }, [gigId]);
+
+  useEffect(() => {
+    const fetchApplyingArtist = async () => {
+      try {
+        const response = await fetch(
+          `${SERVER_BASE_URL}artists/${storedUserId}/`
+        );
+        const data = await response.json();
+        console.log(data);
+        setApplyingArtist(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchApplyingArtist();
+  }, [userId]);
 
   const handleApplyNowClick = async () => {
     setIsLoading(true);
@@ -80,10 +99,10 @@ const IndividualGig = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            artist: gigDetails.artist,
-            venue: venueId, // Use the fetched venueId
+            artist: applyingArtist.id,
+            venue: gigDetails.venue_name,
             date_of_gig: gigDetails.date_of_gig,
-            email: gigDetails.email,
+            email: applyingArtist.email,
           }),
         }
       );
@@ -118,25 +137,29 @@ const IndividualGig = () => {
             <tbody>
               <tr>
                 <td>
-                  <strong>Venue:</strong> {gigDetails.venue_name}
+                  <strong>Venue: </strong>
+                  {gigDetails.venue_name}
                 </td>
                 <td>
-                  <strong>{gigDetails.country_of_venue}</strong>
+                  <strong>Country: {gigDetails.country_of_venue}</strong>
                 </td>
                 <td>
-                  <strong>{gigDetails.date_of_gig}</strong>
+                  <strong>Date of gig: {gigDetails.date_of_gig}</strong>
                 </td>
                 <td>
-                  <strong>Genre:</strong> {gigDetails.genre_of_gig}
+                  <strong>Genre: </strong>
+                  {gigDetails.genre_of_gig}
                 </td>
                 <td>
-                  <strong>Type of gig:</strong> {gigDetails.type_of_gig}
+                  <strong>Type of gig: </strong>
+                  {gigDetails.type_of_gig}
                 </td>
                 <td>
-                  <strong>Artist type:</strong> {gigDetails.artist_type}
+                  <strong>Artist type: </strong>
+                  {gigDetails.type_of_artist}
                 </td>
                 <td>
-                  <strong>Payment:</strong> £{gigDetails.payment}
+                  <strong>Payment: </strong>£{gigDetails.payment}
                 </td>
               </tr>
             </tbody>

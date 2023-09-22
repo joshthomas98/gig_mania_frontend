@@ -199,7 +199,9 @@ const ArtistUserProfile = () => {
 
                   <div className="pt-4">
                     {artistOrVenue === "A" && userId === profileId ? (
-                      <Button href="/">Edit my availability</Button>
+                      <Button href={`/artisteditavailability/${profileId}`}>
+                        Edit my availability
+                      </Button>
                     ) : null}
                   </div>
                 </div>
