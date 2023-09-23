@@ -92,7 +92,7 @@ const IndividualGig = () => {
     try {
       let endpoint, bodyData;
 
-      if (gigDetails.userType === "Artist") {
+      if (gigDetails.user_type === "Artist") {
         endpoint = "http://localhost:8000/artistgigapplications/";
         bodyData = {
           artist: applyingArtist.id,

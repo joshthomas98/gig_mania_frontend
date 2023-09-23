@@ -115,6 +115,8 @@ const MyListedGigs = () => {
     setShowModal(false); // Close the modal after handling the DELETE request
   };
 
+  console.log(artistGigs);
+
   return (
     <div className="text-light">
       <div className="row">
@@ -152,7 +154,7 @@ const MyListedGigs = () => {
                 <br />
                 <strong>Payment:</strong> {gig.payment}
                 <br />
-                <strong>Number of applications:</strong> {gig.payment}
+                <strong>Number of applications:</strong> {gig.num_applications}
                 <br />
                 <Button
                   variant="secondary"
