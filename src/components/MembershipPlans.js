@@ -6,6 +6,9 @@ const MembershipPlans = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserType = localStorage.getItem("artistOrVenue");
+
   const [membershipOptions, setMembershipOptions] = useState([]);
 
   const [selectedButton, setSelectedButton] = useState(null);
@@ -55,7 +58,7 @@ const MembershipPlans = () => {
 
   console.log(membershipOptions);
 
-  return (
+  return !storedUserId ? (
     <div className="pt-3">
       <h1 className="text-light text-center mb-4">
         STEP 1 OF 3: Select your membership type
@@ -100,7 +103,7 @@ const MembershipPlans = () => {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default MembershipPlans;

@@ -15,9 +15,11 @@ const GigApplicationSuccess = () => {
         />
       </div>
 
-      <h3 className="mt-4">
+      <h3 className="mt-4 mb-4">
         Now kick back, relax and we'll be in touch very soon!
       </h3>
+
+      <a href="/">Back to homepage</a>
     </div>
   );
 };

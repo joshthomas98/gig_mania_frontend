@@ -117,7 +117,7 @@ const ArtistUserProfile = () => {
 
                       <p>{artist.county}</p>
 
-                      <p className="py-3">{artist.genre}</p>
+                      <h6 className="py-3">{artist.genre}</h6>
                     </div>
 
                     {userId === profileId ? (

@@ -15,10 +15,6 @@ const MyListedGigs = () => {
   const [selectedGigId, setSelectedGigId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  //   useEffect(() => {
-  //     if user with userId(id) > 0 gigs then display gigs else display no gigs
-  //   })
-
   useEffect(() => {
     if (storedUserType === "A") {
       fetch(`http://localhost:8000/artists/${storedUserId}/listed_gigs/`)
@@ -115,112 +111,119 @@ const MyListedGigs = () => {
     setShowModal(false); // Close the modal after handling the DELETE request
   };
 
-  console.log(artistGigs);
+  useEffect(() => {
+    console.log(showModal);
+  }, [showModal]);
 
   return (
     <div className="text-light">
-      <div className="row">
+      <div className="d-flex row pb-4 text-left">
         <div className="col-md-6">
           {artistGigs.length + venueGigs.length === 1 ? (
-            <h2 className="px-4">You currently have 1 gig listed:</h2>
+            <h2 className="px-4">You currently have 1 gig advertised:</h2>
           ) : (
             <h2 className="px-4">
               You currently have {artistGigs.length + venueGigs.length} gigs
-              listed:
+              advertised:
             </h2>
           )}
         </div>
-        <div className="col-md-6 text-center">
-          <Button variant="secondary" onClick={artistOrVenueAdvertiseGig}>
-            List a new gig
-          </Button>
+        <div className="col-md-6 d-flex justify-content-end">
+          {" "}
+          {/* Apply justify-content-end here */}
+          <button className="add-button" onClick={artistOrVenueAdvertiseGig}>
+            <div className="plus-icon">+</div>
+            Add
+          </button>
         </div>
       </div>
 
-      <ul className="px-5">
-        {storedUserType === "A" ? (
-          artistGigs.length > 0 ? (
-            artistGigs.map((gig, index) => (
-              <li className="py-4" key={index}>
-                <strong>Venue Name:</strong> {gig.venue_name}
-                <br />
-                <strong>Country of Venue:</strong> {gig.country_of_venue}
-                <br />
-                <strong>Date of Gig:</strong> {gig.date_of_gig}
-                <br />
-                <strong>Genre of Gig:</strong> {gig.genre_of_gig}
-                <br />
-                <strong>Type of Gig:</strong> {gig.type_of_gig}
-                <br />
-                <strong>Payment:</strong> {gig.payment}
-                <br />
-                <strong>Number of applications:</strong> {gig.num_applications}
-                <br />
-                <Button
-                  variant="secondary"
-                  className="mt-4"
-                  onClick={() => handleEditGig(gig.id)}
-                >
-                  Edit this gig
-                </Button>
-                <h4 className="pt-3">
+      <table className="table table-bordered text-light">
+        <thead>
+          <tr>
+            <th>Venue Name</th>
+            <th>Country of Venue</th>
+            <th>Date of Gig</th>
+            <th>Genre of Gig</th>
+            <th>Type of Gig</th>
+            <th>Payment</th>
+            <th>Applications</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {storedUserType === "A" ? (
+            artistGigs.length > 0 ? (
+              artistGigs.map((gig, index) => (
+                <tr key={index}>
+                  <td>{gig.venue_name}</td>
+                  <td>{gig.country_of_venue}</td>
+                  <td>{gig.date_of_gig}</td>
+                  <td>{gig.genre_of_gig}</td>
+                  <td>{gig.type_of_gig}</td>
+                  <td>{gig.payment}</td>
+                  <td>{gig.num_applications}</td>
+                  <td>
+                    <button
+                      className="text-light"
+                      onClick={() => handleEditGig(gig.id)}
+                    >
+                      Edit
+                    </button>
+                    <i
+                      onClick={() => handleTrashIconClick(gig.id)}
+                      className="bi bi-trash h5"
+                      style={{ cursor: "pointer" }}
+                    ></i>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8">No gigs listed</td>
+              </tr>
+            )
+          ) : venueGigs.length > 0 ? (
+            venueGigs.map((gig, index) => (
+              <tr key={index}>
+                <td>{gig.venue}</td>
+                <td>{gig.country_of_venue}</td>
+                <td>{gig.date_of_gig}</td>
+                <td>{gig.genre_of_gig}</td>
+                <td>{gig.type_of_gig}</td>
+                <td>{gig.payment}</td>
+                <td>{gig.artist_type}</td>
+                <td>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handleEditGig(gig.id)}
+                  >
+                    Edit
+                  </Button>
                   <i
                     onClick={() => handleTrashIconClick(gig.id)}
                     className="bi bi-trash"
                     style={{ cursor: "pointer" }}
                   ></i>
-                </h4>
-              </li>
+                </td>
+              </tr>
             ))
           ) : (
-            <li>No gigs listed</li>
-          )
-        ) : // Venue User
-        venueGigs.length > 0 ? (
-          venueGigs.map((gig, index) => (
-            <li className="py-4" key={index}>
-              <strong>Venue Name:</strong> {gig.venue}
-              <br />
-              <strong>Date of Gig:</strong> {gig.date_of_gig}
-              <br />
-              <strong>Country of Venue:</strong> {gig.country_of_venue}
-              <br />
-              <strong>Genre of Gig:</strong> {gig.genre_of_gig}
-              <br />
-              <strong>Type of Gig:</strong> {gig.type_of_gig}
-              <br />
-              <strong>Artist Type:</strong> {gig.artist_type}
-              <br />
-              <strong>Payment:</strong> {gig.payment}
-              <br />
-              <Button
-                variant="secondary"
-                className="mt-4"
-                onClick={() => handleEditGig(gig.id)}
-              >
-                Edit this gig
-              </Button>
-              <h4 className="pt-3">
-                <i
-                  onClick={() => handleTrashIconClick(gig.id)}
-                  className="bi bi-trash"
-                  style={{ cursor: "pointer" }}
-                ></i>
-              </h4>
-            </li>
-          ))
-        ) : (
-          <li>No gigs listed</li>
-        )}
-      </ul>
+            <tr>
+              <td colSpan="8">No gigs listed</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
-      {/* Conditionally render the DeleteListedGig component based on showModal state */}
-      <DeleteListedGig
-        show={showModal}
-        handleClose={handleCloseModal}
-        gigId={selectedGigId}
-        handleDeleteGig={handleDeleteGig}
-      />
+      {showModal && (
+        <DeleteListedGig
+          show={showModal}
+          handleClose={handleCloseModal}
+          gigId={selectedGigId}
+          handleDeleteGig={handleDeleteGig}
+        />
+      )}
     </div>
   );
 };

@@ -464,3 +464,34 @@
   background-color: transparent !important;
   margin-bottom: 20px; /* Add space below the scroller */
 }
+
+/* "ADD" BUTTON */
+
+.add-button {
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 20px; /* Adjust the border-radius to your preference */
+  background-color: #4caf50; /* Green background color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.add-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.plus-icon {
+  background-color: #fff; /* White background for the plus symbol */
+  color: #4caf50; /* Green color for the plus symbol */
+  border-radius: 50%; /* Make it a circle */
+  width: 30px; /* Adjust the size of the plus symbol */
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; /* Spacing between the plus symbol and text */
+}

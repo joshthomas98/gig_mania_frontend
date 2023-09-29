@@ -2,7 +2,12 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const DeleteListedGig = ({ show, handleClose, gigId, handleDeleteGig }) => {
+const DeleteListedGigModal = ({
+  show,
+  handleClose,
+  gigId,
+  handleDeleteGig,
+}) => {
   const modalStyle = {
     backgroundColor: "#121212",
     color: "#fff",
@@ -75,4 +80,4 @@ const DeleteListedGig = ({ show, handleClose, gigId, handleDeleteGig }) => {
   );
 };
 
-export default DeleteListedGig;
+export default DeleteListedGigModal;
