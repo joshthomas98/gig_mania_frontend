@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { LoginContext } from "../App";
 import Calendar from "react-calendar";
 import { format } from "date-fns-tz";
@@ -18,6 +18,8 @@ const ArtistUserProfile = () => {
   const [artist, setArtist] = useState([]);
   const [unavailabilities, setUnavailabilities] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedUnavailability, setSelectedUnavailability] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem("userId");
@@ -68,22 +70,28 @@ const ArtistUserProfile = () => {
     fetchUnavailabilities();
   }, [profileId]);
 
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   // Function to handle date selection
   const handleDateSelect = (date) => {
-    const dateString = date.toISOString().split("T")[0];
+    const dateString = formatWithTimezone(date);
     const isDateUnavailable = unavailabilities.some(
       (u) => u.date === dateString
     );
 
-    if (!isDateUnavailable) {
-      if (selectedDate && date.toDateString() === selectedDate.toDateString()) {
-        // Deselect the date if it's already selected
-        setSelectedDate(null);
-      } else {
-        // Select the date if it's not selected
-        setSelectedDate(date);
-      }
+    if (isDateUnavailable) {
+      const unavailability = unavailabilities.find(
+        (u) => u.date === dateString
+      );
+      setSelectedUnavailability(unavailability);
+      setShowModal(true); // Show the modal
+    } else {
+      setSelectedUnavailability(null);
     }
+
+    setSelectedDate(date);
   };
 
   // Function to format a date in the desired timezone
@@ -189,22 +197,37 @@ const ArtistUserProfile = () => {
                     className="pt-3"
                     value={selectedDate}
                     onChange={handleDateSelect}
-                    tileClassName={({ date, view }) => {
-                      const dateString = formatWithTimezone(date); // Format date with timezone
+                    tileClassName={({ date }) => {
+                      const dateString = formatWithTimezone(date);
                       return unavailabilities.find((u) => u.date === dateString)
                         ? "unavailable-date"
                         : "available-date";
                     }}
                   />
 
-                  <div className="pt-4">
-                    {artistOrVenue === "A" && userId === profileId ? (
+                  {artistOrVenue === "A" && userId === profileId ? (
+                    <div className="pt-4">
                       <Button href={`/artisteditavailability/${profileId}`}>
                         Edit my availability
                       </Button>
-                    ) : null}
-                  </div>
+                    </div>
+                  ) : null}
                 </div>
+
+                {artistOrVenue === "A" && userId === profileId ? (
+                  <div className="px-4 pb-2 pt-2">
+                    {/* Display the pop-up for unavailable dates */}
+                    {selectedUnavailability && (
+                      <div className="unavailability-popup">
+                        <h3>Date: {selectedUnavailability.date}</h3>
+                        <p className="pt-2">
+                          Status: {selectedUnavailability.status}
+                        </p>
+                        <p>Reason: {selectedUnavailability.reason}</p>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
 
                 <div className="py-4 px-4">
                   <div className="d-flex align-items-center justify-content-between mb-3">

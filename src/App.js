@@ -57,6 +57,7 @@ import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
 import RequestToBook from "./pages/RequestToBook";
 import BookingRequestSent from "./pages/BookingRequestSent";
 import ArtistEditAvailability from "./pages/ArtistEditAvailability";
+import UnavailabilityCreated from "./pages/UnavailabilityCreated";
 
 import Footer from "./components/Footer";
 
@@ -239,6 +240,11 @@ const App = () => {
               <Route
                 path="artisteditavailability/:profileId"
                 element={<ArtistEditAvailability />}
+              />
+
+              <Route
+                path="unavailabilitycreated"
+                element={<UnavailabilityCreated />}
               />
             </Routes>
           </BrowserRouter>
