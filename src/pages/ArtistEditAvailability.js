@@ -164,8 +164,8 @@ const ArtistEditAvailability = () => {
       </div>
 
       <div className="d-flex justify-content-between">
-        <Button className="mt-4">Select multiple</Button>
-        <Button className="mt-4" onClick={handleSaveAvailability}>
+        <Button className="mt-2">Select multiple</Button>
+        <Button className="mt-2" onClick={handleSaveAvailability}>
           Save availability
         </Button>
       </div>
