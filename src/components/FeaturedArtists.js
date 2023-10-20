@@ -11,6 +11,7 @@ const FeaturedArtists = () => {
         const response = await fetch("http://localhost:8000/featuredartists/");
         const data = await response.json();
         setFeaturedArtists(data);
+        console.log(featuredArtists);
       } catch (error) {
         console.log(error);
       }

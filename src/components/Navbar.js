@@ -127,9 +127,10 @@ const NavbarComponent = () => {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="navbar-nav">
-          <div className="mx-auto">
+          <div className="mx-auto" style={{ paddingRight: "50px" }}>
             <SearchBar />
           </div>
+
           <Nav className="ml-auto">
             {!storedUserId && !storedUserType ? (
               <Nav.Link href="/signin">

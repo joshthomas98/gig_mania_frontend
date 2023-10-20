@@ -247,7 +247,7 @@ const Homepage = () => {
       ) : null}
 
       {/* Featured artists section */}
-      <section className="py-2">
+      <section>
         <FeaturedArtists />
       </section>
 
@@ -260,7 +260,7 @@ const Homepage = () => {
         <MembershipPlans />
       </section>
 
-      <section className="pt-5">
+      <section className="pt-3">
         <h2 className="text-light text-center">
           Want to stay up to date with everything happening at GigSweep?
         </h2>

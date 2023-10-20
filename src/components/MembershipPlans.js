@@ -21,6 +21,7 @@ const MembershipPlans = () => {
         );
         const data = await response.json();
         setMembershipOptions(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
