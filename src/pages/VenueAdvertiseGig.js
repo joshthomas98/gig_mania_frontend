@@ -2,12 +2,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 
 function VenueAdvertiseGig() {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const navigate = useNavigate();
 
-  const storedUserId = localStorage.getItem("userId");
-  const storedUserType = localStorage.getItem("artistOrVenue");
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
 
   const [fetchedVenueDetails, setFetchedVenueDetails] = useState();
 
@@ -20,7 +27,7 @@ function VenueAdvertiseGig() {
   const [payment, setPayment] = useState("");
 
   const fetchVenueName = () => {
-    fetch(`http://localhost:8000/venues/${storedUserId}/`)
+    fetch(`http://localhost:8000/venues/${userId}/`)
       .then((response) => response.json())
       .then((data) => {
         setFetchedVenueDetails(data);
@@ -33,7 +40,7 @@ function VenueAdvertiseGig() {
 
   useEffect(() => {
     fetchVenueName();
-  }, [storedUserId]);
+  }, [userId]);
 
   useEffect(() => {
     // Once the data is fetched and stored in gigFormFieldData state,
@@ -59,7 +66,7 @@ function VenueAdvertiseGig() {
       type_of_gig: typeOfGig,
       artist_type: typeOfArtist,
       payment: payment,
-      user_type: storedUserType === "V" ? "Venue" : "",
+      user_type: artistOrVenue === "V" ? "Venue" : "",
     };
 
     fetch("http://localhost:8000/venue_listed_gigs/", {

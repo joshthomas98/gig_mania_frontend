@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
@@ -54,24 +54,36 @@ import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
 import DeleteListedGigModal from "./components/DeleteListedGigModal";
 import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
 import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
-import RequestToBook from "./pages/RequestToBook";
+import RequestToBookArtist from "./pages/RequestToBookArtist";
 import BookingRequestSent from "./pages/BookingRequestSent";
 import ArtistEditAvailability from "./pages/ArtistEditAvailability";
 import UnavailabilityCreated from "./pages/UnavailabilityCreated";
+import MyBookings from "./pages/MyBookings";
+import RestrictedPage from "./pages/RestrictedPage";
 
 import Footer from "./components/Footer";
 
 export const LoginContext = createContext();
 
 const App = () => {
-  const [userId, setUserId] = useState("");
-  const [artistOrVenue, setArtistOrVenue] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [artistOrVenue, setArtistOrVenue] = useState(null);
   const loginContextValue = {
     userId,
     setUserId,
     artistOrVenue,
     setArtistOrVenue,
   };
+
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem("userId");
+    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
+
+    if (userIdFromLocalStorage && artistOrVenueFromLocalStorage) {
+      setUserId(userIdFromLocalStorage);
+      setArtistOrVenue(artistOrVenueFromLocalStorage);
+    }
+  }, [setUserId, setArtistOrVenue]);
 
   return (
     <LoginContext.Provider value={loginContextValue}>
@@ -228,8 +240,8 @@ const App = () => {
               />
 
               <Route
-                path="requesttobook/:resultId"
-                element={<RequestToBook />}
+                path="requesttobookartist/:resultId"
+                element={<RequestToBookArtist />}
               />
 
               <Route
@@ -246,6 +258,10 @@ const App = () => {
                 path="unavailabilitycreated"
                 element={<UnavailabilityCreated />}
               />
+
+              <Route path="mybookings" element={<MyBookings />} />
+
+              <Route path="restrictedpage" element={<RestrictedPage />} />
             </Routes>
           </BrowserRouter>
           <Footer />

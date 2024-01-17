@@ -10,27 +10,11 @@ const VenueSearchForArtist = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem("userId");
-    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
-
-    if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
-      navigate("/signin");
-    } else if (
-      userIdFromLocalStorage &&
-      artistOrVenueFromLocalStorage !== "V"
-    ) {
-      // Redirect or handle the case where the user's role is not "V"
-      navigate("/"); // For example, redirect to another page
-    } else if (
-      userIdFromLocalStorage &&
-      artistOrVenueFromLocalStorage === "V"
-    ) {
-      // Set user data or perform other actions for venue users
-      setUserId(userIdFromLocalStorage);
-      setArtistOrVenue(artistOrVenueFromLocalStorage);
-    }
-  }, []);
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
 
   const [dateOfGig, setDateOfGig] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");

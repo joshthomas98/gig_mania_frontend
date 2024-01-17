@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoginContext } from "../App";
 
 const ArtistEditGig = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const navigate = useNavigate();
   const { gigId } = useParams();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
 
   const [gigFormFieldData, setGigFormFieldData] = useState("");
 

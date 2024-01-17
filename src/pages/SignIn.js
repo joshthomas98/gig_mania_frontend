@@ -51,6 +51,8 @@ const SignIn = () => {
     setArtistOrVenue(event.target.value === "artist" ? "A" : "V");
   };
 
+  // console.log(userId + artistOrVenue + "THIS");
+
   return (
     <>
       <div className="sign-in-grid-container">

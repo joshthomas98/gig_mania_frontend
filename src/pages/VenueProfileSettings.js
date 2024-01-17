@@ -9,13 +9,18 @@ import {
 } from "../components/CountyData";
 
 const VenueProfileSettings = () => {
-  const { userId, setUserId } = useContext(LoginContext);
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   const navigate = useNavigate();
 
-  const SERVER_BASE_URL = "http://localhost:8000/";
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
 
-  const userIdFromLocalStorage = localStorage.getItem("userId");
+  const SERVER_BASE_URL = "http://localhost:8000/";
 
   const [venue, setVenue] = useState([]);
 
@@ -27,22 +32,6 @@ const VenueProfileSettings = () => {
   const [editedCountry, setEditedCountry] = useState("");
   const [editedCounty, setEditedCounty] = useState("");
   const [editedBio, setEditedBio] = useState("");
-
-  // Fetch and set userId context value from local storage
-  useEffect(() => {
-    if (userIdFromLocalStorage) {
-      setUserId(userIdFromLocalStorage);
-    }
-  }, [setUserId]);
-
-  // Navigate to the profile settings page if the user is logged in, otherwise navigate to the sign-in page
-  useEffect(() => {
-    if (userIdFromLocalStorage) {
-      navigate("/venueprofilesettings");
-    } else {
-      navigate("/signin");
-    }
-  }, [userId, navigate]);
 
   // Fetch venue data from API
   useEffect(() => {

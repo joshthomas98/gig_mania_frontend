@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoginContext } from "../App";
 
 const VenueEditGig = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const navigate = useNavigate();
   const { gigId } = useParams();
 
-  const storedUserId = localStorage.getItem("userId");
-  const storedUserType = localStorage.getItem("artistOrVenue");
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
 
   const [gigFormFieldData, setGigFormFieldData] = useState("");
 
@@ -67,7 +74,7 @@ const VenueEditGig = () => {
       type_of_gig: typeOfGig,
       artist_type: artistType,
       payment: payment,
-      user_type: storedUserType === "V" ? "Venue" : "",
+      user_type: artistOrVenue === "V" ? "Venue" : "",
     };
 
     // Replace Axios with Fetch API here

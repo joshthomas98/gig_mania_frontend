@@ -83,8 +83,13 @@ const NavbarComponent = () => {
 
   const handleLogout = () => {
     localStorage.clear();
+    setUserId(null);
+    setArtistOrVenue(null);
     navigate("/");
   };
+
+  console.log(userId);
+  console.log(artistOrVenue);
 
   // Determine whether to show the navigation items in the menu
   const shouldShowInMenu = window.innerWidth <= 1199;

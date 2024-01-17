@@ -9,17 +9,11 @@ const AlreadyAppliedForGig = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem("userId");
-    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
-
-    if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
-      navigate("/signin");
-    } else {
-      setUserId(userIdFromLocalStorage);
-      setArtistOrVenue(artistOrVenueFromLocalStorage);
-    }
-  }, []);
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
 
   return (
     <div className="text-light">

@@ -7,16 +7,22 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { LoginContext } from "../App";
 
 const VenueWriteReview = () => {
-  const { userId, setUserId } = useContext(LoginContext);
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   const navigate = useNavigate();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const artistIdFromURL = searchParams.get("artistId");
 
   const SERVER_BASE_URL = "http://localhost:8000/";
-
-  const userIdFromLocalStorage = localStorage.getItem("userId");
 
   const [artist, setArtist] = useState("");
   const [venue, setVenue] = useState("");
@@ -27,22 +33,6 @@ const VenueWriteReview = () => {
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Fetch and set userId context value from local storage
-  useEffect(() => {
-    if (userIdFromLocalStorage) {
-      setUserId(userIdFromLocalStorage);
-    }
-  }, [setUserId]);
-
-  // Navigate to the profile settings page if the user is logged in, otherwise navigate to the sign-in page
-  useEffect(() => {
-    if (userIdFromLocalStorage) {
-      navigate("/venuewritereview");
-    } else {
-      navigate("/signin");
-    }
-  }, [userId, navigate]);
 
   // Fetch artist data from API
   useEffect(() => {

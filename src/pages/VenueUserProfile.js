@@ -11,21 +11,15 @@ const VenueUserProfile = () => {
 
   const navigate = useNavigate();
 
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
+
   const SERVER_BASE_URL = "http://localhost:8000/";
 
   const [venue, setVenue] = useState([]);
-
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem("userId");
-    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
-
-    if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
-      navigate("/signin");
-    } else {
-      setUserId(userIdFromLocalStorage);
-      setArtistOrVenue(artistOrVenueFromLocalStorage);
-    }
-  }, []);
 
   useEffect(() => {
     const fetchVenue = async () => {

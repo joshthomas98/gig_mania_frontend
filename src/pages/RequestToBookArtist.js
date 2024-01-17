@@ -8,6 +8,13 @@ const RequestToBook = () => {
     useContext(LoginContext);
 
   const navigate = useNavigate();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
+
   const location = useLocation();
 
   const SERVER_BASE_URL = "http://localhost:8000/";

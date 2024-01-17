@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 
 function ArtistAdvertiseGig() {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const navigate = useNavigate();
 
-  const storedUserId = localStorage.getItem("userId");
-  const storedUserType = localStorage.getItem("artistOrVenue");
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
 
   const [fetchedArtistDetails, setFetchedArtistDetails] = useState();
 
@@ -20,7 +27,7 @@ function ArtistAdvertiseGig() {
   const [payment, setPayment] = useState("");
 
   const fetchArtistName = () => {
-    fetch(`http://localhost:8000/artists/${storedUserId}/`)
+    fetch(`http://localhost:8000/artists/${userId}/`)
       .then((response) => response.json())
       .then((data) => {
         setFetchedArtistDetails(data);
@@ -33,7 +40,7 @@ function ArtistAdvertiseGig() {
 
   useEffect(() => {
     fetchArtistName();
-  }, [storedUserId]);
+  }, [userId]);
 
   useEffect(() => {
     // Once the data is fetched and stored in gigFormFieldData state,
@@ -62,7 +69,7 @@ function ArtistAdvertiseGig() {
         ? fetchedArtistDetails.type_of_artist
         : "",
       payment: payment,
-      user_type: storedUserType === "A" ? "Artist" : "",
+      user_type: artistOrVenue === "A" ? "Artist" : "",
     };
 
     fetch("http://localhost:8000/artist_listed_gigs/", {

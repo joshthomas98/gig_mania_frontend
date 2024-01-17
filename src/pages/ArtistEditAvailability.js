@@ -1,13 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Calendar from "react-calendar";
 import { format } from "date-fns-tz";
+import { LoginContext } from "../App";
 
 const ArtistEditAvailability = () => {
-  const storedUserId = localStorage.getItem("userId");
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   const navigate = useNavigate();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
 
   const { profileId } = useParams();
 
@@ -92,7 +100,7 @@ const ArtistEditAvailability = () => {
       const dateString = `${year}-${month}-${day}`;
 
       const newUnavailability = {
-        artist: storedUserId, // Remove the curly braces around storedUserId
+        artist: userId, // Remove the curly braces around userId
         date: dateString,
         reason: unavailabilityReason, // Include the reason text
       };

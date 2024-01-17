@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 
 const GigApplicationSuccess = () => {
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
+  const navigate = useNavigate();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
   return (
     <div className="text-light text-center">
       <h1>Thank you!</h1>

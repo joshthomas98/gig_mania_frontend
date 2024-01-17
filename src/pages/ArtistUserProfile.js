@@ -13,6 +13,12 @@ const ArtistUserProfile = () => {
 
   const navigate = useNavigate();
 
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
+
   const SERVER_BASE_URL = "http://localhost:8000/";
 
   const [artist, setArtist] = useState([]);
@@ -20,18 +26,6 @@ const ArtistUserProfile = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedUnavailability, setSelectedUnavailability] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem("userId");
-    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
-
-    if (!userIdFromLocalStorage || !artistOrVenueFromLocalStorage) {
-      navigate("/signin");
-    } else {
-      setUserId(userIdFromLocalStorage);
-      setArtistOrVenue(artistOrVenueFromLocalStorage);
-    }
-  }, []);
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -136,6 +130,20 @@ const ArtistUserProfile = () => {
                         Edit profile
                       </a>
                     ) : null}
+
+                    <div className="pt-5">
+                      {userId === profileId ? (
+                        <Button
+                          color="purple"
+                          pill
+                          onClick={() => navigate("/mybookings")}
+                        >
+                          My Bookings
+                        </Button>
+                      ) : (
+                        ""
+                      )}
+                    </div>
 
                     {userId && artistOrVenue === "V" ? (
                       <div className="leave-venue-feedback-btn text-center pt-5">

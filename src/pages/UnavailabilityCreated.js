@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import SuccessAnimation from "../components/SuccessAnimation";
+import { LoginContext } from "../App";
 
 const UnavailabilityCreated = () => {
-  const storedUserId = localStorage.getItem("userId");
-  const storedUserType = localStorage.getItem("artistOrVenue");
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
+  const navigate = useNavigate();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+  }
 
   return (
     <div className="text-light text-center">
@@ -19,9 +29,9 @@ const UnavailabilityCreated = () => {
         <a
           className="pb-3"
           href={
-            storedUserType === "A"
-              ? `artistuserprofile/${storedUserId}`
-              : `venueuserprofile/${storedUserId}`
+            artistOrVenue === "A"
+              ? `artistuserprofile/${userId}`
+              : `venueuserprofile/${userId}`
           }
         >
           Back to my profile

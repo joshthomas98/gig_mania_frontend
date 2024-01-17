@@ -9,9 +9,16 @@ import {
 } from "../components/CountyData";
 
 const ArtistProfileSettings = () => {
-  const { userId, setUserId } = useContext(LoginContext);
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   const navigate = useNavigate();
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  } else if (userId && artistOrVenue === "V") {
+    navigate("/restrictedpage");
+  }
 
   const SERVER_BASE_URL = "http://localhost:8000/";
 
