@@ -1,0 +1,35 @@
+import React from "react";
+
+const ArtistGigAdvert = () => {
+  return (
+    <div>
+      <div className="col-md">
+        <div
+          className="card bg-secondary text-light"
+          style={{ width: "400px", height: "450px" }}
+        >
+          <div className="card-body text-center">
+            <div className="h1 mb-3">
+              <i className="bi bi-person-square"></i>
+            </div>
+            <p>Gig listed by artist</p>
+            <h3 className="card-title mb-3">The Patriot</h3>
+            <p>Wales</p>
+            <p>30/06/2023</p>
+            <p>Genre: Rock</p>
+            <p>Payment: £200</p>
+            <p className="card-text">
+              Interested in this gig? Click the more details button below to
+              find out more and apply.
+            </p>
+            <a href="/individualgig" className="btn btn-dark">
+              Read More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ArtistGigAdvert;

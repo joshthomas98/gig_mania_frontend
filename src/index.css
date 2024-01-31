@@ -1,0 +1,497 @@
+* {
+  background-color: #212121;
+}
+
+.text-container {
+  max-width: 1000px; /* Change this value as needed */
+  margin: 0 auto;
+}
+
+/* HOMEPAGE */
+
+.homepage-card {
+  border: 1px solid grey;
+  border-radius: 1px;
+  padding: 1px;
+}
+
+/* ARTIST OR VENUE PAGE */
+
+.register-card {
+  border: 1px solid grey;
+  border-radius: 1px;
+  padding: 1px;
+}
+
+/* FOOTER */
+
+.footer {
+  background-color: #212121;
+  color: #fff;
+  font-size: 14px;
+}
+
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer__logo {
+  height: 50px;
+  width: auto;
+}
+
+.footer__text {
+  margin: 0;
+}
+
+.footer__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer__item {
+  margin-left: 20px;
+}
+
+.footer__item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer__item a:hover {
+  text-decoration: underline;
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.social-icon {
+  color: grey;
+}
+
+.facebook-icon:hover {
+  color: #1877f2; /* Facebook official color */
+}
+
+.instagram-icon:hover {
+  color: #e1306c; /* Instagram official color */
+}
+
+.twitter-icon:hover {
+  color: #1da1f2; /* Twitter official color */
+}
+
+.linkedin-icon:hover {
+  color: #0a66c2; /* LinkedIn official color */
+}
+
+.bi.bi-arrow-up-circle.h1:hover {
+  color: white;
+}
+
+/* CONTACT US */
+
+.contact-us-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 2rem;
+  padding: 2rem;
+}
+
+.contact-us-section {
+  padding: 1rem;
+  text-align: center;
+}
+
+/* FAQS */
+
+.faq-item {
+  margin-bottom: 1rem;
+}
+
+.faq-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  background-color: #121212;
+  color: white;
+}
+
+.faq-title h3 {
+  margin: 0;
+}
+
+.faq-title i {
+  font-size: 1.5rem;
+}
+
+.faq-content {
+  padding: 1rem;
+  border-radius: 0.25rem;
+  background-color: #121212;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.faq-item:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.faq-title.active {
+  background-color: #25b8bd;
+  color: #fff;
+}
+
+.faq-title.active i {
+  transform: rotate(180deg);
+}
+
+.faq-content p {
+  margin: 0;
+}
+
+/* SIGN IN */
+
+.sign-in-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15rem;
+  position: relative; /* add position relative to grid container */
+}
+
+.sign-in-grid-container::after {
+  content: "";
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 35%; /* change top position to 50% */
+  bottom: 0;
+  right: 50%;
+  transform: translateY(
+    -40%
+  ); /* add translateY with negative 50% to center line */
+}
+
+/* Success Animation */
+
+.success-animation {
+  margin: 150px auto;
+}
+
+.checkmark {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #4bb71b;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #4bb71b;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+  position: relative;
+  top: 5px;
+  right: 5px;
+  margin: 0 auto;
+}
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #4bb71b;
+  fill: #212121;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #4bb71b;
+  }
+}
+
+.artist-search-result-card-container {
+  display: flex; /* use flexbox layout */
+  justify-content: space-between; /* distribute space between cards */
+  margin-bottom: 2rem; /* add some bottom margin */
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+/* Star Rating */
+
+.star {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url(../public/images/unlit-star.png); /* Replace with your star icon */
+  background-size: cover;
+  cursor: pointer;
+}
+
+.star.lit {
+  background-image: url(../public/images/lit-star.png); /* Replace with your lit star icon */
+}
+
+/* ARTIST WRITE REVIEW */
+
+.awr-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15rem;
+  position: relative; /* add position relative to grid container */
+}
+
+.awr-grid-container::after {
+  content: "";
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 35%; /* change top position to 50% */
+  bottom: 0;
+  right: 50%;
+  transform: translateY(
+    -40%
+  ); /* add translateY with negative 50% to center line */
+}
+
+/* VENUE WRITE REVIEW */
+
+.vwr-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15rem;
+  position: relative; /* add position relative to grid container */
+}
+
+.vwr-grid-container::after {
+  content: "";
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 35%; /* change top position to 50% */
+  bottom: 0;
+  right: 50%;
+  transform: translateY(
+    -40%
+  ); /* add translateY with negative 50% to center line */
+}
+
+/* REVIEW SUBJECT BOX */
+
+.review-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 280px; /* Set a fixed width for the review box */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.review-image {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.review-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-content {
+  text-align: center;
+}
+
+.review-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.review-description {
+  font-size: 14px;
+  margin: 5px 0 0;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.rating-stars {
+  color: #fcb900;
+}
+
+.rating-value {
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.review-info {
+  margin-top: 10px;
+}
+
+.review-date,
+.review-username {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+}
+
+/* SEARCH BAR */
+
+.search-bar-container {
+  position: relative;
+}
+
+.suggestion-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 999;
+}
+
+.suggestion-dropdown li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-dropdown li:hover {
+  background-color: black;
+}
+
+/* EDIT GIG */
+
+.edit-gig-only-artist-name-greyed-out {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.profile-button {
+  position: absolute;
+  margin-bottom: 3rem;
+  left: 62%;
+}
+
+/* Red dates (unavailable) */
+.unavailable-date {
+  background-color: red; /* Background color for unavailable dates */
+  color: white; /* Text color for unavailable dates */
+  border-radius: 0; /* Remove border-radius to make dates square */
+}
+
+/* Green dates (available) */
+.available-date {
+  background-color: green; /* Background color for available dates */
+  color: white; /* Text color for available dates */
+  border-radius: 0; /* Remove border-radius to make dates square */
+}
+
+/* Style for selected date (optional) */
+.react-calendar__tile--active {
+  background-color: blue; /* Background color for the selected date */
+  color: white; /* Text color for the selected date */
+  border-radius: 0; /* Remove border-radius to make the selected date square */
+}
+
+/* Customize the month and year scroller text color */
+.react-calendar__navigation__label {
+  color: white !important;
+  margin-bottom: 10px; /* Add space below the scroller text */
+}
+
+/* Customize the month and year scroller arrow color */
+.react-calendar__navigation button {
+  color: white !important;
+}
+
+/* Customize the month and year scroller background color */
+.react-calendar__navigation {
+  background-color: transparent !important;
+  margin-bottom: 20px; /* Add space below the scroller */
+}
+
+/* "ADD" BUTTON */
+
+.add-button {
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 20px; /* Adjust the border-radius to your preference */
+  background-color: #4caf50; /* Green background color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.add-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.plus-icon {
+  background-color: #fff; /* White background for the plus symbol */
+  color: #4caf50; /* Green color for the plus symbol */
+  border-radius: 50%; /* Make it a circle */
+  width: 30px; /* Adjust the size of the plus symbol */
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; /* Spacing between the plus symbol and text */
+}
