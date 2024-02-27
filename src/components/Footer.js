@@ -2,6 +2,13 @@ import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="mt-5 mb-5">
       <footer className="footer">
@@ -79,7 +86,7 @@ const Footer = () => {
               alignItems: "center",
             }}
           >
-            <a href="#">
+            <a onClick={scrollToTop}>
               <i className="bi bi-arrow-up-circle h1"></i>
             </a>
           </div>

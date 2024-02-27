@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import { LoginContext } from "../App";
@@ -8,12 +8,14 @@ import Testimonials from "../components/Testimonials";
 import MembershipPlans from "../components/MembershipPlans";
 
 const Homepage = () => {
-  const { userId, setUserId } = useContext(LoginContext);
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   const navigate = useNavigate();
 
-  const storedUserId = localStorage.getItem("userId");
-  const storedUserType = localStorage.getItem("artistOrVenue");
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+  }
 
   const [email, setEmail] = useState("");
 
@@ -22,17 +24,17 @@ const Homepage = () => {
   };
 
   const handleAdvertiseSubmit = () => {
-    if (storedUserId && storedUserType === "A") {
+    if (userId && artistOrVenue === "A") {
       navigate("/artistadvertisegig");
-    } else if (storedUserId && storedUserType === "V") {
+    } else if (userId && artistOrVenue === "V") {
       navigate("/venueadvertisegig");
-    } else if (!storedUserId && !storedUserType) {
+    } else if (!userId && !artistOrVenue) {
       navigate("/signin");
     }
   };
 
   const handleArtistProfileInfoBoxClick = () => {
-    navigate(`/artistuserprofile/${storedUserId}`);
+    navigate(`/artistuserprofile/${userId}`);
   };
 
   const handleVenueFindArtistsClick = () => {
@@ -40,7 +42,7 @@ const Homepage = () => {
   };
 
   const handleVenueProfileInfoBoxClick = () => {
-    navigate(`/venueuserprofile/${storedUserId}`);
+    navigate(`/venueuserprofile/${userId}`);
   };
 
   const handleNewsletterSignUp = (event) => {
@@ -86,7 +88,7 @@ const Homepage = () => {
           DJ, our platform provides you with the opportunity to showcase your
           talent and perform in front of new audiences.
         </p>
-        <p className="lead">
+        <p className="lead pb-4">
           But GigSweep isn't just for musicians. We also provide a simple and
           efficient system for music venues to find and book the best talent in
           their local area. And for fans, we offer a convenient way to stay
@@ -98,7 +100,7 @@ const Homepage = () => {
       </section>
 
       {/* Info boxes section */}
-      {storedUserId && storedUserType === "A" ? (
+      {userId && artistOrVenue === "A" ? (
         <section id="artist-functionality_boxes" className="p-5">
           <div className="container">
             <div className="row text-center g-4">
@@ -171,7 +173,7 @@ const Homepage = () => {
             </div>
           </div>
         </section>
-      ) : storedUserId && storedUserType === "V" ? (
+      ) : userId && artistOrVenue === "V" ? (
         <section id="venue-functionality_boxes" className="p-5">
           <div className="container">
             <div className="row text-center g-4">
