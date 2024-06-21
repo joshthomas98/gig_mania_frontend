@@ -254,6 +254,15 @@
   color: red;
 }
 
+/* Featured Artists */
+
+.card.user-card {
+  border: 1px solid #ccc; /* Adjust color as needed */
+  border-radius: 10px; /* Adjust as needed */
+  padding: 5px; /* Adjust as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional for better appearance */
+}
+
 /* Star Rating */
 
 .star {

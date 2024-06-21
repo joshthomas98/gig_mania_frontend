@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import IncorrectLoginModal from "../components/IncorrectLoginModal";
 import { LoginContext } from "../App";
@@ -21,29 +21,35 @@ const SignIn = () => {
       artistOrVenue === "A"
         ? "http://localhost:8000/artists/validate/"
         : "http://localhost:8000/venues/validate/";
+
     fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 404) {
+          handleShowModal();
+          return null;
+        }
+        return response.json();
+      })
       .then((data) => {
-        setUserId(data.id);
-        localStorage.setItem("userId", data.id);
-        setArtistOrVenue(artistOrVenue);
-        localStorage.setItem("artistOrVenue", artistOrVenue);
-        console.log(localStorage);
-
-        if (data.id != null) {
+        if (data && data.id) {
+          setUserId(data.id);
+          localStorage.setItem("userId", data.id);
+          setArtistOrVenue(artistOrVenue);
+          localStorage.setItem("artistOrVenue", artistOrVenue);
           const storedUserId = localStorage.getItem("userId");
           if (artistOrVenue === "A") {
             navigate(`/artistuserprofile/${storedUserId}`);
           } else if (artistOrVenue === "V") {
             navigate(`/venueuserprofile/${storedUserId}`);
           }
-        } else {
-          handleShowModal();
         }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   };
 
