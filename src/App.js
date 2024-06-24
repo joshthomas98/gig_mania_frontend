@@ -62,6 +62,7 @@ import MyBookings from "./pages/MyBookings";
 import RestrictedPage from "./pages/RestrictedPage";
 
 import Footer from "./components/Footer";
+import ConfirmGigApplicationModal from "./components/ConfirmGigApplicationModal";
 
 export const LoginContext = createContext();
 
@@ -262,6 +263,11 @@ const App = () => {
               <Route path="mybookings" element={<MyBookings />} />
 
               <Route path="restrictedpage" element={<RestrictedPage />} />
+
+              <Route
+                path="confirmgigapplicationmodal"
+                element={<ConfirmGigApplicationModal />}
+              />
             </Routes>
           </BrowserRouter>
           <Footer />

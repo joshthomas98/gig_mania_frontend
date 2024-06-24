@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
+import ConfirmGigApplicationModal from "../components/ConfirmGigApplicationModal";
 
 const IndividualGig = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
@@ -20,6 +21,11 @@ const IndividualGig = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [venueId, setVenueId] = useState(null);
   const [applyingArtist, setApplyingArtist] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   useEffect(() => {
     const fetchGigData = async () => {
@@ -86,7 +92,11 @@ const IndividualGig = () => {
     fetchApplyingArtist();
   }, [userId]);
 
-  const handleApplyNowClick = async () => {
+  const handleApplyNowClick = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmGigApplicationClick = async () => {
     setIsLoading(true);
 
     try {
@@ -172,10 +182,17 @@ const IndividualGig = () => {
             </tbody>
           </table>
 
+          <p className="text-center lead">
+            Reason for advertising this gig:<br></br>
+          </p>
+          <p className="text-center container pb-5 mx-auto w-50">
+            {gigDetails.description}
+          </p>
+
           <p className="individual-gig-apply-info text-center mb-4">
-            Click the apply now button below to apply for this gig. <br /> If
-            your application is successful, we'll notify you by email within a
-            few days.
+            Interested in this gig? Click the apply now button below to apply
+            for it. <br /> If your application is successful, we'll notify you
+            by email within a few days.
           </p>
 
           <div className="individual-gig-apply-button text-center">
@@ -190,6 +207,14 @@ const IndividualGig = () => {
               </a>
             )}
           </div>
+
+          {showModal && (
+            <ConfirmGigApplicationModal
+              show={showModal}
+              handleClose={handleCloseModal}
+              handleConfirm={handleConfirmGigApplicationClick} // Pass the function as a prop
+            />
+          )}
         </>
       )}
     </div>
