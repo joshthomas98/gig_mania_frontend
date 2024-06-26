@@ -196,6 +196,18 @@ const NavbarComponent = () => {
                 Logout
               </Nav.Link>
             ) : null}
+            {storedUserId && storedUserType ? (
+              <Nav.Link className="mt-3 mx-2">
+                <i
+                  className="bi bi-bell"
+                  style={{
+                    color: "white",
+                    fontSize: "1.5rem",
+                    cursor: "pointer",
+                  }}
+                ></i>
+              </Nav.Link>
+            ) : null}
           </Nav>
         </Navbar.Collapse>
       </Container>
