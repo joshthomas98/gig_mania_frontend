@@ -63,6 +63,7 @@ import RestrictedPage from "./pages/RestrictedPage";
 
 import Footer from "./components/Footer";
 import ConfirmGigApplicationModal from "./components/ConfirmGigApplicationModal";
+import ArtistGigApplicationReview from "./pages/ArtistGigApplicationReview";
 
 export const LoginContext = createContext();
 
@@ -267,6 +268,11 @@ const App = () => {
               <Route
                 path="confirmgigapplicationmodal"
                 element={<ConfirmGigApplicationModal />}
+              />
+
+              <Route
+                path="artistgigapplicationreview"
+                element={<ArtistGigApplicationReview />}
               />
             </Routes>
           </BrowserRouter>

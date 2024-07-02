@@ -21,6 +21,8 @@ const IndividualGig = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [venueId, setVenueId] = useState(null);
   const [applyingArtist, setApplyingArtist] = useState(null);
+  const [artistId, setArtistId] = useState(null);
+  const [message, setMessage] = useState("");
 
   const [showModal, setShowModal] = useState(false);
 
@@ -41,6 +43,8 @@ const IndividualGig = () => {
         if (response.ok) {
           const data = await response.json();
           setGigDetails(data);
+          setArtistId(data.artist_id);
+          setVenueId(data.venue_id);
         }
       } catch (error) {
         console.error("Error occurred:", error);
@@ -107,14 +111,20 @@ const IndividualGig = () => {
         bodyData = {
           artist: applyingArtist.id,
           artist_gig: gigDetails.id,
+          original_artist: artistId,
+          venue: venueId,
+          message: message,
         };
       } else {
         endpoint = "http://localhost:8000/venuegigapplications/";
         bodyData = {
           artist: applyingArtist.id,
           venue_gig: gigDetails.id,
+          message: message,
         };
       }
+
+      console.log("Sending bodyData:", bodyData); // Log bodyData for debugging
 
       const postResponse = await fetch(endpoint, {
         method: "POST",
@@ -183,17 +193,27 @@ const IndividualGig = () => {
           </table>
 
           <p className="text-center lead">
-            Reason for advertising this gig:<br></br>
+            Reason for {gigDetails.artist_name} advertising this gig:<br></br>
           </p>
           <p className="text-center container pb-5 mx-auto w-50">
             {gigDetails.description}
           </p>
 
-          <p className="individual-gig-apply-info text-center mb-4">
+          <p className="individual-gig-apply-info text-center mb-5">
             Interested in this gig? Click the apply now button below to apply
             for it. <br /> If your application is successful, we'll notify you
             by email within a few days.
           </p>
+
+          <div className="text-center mb-4">
+            <textarea
+              className="form-control w-75 mx-auto"
+              placeholder="Add any notes for the venue and original artist regarding your application. This field is optional so if you don't have any then feel free to leave it blank."
+              rows="4"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            ></textarea>
+          </div>
 
           <div className="individual-gig-apply-button text-center">
             {isLoading ? (

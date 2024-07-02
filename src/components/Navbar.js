@@ -112,7 +112,7 @@ const NavbarComponent = () => {
   }, []); // Run this effect only once when the component mounts
 
   return (
-    <Navbar expand="xl">
+    <Navbar expand="xxl">
       <Container>
         <Navbar.Brand href="/">
           <img
@@ -132,7 +132,7 @@ const NavbarComponent = () => {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="navbar-nav">
-          <div className="mx-auto" style={{ paddingRight: "50px" }}>
+          <div className="mx-auto pb-4" style={{ paddingRight: "50px" }}>
             <SearchBar />
           </div>
 
@@ -197,7 +197,7 @@ const NavbarComponent = () => {
               </Nav.Link>
             ) : null}
             {storedUserId && storedUserType ? (
-              <Nav.Link className="mt-3 mx-2">
+              <Nav.Link className="mb-4 mt-xxl-3 mx-2">
                 <i
                   className="bi bi-bell"
                   style={{
