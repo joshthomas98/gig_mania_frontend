@@ -64,6 +64,7 @@ import RestrictedPage from "./pages/RestrictedPage";
 import Footer from "./components/Footer";
 import ConfirmGigApplicationModal from "./components/ConfirmGigApplicationModal";
 import ArtistGigApplicationReview from "./pages/ArtistGigApplicationReview";
+import { ArtistGigApplicationsProvider } from "./contexts/ArtistGigApplicationsContext";
 
 export const LoginContext = createContext();
 
@@ -89,196 +90,204 @@ const App = () => {
 
   return (
     <LoginContext.Provider value={loginContextValue}>
-      <Container>
-        <div className="App">
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route index element={<Homepage />} />
+      <ArtistGigApplicationsProvider>
+        <Container>
+          <div className="App">
+            <BrowserRouter>
+              <Navbar />
+              <Routes>
+                <Route index element={<Homepage />} />
 
-              <Route path="artistregister" element={<ArtistRegister />} />
+                <Route path="artistregister" element={<ArtistRegister />} />
 
-              <Route path="venueregister" element={<VenueRegister />} />
+                <Route path="venueregister" element={<VenueRegister />} />
 
-              <Route path="about" element={<About />} />
+                <Route path="about" element={<About />} />
 
-              <Route path="faqs" element={<FAQs />} />
+                <Route path="faqs" element={<FAQs />} />
 
-              <Route
-                path="incorrectloginmodal"
-                element={<IncorrectLoginModal />}
-              />
+                <Route
+                  path="incorrectloginmodal"
+                  element={<IncorrectLoginModal />}
+                />
 
-              <Route path="signin" element={<SignIn />} />
+                <Route path="signin" element={<SignIn />} />
 
-              <Route path="artistsearch" element={<ArtistSearch />} />
+                <Route path="artistsearch" element={<ArtistSearch />} />
 
-              <Route
-                path="artistadvertisegig"
-                element={<ArtistAdvertiseGig />}
-              />
+                <Route
+                  path="artistadvertisegig"
+                  element={<ArtistAdvertiseGig />}
+                />
 
-              <Route path="venueadvertisegig" element={<VenueAdvertiseGig />} />
+                <Route
+                  path="venueadvertisegig"
+                  element={<VenueAdvertiseGig />}
+                />
 
-              <Route path="usercreated" element={<UserCreated />} />
+                <Route path="usercreated" element={<UserCreated />} />
 
-              <Route path="testfetch" element={<TestFetch />} />
+                <Route path="testfetch" element={<TestFetch />} />
 
-              <Route
-                path="artistorvenueregister"
-                element={<ArtistOrVenueRegister />}
-              />
+                <Route
+                  path="artistorvenueregister"
+                  element={<ArtistOrVenueRegister />}
+                />
 
-              <Route path="contactus" element={<ContactUs />} />
+                <Route path="contactus" element={<ContactUs />} />
 
-              <Route path="termsofuse" element={<TermsOfUse />} />
+                <Route path="termsofuse" element={<TermsOfUse />} />
 
-              <Route path="privacy" element={<PrivacyPolicy />} />
+                <Route path="privacy" element={<PrivacyPolicy />} />
 
-              <Route
-                path="artistprofilesettings"
-                element={<ArtistProfileSettings />}
-              />
+                <Route
+                  path="artistprofilesettings"
+                  element={<ArtistProfileSettings />}
+                />
 
-              <Route
-                path="venueprofilesettings"
-                element={<VenueProfileSettings />}
-              />
+                <Route
+                  path="venueprofilesettings"
+                  element={<VenueProfileSettings />}
+                />
 
-              <Route path="featuredartists" element={<FeaturedArtists />} />
+                <Route path="featuredartists" element={<FeaturedArtists />} />
 
-              <Route
-                path="artistuserprofile/:profileId"
-                element={<ArtistUserProfile />}
-              />
+                <Route
+                  path="artistuserprofile/:profileId"
+                  element={<ArtistUserProfile />}
+                />
 
-              <Route
-                path="venueuserprofile/:profileId"
-                element={<VenueUserProfile />}
-              />
+                <Route
+                  path="venueuserprofile/:profileId"
+                  element={<VenueUserProfile />}
+                />
 
-              <Route path="gigadvertised" element={<GigAdvertised />} />
+                <Route path="gigadvertised" element={<GigAdvertised />} />
 
-              <Route
-                path="venuesearchforartist"
-                element={<VenueSearchForArtist />}
-              />
+                <Route
+                  path="venuesearchforartist"
+                  element={<VenueSearchForArtist />}
+                />
 
-              <Route
-                path="artistsearchresultcard/:resultId"
-                element={<ArtistSearchResultCard />}
-              />
+                <Route
+                  path="artistsearchresultcard/:resultId"
+                  element={<ArtistSearchResultCard />}
+                />
 
-              <Route
-                path="newsletterthankyou"
-                element={<NewsletterThankYou />}
-              />
+                <Route
+                  path="newsletterthankyou"
+                  element={<NewsletterThankYou />}
+                />
 
-              <Route path="testimonials" element={<Testimonials />} />
+                <Route path="testimonials" element={<Testimonials />} />
 
-              <Route path="pickupgig" element={<PickUpGig />} />
+                <Route path="pickupgig" element={<PickUpGig />} />
 
-              <Route path="membershipplans" element={<MembershipPlans />} />
+                <Route path="membershipplans" element={<MembershipPlans />} />
 
-              <Route path="artistgigadvert" element={<ArtistGigAdvert />} />
+                <Route path="artistgigadvert" element={<ArtistGigAdvert />} />
 
-              <Route path="venuegigadvert" element={<VenueGigAdvert />} />
+                <Route path="venuegigadvert" element={<VenueGigAdvert />} />
 
-              <Route
-                path="/individualgig/:userType-listed/:gigId"
-                element={<IndividualGig />}
-              />
+                <Route
+                  path="/individualgig/:userType-listed/:gigId"
+                  element={<IndividualGig />}
+                />
 
-              <Route
-                path="gigapplicationsuccess"
-                element={<GigApplicationSuccess />}
-              />
+                <Route
+                  path="gigapplicationsuccess"
+                  element={<GigApplicationSuccess />}
+                />
 
-              <Route
-                path="artistwritereview/"
-                element={<ArtistWriteReview />}
-              />
+                <Route
+                  path="artistwritereview/"
+                  element={<ArtistWriteReview />}
+                />
 
-              <Route path="venuewritereview" element={<VenueWriteReview />} />
+                <Route path="venuewritereview" element={<VenueWriteReview />} />
 
-              <Route path="thanksforreview" element={<ThanksForReview />} />
+                <Route path="thanksforreview" element={<ThanksForReview />} />
 
-              <Route path="starrating" element={<StarRating />} />
+                <Route path="starrating" element={<StarRating />} />
 
-              <Route path="artistreviewbox" element={<ArtistReviewBox />} />
+                <Route path="artistreviewbox" element={<ArtistReviewBox />} />
 
-              <Route path="venuereviewbox" element={<VenueReviewBox />} />
+                <Route path="venuereviewbox" element={<VenueReviewBox />} />
 
-              <Route path="searchbar" element={<SearchBar />} />
+                <Route path="searchbar" element={<SearchBar />} />
 
-              <Route path="applyforgig" element={<ApplyForGig />} />
+                <Route path="applyforgig" element={<ApplyForGig />} />
 
-              <Route path="loadingspinner" element={<LoadingSpinner />} />
+                <Route path="loadingspinner" element={<LoadingSpinner />} />
 
-              <Route path="mylistedgigs" element={<MyListedGigs />} />
+                <Route path="mylistedgigs" element={<MyListedGigs />} />
 
-              <Route path="/artisteditgig/:gigId" element={<ArtistEditGig />} />
+                <Route
+                  path="/artisteditgig/:gigId"
+                  element={<ArtistEditGig />}
+                />
 
-              <Route path="/venueeditgig/:gigId" element={<VenueEditGig />} />
+                <Route path="/venueeditgig/:gigId" element={<VenueEditGig />} />
 
-              <Route
-                path="deletelistedgigmodal"
-                element={<DeleteListedGigModal />}
-              />
+                <Route
+                  path="deletelistedgigmodal"
+                  element={<DeleteListedGigModal />}
+                />
 
-              <Route
-                path="gigsuccessfullyupdated"
-                element={<GigSuccessfullyUpdated />}
-              />
+                <Route
+                  path="gigsuccessfullyupdated"
+                  element={<GigSuccessfullyUpdated />}
+                />
 
-              <Route
-                path="/profilesuccessfullyupdated"
-                element={<ProfileSuccessfullyUpdated />}
-              />
+                <Route
+                  path="/profilesuccessfullyupdated"
+                  element={<ProfileSuccessfullyUpdated />}
+                />
 
-              <Route
-                path="alreadyappliedforgig"
-                element={<AlreadyAppliedForGig />}
-              />
+                <Route
+                  path="alreadyappliedforgig"
+                  element={<AlreadyAppliedForGig />}
+                />
 
-              <Route
-                path="requesttobookartist/:resultId"
-                element={<RequestToBookArtist />}
-              />
+                <Route
+                  path="requesttobookartist/:resultId"
+                  element={<RequestToBookArtist />}
+                />
 
-              <Route
-                path="bookingrequestsent"
-                element={<BookingRequestSent />}
-              />
+                <Route
+                  path="bookingrequestsent"
+                  element={<BookingRequestSent />}
+                />
 
-              <Route
-                path="artisteditavailability/:profileId"
-                element={<ArtistEditAvailability />}
-              />
+                <Route
+                  path="artisteditavailability/:profileId"
+                  element={<ArtistEditAvailability />}
+                />
 
-              <Route
-                path="unavailabilitycreated"
-                element={<UnavailabilityCreated />}
-              />
+                <Route
+                  path="unavailabilitycreated"
+                  element={<UnavailabilityCreated />}
+                />
 
-              <Route path="mybookings" element={<MyBookings />} />
+                <Route path="mybookings" element={<MyBookings />} />
 
-              <Route path="restrictedpage" element={<RestrictedPage />} />
+                <Route path="restrictedpage" element={<RestrictedPage />} />
 
-              <Route
-                path="confirmgigapplicationmodal"
-                element={<ConfirmGigApplicationModal />}
-              />
+                <Route
+                  path="confirmgigapplicationmodal"
+                  element={<ConfirmGigApplicationModal />}
+                />
 
-              <Route
-                path="artistgigapplicationreview"
-                element={<ArtistGigApplicationReview />}
-              />
-            </Routes>
-          </BrowserRouter>
-          <Footer />
-        </div>
-      </Container>
+                <Route
+                  path="artistgigapplicationreview"
+                  element={<ArtistGigApplicationReview />}
+                />
+              </Routes>
+            </BrowserRouter>
+            <Footer />
+          </div>
+        </Container>
+      </ArtistGigApplicationsProvider>
     </LoginContext.Provider>
   );
 };

@@ -1,12 +1,16 @@
-import { useState, useContext } from "react";
+// SignIn.js
+
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import IncorrectLoginModal from "../components/IncorrectLoginModal";
 import { LoginContext } from "../App";
+import { useArtistGigApplications } from "../contexts/ArtistGigApplicationsContext";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
+  const { updateArtistGigApplications } = useArtistGigApplications();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,6 +50,9 @@ const SignIn = () => {
           } else if (artistOrVenue === "V") {
             navigate(`/venueuserprofile/${storedUserId}`);
           }
+
+          // Update context with artistGigApplications data
+          fetchArtistGigApplications(data.id);
         }
       })
       .catch((error) => {
@@ -53,11 +60,26 @@ const SignIn = () => {
       });
   };
 
+  const fetchArtistGigApplications = (userId) => {
+    fetch(`http://localhost:8000/artistgigapplications/?venue_id=${userId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch artist gig applications");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        updateArtistGigApplications(data); // Update context with fetched data
+      })
+      .catch((error) => {
+        console.error("Error fetching artist gig applications:", error);
+        // Handle errors appropriately
+      });
+  };
+
   const handleUserTypeChange = (event) => {
     setArtistOrVenue(event.target.value === "artist" ? "A" : "V");
   };
-
-  // console.log(userId + artistOrVenue + "THIS");
 
   return (
     <>

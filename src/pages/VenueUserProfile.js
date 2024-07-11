@@ -1,47 +1,56 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
+import { useArtistGigApplications } from "../contexts/ArtistGigApplicationsContext";
 
 const VenueUserProfile = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
+  const { artistGigApplications } = useArtistGigApplications();
 
   const { profileId } = useParams();
-
   const navigate = useNavigate();
-
-  if (!userId || !artistOrVenue) {
-    navigate("/signin");
-  } else if (userId && artistOrVenue === "A") {
-    navigate("/restrictedpage");
-  }
-
-  const SERVER_BASE_URL = "http://localhost:8000/";
 
   const [venue, setVenue] = useState([]);
 
   useEffect(() => {
     const fetchVenue = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}venues/${profileId}/`);
+        const response = await fetch(
+          `http://localhost:8000/venues/${profileId}/`
+        );
         if (!response.ok) {
-          throw new Error("Failed to fetch artist data");
+          throw new Error("Failed to fetch venue data");
         }
         const data = await response.json();
-        console.log(data);
         setVenue([data]);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching venue data:", error);
       }
     };
 
     fetchVenue();
   }, [profileId]);
 
+  // Log artistGigApplications state whenever it changes
   useEffect(() => {
-    console.log(venue);
-  });
+    console.log("artistGigApplications:", artistGigApplications);
+  }, [artistGigApplications]);
+
+  if (!userId || !artistOrVenue) {
+    navigate("/signin");
+    return null;
+  } else if (userId && artistOrVenue === "A") {
+    navigate("/restrictedpage");
+    return null;
+  }
+
+  if (!venue.length) {
+    return <div>Loading venue profile...</div>; // Handle loading state
+  }
+
+  console.log(artistGigApplications);
 
   return (
     <>
@@ -56,8 +65,8 @@ const VenueUserProfile = () => {
                   <div className="media align-items-end profile-head text-center py-5">
                     <div className="profile mr-3">
                       <img
-                        src={SERVER_BASE_URL + venue.image}
-                        alt="..."
+                        src={`http://localhost:8000/${venue.image}`}
+                        alt="Venue"
                         width={130}
                         className="rounded mb-2 img-thumbnail"
                       />
@@ -65,9 +74,7 @@ const VenueUserProfile = () => {
 
                     <div className="media-body text-white">
                       <h4 className="mt-3">{venue.venue_name}</h4>
-
                       <p>{venue.county}</p>
-
                       <p className="py-3">{venue.genre}</p>
                     </div>
 
@@ -90,11 +97,11 @@ const VenueUserProfile = () => {
                   </div>
                 </div>
 
-                {userId === profileId ? (
+                {userId === profileId && (
                   <div className="show-listed-gigs text-center pb-4">
                     <a href="/mylistedgigs">View my listed gigs</a>
                   </div>
-                ) : null}
+                )}
 
                 <div className="bg-dark p-4 d-flex justify-content-end text-center">
                   <ul className="list-inline mb-0">
