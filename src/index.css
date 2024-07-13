@@ -504,3 +504,31 @@
   align-items: center;
   margin-right: 10px; /* Spacing between the plus symbol and text */
 }
+
+/* Suggestion dropdown styles */
+.suggestion-dropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: 100%; /* Full width of the input */
+  margin-top: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+.suggestion-item:active {
+  background-color: #e0e0e0;
+}

@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 
 function ArtistAdvertiseGig() {
-  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
-    useContext(LoginContext);
-
+  const { userId, artistOrVenue } = useContext(LoginContext);
   const navigate = useNavigate();
 
   if (!userId || !artistOrVenue) {
@@ -17,21 +15,26 @@ function ArtistAdvertiseGig() {
   }
 
   const [fetchedArtistDetails, setFetchedArtistDetails] = useState();
-
   const [artistName, setArtistName] = useState("");
   const [dateOfGig, setDateOfGig] = useState("");
   const [venueName, setVenueName] = useState("");
+  const [venue, setVenue] = useState(""); // New state for venue ID
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
   const [typeOfGig, setTypeOfGig] = useState("");
   const [payment, setPayment] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
 
   const fetchArtistName = () => {
     fetch(`http://localhost:8000/artists/${userId}/`)
       .then((response) => response.json())
       .then((data) => {
         setFetchedArtistDetails(data);
-        console.log(data?.id); // Use optional chaining here
       })
       .catch((error) => {
         console.error("Error fetching artist name:", error);
@@ -43,25 +46,72 @@ function ArtistAdvertiseGig() {
   }, [userId]);
 
   useEffect(() => {
-    // Once the data is fetched and stored in gigFormFieldData state,
-    // set the individual form field values using that data
     if (fetchedArtistDetails?.artist_name) {
       setArtistName(fetchedArtistDetails.artist_name);
     }
   }, [fetchedArtistDetails]);
 
+  const handleSearchInputChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    setVenueName(query);
+
+    if (query.trim() === "") {
+      setSuggestions([]); // Clear suggestions
+      setShowSuggestions(false); // Hide suggestions
+    } else {
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
+
+      const timeout = setTimeout(() => {
+        fetchSuggestions(query);
+      }, 500);
+
+      setTypingTimeout(timeout);
+      setShowSuggestions(true); // Show suggestions when typing
+    }
+  };
+
+  const fetchSuggestions = async (query) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/venues/search/?q=${query}`
+      );
+      const venueData = await response.json();
+      const venueSuggestions = venueData.map((venue) => ({
+        id: venue.id,
+        name: venue.venue_name,
+      }));
+
+      setSuggestions(
+        venueSuggestions.filter((venue) =>
+          venue.name.toLowerCase().startsWith(query.toLowerCase())
+        )
+      );
+      setShowSuggestions(venueSuggestions.length > 0);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  const handleSuggestionClick = (venue) => {
+    setSearchQuery(venue.name);
+    setVenueName(venue.name);
+    setVenue(venue.id); // Set venue ID
+    setShowSuggestions(false); // Hide suggestions after selection
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // convert dateOfGig to a Date object
     const dateObj = new Date(dateOfGig);
-
-    // extract only the date portion
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
-      artist: fetchedArtistDetails ? fetchedArtistDetails.id : "", // Include the fetched artist name
+      artist: fetchedArtistDetails ? fetchedArtistDetails.id : "",
       date_of_gig: date,
       venue_name: venueName,
+      venue: venue, // Use venue ID here
       country_of_venue: countryOfVenue,
       genre_of_gig: genreOfGig,
       type_of_gig: typeOfGig,
@@ -69,6 +119,7 @@ function ArtistAdvertiseGig() {
         ? fetchedArtistDetails.type_of_artist
         : "",
       payment: payment,
+      description: description,
       user_type: artistOrVenue === "A" ? "Artist" : "",
     };
 
@@ -103,14 +154,12 @@ function ArtistAdvertiseGig() {
           <Col md={6}>
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Artist Name:</Form.Label>
-              {/* Non-editable text element to display the artist name */}
               <div>{artistName}</div>
-              {/* Hidden input field to store and send the artist name in the POST request */}
               <input
                 type="hidden"
                 name="artistName"
                 value={artistName}
-                readOnly // Make the input read-only
+                readOnly
               />
             </Form.Group>
           </Col>
@@ -128,14 +177,27 @@ function ArtistAdvertiseGig() {
         </Row>
         <Row className="justify-content-center">
           <Col md={6}>
-            <Form.Group className="p-3 text-center">
+            <Form.Group className="p-3 text-center position-relative">
               <Form.Label className="text-white">Name Of Venue:</Form.Label>
-              <Form.Control
-                placeholder="Enter venue name"
+              <FormControl
+                placeholder="Search for venue"
                 type="text"
-                value={venueName}
-                onChange={(event) => setVenueName(event.target.value)}
+                value={searchQuery}
+                onChange={handleSearchInputChange}
               />
+              {showSuggestions && searchQuery.trim() !== "" && (
+                <ul className="suggestion-dropdown mt-1">
+                  {suggestions.map((venue) => (
+                    <li
+                      key={venue.id}
+                      onClick={() => handleSuggestionClick(venue)}
+                      className="suggestion-item"
+                    >
+                      {venue.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </Form.Group>
           </Col>
           <Col md={6}>
@@ -183,7 +245,6 @@ function ArtistAdvertiseGig() {
             <Form.Group className="p-3 text-center">
               <Form.Label className="text-white">Type Of Gig:</Form.Label>
               <Form.Select
-                placeholder="Type of gig you are looking for"
                 value={typeOfGig}
                 onChange={(event) => setTypeOfGig(event.target.value)}
               >
@@ -194,6 +255,22 @@ function ArtistAdvertiseGig() {
                 <option value="Covers">Covers</option>
                 <option value="Both">Both</option>
               </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <Form.Group className="p-3 text-center">
+              <Form.Label className="text-white">
+                Reason for advertising this gig:
+              </Form.Label>
+              <Form.Control
+                as="textarea" // Change to textarea
+                rows={5} // Set the number of visible rows
+                placeholder="Tell us a bit more about why you can no longer play this gig."
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+              />
             </Form.Group>
           </Col>
         </Row>
@@ -211,7 +288,7 @@ function ArtistAdvertiseGig() {
           </Col>
         </Row>
         <div className="text-center">
-          <Button className="my-3 mx-3" variant="primary" type="submit">
+          <Button className="mt-4 mx-3" variant="primary" type="submit">
             Submit
           </Button>
         </div>

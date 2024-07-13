@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { LoginContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { useArtistGigApplications } from "../contexts/ArtistGigApplicationsContext";
 
 const hamburgerIcon = (
   <svg
@@ -44,6 +45,7 @@ const NavbarComponent = () => {
   const navigate = useNavigate();
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
+  const { artistGigApplications } = useArtistGigApplications();
 
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
@@ -196,7 +198,7 @@ const NavbarComponent = () => {
                 Logout
               </Nav.Link>
             ) : null}
-            {storedUserId && storedUserType ? (
+            {storedUserId && storedUserType && !artistGigApplications ? (
               <Nav.Link className="mb-4 mt-xxl-3 mx-2">
                 <i
                   className="bi bi-bell"
@@ -206,6 +208,25 @@ const NavbarComponent = () => {
                     cursor: "pointer",
                   }}
                 ></i>
+              </Nav.Link>
+            ) : null}
+            {storedUserId && storedUserType && artistGigApplications ? (
+              <Nav.Link className="mb-4 mt-xxl-3 mx-2 position-relative">
+                <i
+                  className="bi bi-bell"
+                  style={{
+                    color: "white",
+                    fontSize: "1.5rem",
+                    cursor: "pointer",
+                    color: "gold",
+                  }}
+                ></i>
+                <span
+                  className="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                  style={{ fontSize: "0.75rem", padding: "0.2em 0.5em" }}
+                >
+                  1
+                </span>
               </Nav.Link>
             ) : null}
           </Nav>
