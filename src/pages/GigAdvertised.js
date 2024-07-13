@@ -3,6 +3,7 @@ import SuccessAnimation from "../components/SuccessAnimation";
 
 const GigAdvertised = () => {
   const storedUserType = localStorage.getItem("artistOrVenue");
+  const storedUserId = localStorage.getItem("userId");
 
   return (
     <div className="text-light text-center">
@@ -10,7 +11,11 @@ const GigAdvertised = () => {
 
       <a
         className="pb-3"
-        href={storedUserType === "A" ? "artistuserprofile" : "venueuserprofile"}
+        href={
+          storedUserType === "A"
+            ? `/artistuserprofile/${storedUserId}`
+            : `/venueuserprofile/${storedUserId}`
+        }
       >
         Back to my profile
       </a>
