@@ -136,12 +136,14 @@ const ArtistUserProfile = () => {
                 </div>
 
                 <div className="text-center mb-4">
-                  <h4 className="text-light pb-3 pt-3">About</h4>
-                  <p className="text-light">{artist.bio}</p>
+                  <h4 className="text-light pb-3 pt-5">About</h4>
+                  <div className="container">
+                    <p className="text-light">{artist.bio}</p>
+                  </div>
                 </div>
 
-                <div className="text-center mb-4">
-                  <h4>Availability</h4>
+                <div className="text-center mb-5">
+                  <h4 className="text-light pt-5 pb-3">Availability</h4>
                   <Calendar
                     className="mt-3"
                     value={selectedDate}
