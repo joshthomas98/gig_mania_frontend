@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Row, Col, FormControl } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ArtistAdvertiseGig() {
   const { userId, artistOrVenue } = useContext(LoginContext);
@@ -13,6 +13,8 @@ function ArtistAdvertiseGig() {
   } else if (userId && artistOrVenue === "V") {
     navigate("/restrictedpage");
   }
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fetchedArtistDetails, setFetchedArtistDetails] = useState();
   const [artistName, setArtistName] = useState("");
@@ -104,6 +106,7 @@ function ArtistAdvertiseGig() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const dateObj = new Date(dateOfGig);
     const date = dateObj.toISOString().slice(0, 10);
 
@@ -132,168 +135,204 @@ function ArtistAdvertiseGig() {
     })
       .then((response) => {
         if (response.ok) {
-          navigate("/gigadvertised");
+          setTimeout(() => {
+            navigate("/gigadvertised");
+          }, 2000); // Delay for 2 seconds before navigating
         } else {
           console.error("Error advertising gig:", response.status);
         }
       })
       .catch((error) => {
         console.error("Error advertising gig:", error);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500); // Ensure spinner is shown for at least 2 seconds
       });
   };
 
   return (
-    <div className="container-fluid">
-      <h1 className="text-white text-center mb-4 px-3">Advertise Your Gig</h1>
-
-      <Form
-        onSubmit={handleSubmit}
-        className="rounded-3 w-50 mx-auto text-light"
-      >
-        <Row className="justify-content-center">
-          <Col md={6}>
-            <Form.Group className="p-3 text-center">
-              <Form.Label className="text-white">Artist Name:</Form.Label>
-              <div>{artistName}</div>
-              <input
-                type="hidden"
-                name="artistName"
-                value={artistName}
-                readOnly
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="p-3 text-center" controlId="date">
-              <Form.Label>Date of Gig:</Form.Label>
-              <Form.Control
-                type="date"
-                name="dateOfGig"
-                value={dateOfGig}
-                onChange={(event) => setDateOfGig(event.target.value)}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col md={6}>
-            <Form.Group className="p-3 text-center position-relative">
-              <Form.Label className="text-white">Name Of Venue:</Form.Label>
-              <FormControl
-                placeholder="Search for venue"
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchInputChange}
-              />
-              {showSuggestions && searchQuery.trim() !== "" && (
-                <ul className="suggestion-dropdown mt-1">
-                  {suggestions.map((venue) => (
-                    <li
-                      key={venue.id}
-                      onClick={() => handleSuggestionClick(venue)}
-                      className="suggestion-item"
-                    >
-                      {venue.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="p-3 text-center">
-              <Form.Label className="text-white">Country Of Venue:</Form.Label>
-              <Form.Select
-                value={countryOfVenue}
-                onChange={(event) => setCountryOfVenue(event.target.value)}
-              >
-                <option value="">Select country</option>
-                <option value="England">England</option>
-                <option value="Wales">Wales</option>
-                <option value="Scotland">Scotland</option>
-                <option value="Northern Ireland">Northern Ireland</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col md={6}>
-            <Form.Group className="p-3 text-center">
-              <Form.Label className="text-white">Select a Genre:</Form.Label>
-              <Form.Select
-                value={genreOfGig}
-                onChange={(event) => setGenreOfGig(event.target.value)}
-              >
-                <option value="">Select a genre</option>
-                <option value="Rock">Rock</option>
-                <option value="Pop">Pop</option>
-                <option value="Jazz">Jazz</option>
-                <option value="Country">Country</option>
-                <option value="Hip Hop">Hip Hop</option>
-                <option value="R&B">R&B</option>
-                <option value="Electronic">Electronic</option>
-                <option value="Classical">Classical</option>
-                <option value="Reggae">Reggae</option>
-                <option value="Metal">Metal</option>
-                <option value="Folk">Folk</option>
-                <option value="Blues">Blues</option>
-                <option value="World Music">World Music</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="p-3 text-center">
-              <Form.Label className="text-white">Type Of Gig:</Form.Label>
-              <Form.Select
-                value={typeOfGig}
-                onChange={(event) => setTypeOfGig(event.target.value)}
-              >
-                <option disabled hidden value="">
-                  Type of gig
-                </option>
-                <option value="Original Music">Original Music</option>
-                <option value="Covers">Covers</option>
-                <option value="Both">Both</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <Form.Group className="p-3 text-center">
-              <Form.Label className="text-white">
-                Reason for advertising this gig:
-              </Form.Label>
-              <Form.Control
-                as="textarea" // Change to textarea
-                rows={5} // Set the number of visible rows
-                placeholder="Tell us a bit more about why you can no longer play this gig."
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col md={6}>
-            <Form.Group className="p-3 text-center">
-              <Form.Label className="text-white">Payment For Gig:</Form.Label>
-              <Form.Control
-                placeholder="£ (If gig is unpaid enter 0)"
-                type="number"
-                value={payment}
-                onChange={(event) => setPayment(event.target.value)}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <div className="text-center">
-          <Button className="mt-4 mx-3" variant="primary" type="submit">
-            Submit
-          </Button>
+    <>
+      {isLoading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backdropFilter: "blur(5px)",
+            zIndex: 1,
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <LoadingSpinner />
+          </div>
         </div>
-      </Form>
-    </div>
+      )}
+
+      <div className="container-fluid">
+        <h1 className="text-white text-center mb-4 px-3">Advertise Your Gig</h1>
+
+        <Form
+          onSubmit={handleSubmit}
+          className="rounded-3 w-50 mx-auto text-light"
+        >
+          <Row className="justify-content-center">
+            <Col md={6}>
+              <Form.Group className="p-3 text-center">
+                <Form.Label className="text-white">Artist Name:</Form.Label>
+                <div>{artistName}</div>
+                <input
+                  type="hidden"
+                  name="artistName"
+                  value={artistName}
+                  readOnly
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="p-3 text-center" controlId="date">
+                <Form.Label>Date of Gig:</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="dateOfGig"
+                  value={dateOfGig}
+                  onChange={(event) => setDateOfGig(event.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md={6}>
+              <Form.Group className="p-3 text-center position-relative">
+                <Form.Label className="text-white">Name Of Venue:</Form.Label>
+                <FormControl
+                  placeholder="Search for venue"
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
+                />
+                {showSuggestions && searchQuery.trim() !== "" && (
+                  <ul className="suggestion-dropdown mt-1">
+                    {suggestions.map((venue) => (
+                      <li
+                        key={venue.id}
+                        onClick={() => handleSuggestionClick(venue)}
+                        className="suggestion-item"
+                      >
+                        {venue.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="p-3 text-center">
+                <Form.Label className="text-white">
+                  Country Of Venue:
+                </Form.Label>
+                <Form.Select
+                  value={countryOfVenue}
+                  onChange={(event) => setCountryOfVenue(event.target.value)}
+                >
+                  <option value="">Select country</option>
+                  <option value="England">England</option>
+                  <option value="Wales">Wales</option>
+                  <option value="Scotland">Scotland</option>
+                  <option value="Northern Ireland">Northern Ireland</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md={6}>
+              <Form.Group className="p-3 text-center">
+                <Form.Label className="text-white">Select a Genre:</Form.Label>
+                <Form.Select
+                  value={genreOfGig}
+                  onChange={(event) => setGenreOfGig(event.target.value)}
+                >
+                  <option value="">Select a genre</option>
+                  <option value="Rock">Rock</option>
+                  <option value="Pop">Pop</option>
+                  <option value="Jazz">Jazz</option>
+                  <option value="Country">Country</option>
+                  <option value="Hip Hop">Hip Hop</option>
+                  <option value="R&B">R&B</option>
+                  <option value="Electronic">Electronic</option>
+                  <option value="Classical">Classical</option>
+                  <option value="Reggae">Reggae</option>
+                  <option value="Metal">Metal</option>
+                  <option value="Folk">Folk</option>
+                  <option value="Blues">Blues</option>
+                  <option value="World Music">World Music</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="p-3 text-center">
+                <Form.Label className="text-white">Type Of Gig:</Form.Label>
+                <Form.Select
+                  value={typeOfGig}
+                  onChange={(event) => setTypeOfGig(event.target.value)}
+                >
+                  <option disabled hidden value="">
+                    Type of gig
+                  </option>
+                  <option value="Original Music">Original Music</option>
+                  <option value="Covers">Covers</option>
+                  <option value="Both">Both</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <Form.Group className="p-3 text-center">
+                <Form.Label className="text-white">
+                  Reason for advertising this gig:
+                </Form.Label>
+                <Form.Control
+                  as="textarea" // Change to textarea
+                  rows={5} // Set the number of visible rows
+                  placeholder="Tell us a bit more about why you can no longer play this gig."
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md={6}>
+              <Form.Group className="p-3 text-center">
+                <Form.Label className="text-white">Payment For Gig:</Form.Label>
+                <Form.Control
+                  placeholder="£ (If gig is unpaid enter 0)"
+                  type="number"
+                  value={payment}
+                  onChange={(event) => setPayment(event.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <div className="text-center">
+            <Button className="mt-4 mx-3" variant="primary" type="submit">
+              Submit
+            </Button>
+          </div>
+        </Form>
+      </div>
+    </>
   );
 }
 
