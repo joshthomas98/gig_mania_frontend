@@ -102,7 +102,7 @@ const ArtistUserProfile = () => {
                   <p className="text-light lead">{artist.county}</p>
                 </div>
 
-                <div className="row justify-content-center mb-5 pt-3 text-light">
+                <div className="row justify-content-center mb-4 pt-3 text-light">
                   {userId === profileId && (
                     <>
                       <div className="col-auto">
@@ -123,6 +123,16 @@ const ArtistUserProfile = () => {
                       </div>
                     </>
                   )}
+                </div>
+                <div className="row justify-content-center my-4">
+                  <div className="col-auto">
+                    <Button
+                      variant="primary"
+                      onClick={() => navigate("/artistadvertisegig")}
+                    >
+                      Advertise Gig
+                    </Button>
+                  </div>
                 </div>
 
                 <div className="text-center mb-4">
