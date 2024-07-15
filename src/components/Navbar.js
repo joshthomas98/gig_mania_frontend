@@ -267,15 +267,21 @@ const NavbarComponent = () => {
                         style={{
                           padding: "1em",
                           borderBottom: "1px solid #e0e0e0",
-                          background: "#f9f9f9",
+                          background: "grey",
                           borderRadius: "5px",
-                          margin: "0.5em 0",
+                          margin: "0.3em 0",
                         }}
                       >
                         <div style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
                           {notification.title}
                         </div>
-                        <div style={{ fontSize: "1rem" }}>
+                        <div
+                          style={{
+                            fontSize: "1rem",
+                            color: "white",
+                            backgroundColor: "grey",
+                          }}
+                        >
                           {notification.message}
                         </div>
                         <div style={{ fontSize: "0.8rem", color: "#888" }}>
