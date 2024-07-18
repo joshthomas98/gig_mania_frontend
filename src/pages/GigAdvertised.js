@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import SuccessAnimation from "../components/SuccessAnimation";
 import { Button } from "react-bootstrap";
+import { LoginContext } from "../App";
 
 const GigAdvertised = () => {
-  const storedUserType = localStorage.getItem("artistOrVenue");
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
 
   return (
     <div className="text-light text-center">
@@ -22,7 +24,9 @@ const GigAdvertised = () => {
         <Button
           variant="primary"
           href={
-            storedUserType === "A" ? "artistuserprofile" : "venueuserprofile"
+            artistOrVenue === "A"
+              ? `artistuserprofile/${userId}`
+              : `venueuserprofile/${userId}`
           }
         >
           Back to my profile

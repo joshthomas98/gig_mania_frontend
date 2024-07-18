@@ -11,6 +11,8 @@ const IndividualGig = () => {
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
 
+  console.log(artistOrVenue);
+
   const navigate = useNavigate();
 
   const SERVER_BASE_URL = "http://localhost:8000/";

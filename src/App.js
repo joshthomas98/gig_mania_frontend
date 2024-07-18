@@ -60,11 +60,12 @@ import ArtistEditAvailability from "./pages/ArtistEditAvailability";
 import UnavailabilityCreated from "./pages/UnavailabilityCreated";
 import MyBookings from "./pages/MyBookings";
 import RestrictedPage from "./pages/RestrictedPage";
-
-import Footer from "./components/Footer";
 import ConfirmGigApplicationModal from "./components/ConfirmGigApplicationModal";
 import ArtistGigApplicationReview from "./pages/ArtistGigApplicationReview";
 import { ArtistGigApplicationsProvider } from "./contexts/ArtistGigApplicationsContext";
+import GigTransferReview from "./pages/GigTransferReview";
+
+import Footer from "./components/Footer";
 
 export const LoginContext = createContext();
 
@@ -281,6 +282,11 @@ const App = () => {
                 <Route
                   path="artistgigapplicationreview"
                   element={<ArtistGigApplicationReview />}
+                />
+
+                <Route
+                  path="gigtransferreview/:gigId"
+                  element={<GigTransferReview />}
                 />
               </Routes>
             </BrowserRouter>
