@@ -64,12 +64,39 @@ const NavbarComponent = () => {
           `${SERVER_BASE_URL}venue_notifications/${storedUserId}/`
         );
         const data = await response.json();
-        setVenueNotifications(data);
+        const verifiedNotifications = await verifyNotifications(data);
+        setVenueNotifications(verifiedNotifications);
       }
     };
 
     fetchVenueNotifications();
   }, [storedUserId, storedUserType]);
+
+  const verifyNotifications = async (notifications) => {
+    const verifiedNotifications = [];
+    for (const notification of notifications) {
+      let gigExists = true;
+      if (notification.if_gig_advertised_by_artist) {
+        const gigResponse = await fetch(
+          `${SERVER_BASE_URL}artist_listed_gigs/${notification.if_gig_advertised_by_artist}/`
+        );
+        if (!gigResponse.ok) {
+          gigExists = false;
+        }
+      } else if (notification.if_venue_made_gig) {
+        const gigResponse = await fetch(
+          `${SERVER_BASE_URL}venue_gigs/${notification.if_venue_made_gig}/`
+        );
+        if (!gigResponse.ok) {
+          gigExists = false;
+        }
+      }
+      if (gigExists) {
+        verifiedNotifications.push(notification);
+      }
+    }
+    return verifiedNotifications;
+  };
 
   const notificationCount = venueNotifications.length;
 
@@ -246,7 +273,9 @@ const NavbarComponent = () => {
                     Notifications
                   </Dropdown.ItemText>
                   {notificationCount === 0 ? (
-                    <Dropdown.ItemText>No notifications</Dropdown.ItemText>
+                    <Dropdown.ItemText style={{ background: "#d3d3d3" }}>
+                      No notifications
+                    </Dropdown.ItemText>
                   ) : (
                     notificationsToShow.map((notification, index) => (
                       <Dropdown.Item

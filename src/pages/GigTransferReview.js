@@ -9,34 +9,48 @@ import {
   Modal,
 } from "react-bootstrap";
 import { LoginContext } from "../App";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
+import LoadingSpinner from "../components/LoadingSpinner";
+import GigTransferModal from "../components/GigTransferModal";
 
 const GigTransferReview = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
-
   const { gigId } = useParams();
+  const navigate = useNavigate();
+  const SERVER_BASE_URL = "http://localhost:8000/";
 
   const [showModal, setShowModal] = useState(false);
+  const [modalAction, setModalAction] = useState(null); // State to store the action type (approve/decline)
   const [selectedArtist, setSelectedArtist] = useState(null);
-
   const [gigDetails, setGigDetails] = useState(null);
-  const [artistGigApplications, setArtistGigApplications] = useState(null);
+  const [artistGigApplications, setArtistGigApplications] = useState([]);
+  const [artistsDetails, setArtistsDetails] = useState({});
+
+  const handleShowModal = (artist, action) => {
+    setSelectedArtist(artist);
+    setModalAction(action);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedArtist(null);
+    setModalAction(null);
+  };
 
   useEffect(() => {
     const fetchArtistListedGigData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/artist_listed_gigs/${gigId}/`
+          `${SERVER_BASE_URL}artist_listed_gigs/${gigId}/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch gig data");
         }
         const data = await response.json();
         setGigDetails(data);
-
-        // Fetch applications after fetching gig details
         fetchApplications(gigId);
       } catch (error) {
         console.error("Error fetching gig data:", error);
@@ -46,43 +60,57 @@ const GigTransferReview = () => {
     const fetchApplications = async (gigId) => {
       try {
         const response = await fetch(
-          `http://localhost:8000/artist_listed_gigs/${gigId}/applications/`
+          `${SERVER_BASE_URL}artist_listed_gigs/${gigId}/applications/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch applications");
         }
         const data = await response.json();
         setArtistGigApplications(data);
+        fetchArtistNames(data.map((app) => app.artist));
       } catch (error) {
         console.error("Error fetching applications:", error);
+      }
+    };
+
+    const fetchArtistNames = async (artistIds) => {
+      try {
+        const artistDetails = {};
+        for (const artistId of artistIds) {
+          const response = await fetch(
+            `${SERVER_BASE_URL}artists/${artistId}/`
+          );
+          if (!response.ok) {
+            throw new Error(`Failed to fetch artist with id ${artistId}`);
+          }
+          const data = await response.json();
+          artistDetails[artistId] = data;
+        }
+        setArtistsDetails(artistDetails);
+      } catch (error) {
+        console.error("Error fetching artist names:", error);
       }
     };
 
     fetchArtistListedGigData();
   }, [gigId]);
 
-  if (!gigDetails || artistGigApplications === null) {
-    return <div>Loading...</div>; // Add loading indicator or handle while fetching data
+  console.log("AGA", artistGigApplications);
+  console.log("Artist Details", artistsDetails);
+
+  if (
+    !gigDetails ||
+    artistGigApplications.length === 0 ||
+    Object.keys(artistsDetails).length === 0
+  ) {
+    return <LoadingSpinner />;
   }
-
-  const handleShowModal = (artist) => {
-    setSelectedArtist(artist);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedArtist(null);
-  };
-
-  const application =
-    artistGigApplications.length > 0 ? artistGigApplications[0] : null;
 
   return (
     <Container className="text-light">
       <Row className="mb-4">
         <Col>
-          <h2>Review Artist Transfer for {application.artist_gig}</h2>
+          <h2>Review Artist Transfer for {gigDetails.artist_name}'s Gig</h2>
         </Col>
       </Row>
 
@@ -93,8 +121,7 @@ const GigTransferReview = () => {
             <strong>Date:</strong>{" "}
             {moment(gigDetails.date_of_gig).format("DD/MM/YYYY")}
             <br />
-            <strong>Original Artist:</strong>{" "}
-            {application.original_artist.artist_name}
+            <strong>Original Artist:</strong> {gigDetails.artist_name}
             <br />
             <strong>Reason for Advertising:</strong> {gigDetails.description}
           </Card.Text>
@@ -103,23 +130,37 @@ const GigTransferReview = () => {
 
       <Card>
         <Card.Body>
-          <Card.Title>Applicants</Card.Title>
+          <Card.Title className="pb-2">Applicants</Card.Title>
           <ListGroup>
-            {artistGigApplications.map((artist) => (
+            {artistGigApplications.map((application) => (
               <ListGroup.Item
-                key={artist.id}
+                key={application.id}
                 className="d-flex justify-content-between align-items-center"
               >
-                {artist.artist.artist_name}
+                {artistsDetails[application.artist]?.artist_name ||
+                  application.artist}
                 <div>
                   <Button
                     variant="info"
-                    onClick={() => handleShowModal(artist)}
+                    onClick={() =>
+                      navigate(`/artistuserprofile/${application.artist}`)
+                    }
                   >
                     View Profile
                   </Button>
-                  <Button variant="success" className="ml-2">
+                  <Button
+                    variant="success"
+                    className="ml-2"
+                    onClick={() => handleShowModal(application, "approve")}
+                  >
                     Approve
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="ml-2"
+                    onClick={() => handleShowModal(application, "decline")}
+                  >
+                    Decline
                   </Button>
                 </div>
               </ListGroup.Item>
@@ -128,25 +169,17 @@ const GigTransferReview = () => {
         </Card.Body>
       </Card>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {selectedArtist ? selectedArtist.artist.artist_name : ""} Profile
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {/* Here you would display the selected artist's details */}
-          <p>
-            Profile details for{" "}
-            {selectedArtist ? selectedArtist.artist.artist_name : ""}...
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showModal && (
+        <GigTransferModal
+          show={showModal}
+          handleClose={handleCloseModal}
+          action={modalAction}
+          artist={selectedArtist}
+          artistName={
+            artistsDetails[selectedArtist.artist]?.artist_name || "Unknown"
+          }
+        />
+      )}
     </Container>
   );
 };

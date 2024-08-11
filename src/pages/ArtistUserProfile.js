@@ -81,69 +81,62 @@ const ArtistUserProfile = () => {
 
   const renderProfileDetails = () => {
     if (!artist) {
-      return null;
+      return <p className="text-center text-light">Loading...</p>;
     }
 
     return (
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-8">
-            <div className="card shadow-sm">
+            <div className="card bg-dark text-light shadow-lg">
               <div className="card-body">
-                <div className="text-center mb-4">
+                <div className="text-center">
                   <img
                     src={SERVER_BASE_URL + artist.image}
                     alt="Profile"
-                    className="img-fluid rounded-circle mt-3"
+                    className="img-fluid rounded-circle border border-light"
                     style={{ width: 150, height: 150, objectFit: "cover" }}
                   />
-                  <h2 className="mt-3 text-light">{artist.artist_name}</h2>
-                  <p className="text-light mt-3 lead">{artist.genre}</p>
-                  <p className="text-light lead">{artist.county}</p>
+                  <h2 className="mt-4">{artist.artist_name}</h2>
+                  <p className="mt-4 lead">{artist.genre}</p>
+                  <p className="lead">{artist.county}</p>
                 </div>
 
-                <div className="row justify-content-center mb-4 pt-3 text-light">
-                  {userId === profileId && (
-                    <>
-                      <div className="col-auto">
-                        <Button
-                          variant="primary"
-                          onClick={() => navigate("/artistprofilesettings")}
-                        >
-                          Edit Profile
-                        </Button>
-                      </div>
-                      <div className="col-auto">
-                        <Button
-                          variant="primary"
-                          onClick={() => navigate("/mybookings")}
-                        >
-                          My Bookings
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className="row justify-content-center my-4">
-                  <div className="col-auto">
+                {userId === profileId && (
+                  <div className="text-center mt-5">
                     <Button
-                      variant="primary"
-                      onClick={() => navigate("/artistadvertisegig")}
+                      variant="outline-light"
+                      onClick={() => navigate("/artistprofilesettings")}
+                      className="mx-2"
                     >
-                      Advertise Gig
+                      Edit Profile
+                    </Button>
+                    <Button
+                      variant="outline-light"
+                      onClick={() => navigate("/mybookings")}
+                      className="mx-2"
+                    >
+                      My Bookings
                     </Button>
                   </div>
+                )}
+
+                <div className="text-center mt-4">
+                  <Button
+                    variant="outline-light"
+                    onClick={() => navigate("/artistadvertisegig")}
+                  >
+                    Advertise Gig
+                  </Button>
                 </div>
 
-                <div className="text-center mb-4">
-                  <h4 className="text-light pb-3 pt-5">About</h4>
-                  <div className="container">
-                    <p className="text-light">{artist.bio}</p>
-                  </div>
+                <div className="text-center mt-5">
+                  <h4>About</h4>
+                  <p className="mt-4">{artist.bio}</p>
                 </div>
 
-                <div className="text-center mb-5">
-                  <h4 className="text-light pt-5 pb-3">Availability</h4>
+                <div className="text-center mt-5">
+                  <h4 className="mb-4">Availability</h4>
                   <Calendar
                     className="mt-3"
                     value={selectedDate}
@@ -157,8 +150,8 @@ const ArtistUserProfile = () => {
                   />
                   {artistOrVenue === "A" && userId === profileId && (
                     <Button
-                      variant="outline-dark"
-                      className="mt-3"
+                      variant="outline-light"
+                      className="mt-4"
                       onClick={() =>
                         navigate(`/artisteditavailability/${profileId}`)
                       }
@@ -169,7 +162,7 @@ const ArtistUserProfile = () => {
                 </div>
 
                 <div className="text-center text-light mb-4">
-                  <h4 className="pb-4">Recent Photos</h4>
+                  <h4 className="pb-4 pt-5">Recent Photos</h4>
                   <div className="row">
                     <div className="col-lg-6 mb-3">
                       <img
@@ -211,17 +204,29 @@ const ArtistUserProfile = () => {
 
   const renderUnavailabilityModal = () => {
     return (
-      <Modal show={showModal} onHide={toggleModal}>
+      <Modal
+        show={showModal}
+        onHide={toggleModal}
+        className="text-light bg-dark"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Unavailable Date</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {selectedUnavailability && (
+          {selectedUnavailability ? (
             <>
-              <p>Date: {selectedUnavailability.date}</p>
-              <p>Status: {selectedUnavailability.status}</p>
-              <p>Reason: {selectedUnavailability.reason}</p>
+              <p>
+                <strong>Date:</strong> {selectedUnavailability.date}
+              </p>
+              <p>
+                <strong>Status:</strong> {selectedUnavailability.status}
+              </p>
+              <p>
+                <strong>Reason:</strong> {selectedUnavailability.reason}
+              </p>
             </>
+          ) : (
+            <p>No details available.</p>
           )}
         </Modal.Body>
         <Modal.Footer>
