@@ -4,6 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import Calendar from "react-calendar";
 import { format } from "date-fns-tz";
 import { LoginContext } from "../App";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ArtistUserProfile = () => {
   const { userId, artistOrVenue } = useContext(LoginContext);
@@ -81,7 +82,7 @@ const ArtistUserProfile = () => {
 
   const renderProfileDetails = () => {
     if (!artist) {
-      return <p className="text-center text-light">Loading...</p>;
+      return <LoadingSpinner />;
     }
 
     return (
@@ -237,6 +238,14 @@ const ArtistUserProfile = () => {
       </Modal>
     );
   };
+
+  if (!artist) {
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <>
