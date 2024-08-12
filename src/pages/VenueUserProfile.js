@@ -1,14 +1,26 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { LoginContext } from "../App";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const VenueUserProfile = () => {
-  const { userId, artistOrVenue } = useContext(LoginContext);
+  const [userId, setUserId] = useState(null);
+  const [artistOrVenue, setArtistOrVenue] = useState(null);
   const { profileId } = useParams();
   const navigate = useNavigate();
-
   const [venue, setVenue] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem("userId");
+    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
+    if (userIdFromLocalStorage) {
+      setUserId(userIdFromLocalStorage);
+    }
+    if (artistOrVenueFromLocalStorage) {
+      setArtistOrVenue(artistOrVenueFromLocalStorage);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchVenue = async () => {
@@ -23,23 +35,19 @@ const VenueUserProfile = () => {
         setVenue(data);
       } catch (error) {
         console.error("Error fetching venue data:", error);
+      } finally {
+        setLoading(false); // Ensure loading state is set to false after fetching
       }
     };
 
     fetchVenue();
   }, [profileId]);
 
-  if (!userId || !artistOrVenue) {
-    navigate("/signin");
-    return null;
-  } else if (userId && artistOrVenue === "A") {
-    navigate("/restrictedpage");
-    return null;
-  }
-
-  if (!venue) {
+  if (loading) {
     return (
-      <div className="text-light text-center">Loading venue profile...</div>
+      <div className="d-flex justify-content-center align-items-center">
+        <LoadingSpinner />
+      </div>
     );
   }
 
@@ -64,7 +72,7 @@ const VenueUserProfile = () => {
                 </div>
 
                 {userId === profileId && (
-                  <div className="text-center mb-4">
+                  <div className="text-center pt-3 mb-4">
                     <Button
                       variant="outline-light"
                       className="mx-2"

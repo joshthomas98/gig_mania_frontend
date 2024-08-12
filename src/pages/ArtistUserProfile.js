@@ -1,15 +1,27 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import Calendar from "react-calendar";
 import { format } from "date-fns-tz";
-import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const ArtistUserProfile = () => {
-  const { userId, artistOrVenue } = useContext(LoginContext);
+  const [userId, setUserId] = useState(null);
+  const [artistOrVenue, setArtistOrVenue] = useState(null);
   const { profileId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem("userId");
+    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
+
+    if (userIdFromLocalStorage) {
+      setUserId(userIdFromLocalStorage);
+    }
+    if (artistOrVenueFromLocalStorage) {
+      setArtistOrVenue(artistOrVenueFromLocalStorage);
+    }
+  }, []);
 
   const SERVER_BASE_URL = "http://localhost:8000/";
 
@@ -18,6 +30,7 @@ const ArtistUserProfile = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedUnavailability, setSelectedUnavailability] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -48,8 +61,12 @@ const ArtistUserProfile = () => {
       }
     };
 
-    fetchArtist();
-    fetchUnavailabilities();
+    const fetchData = async () => {
+      await Promise.all([fetchArtist(), fetchUnavailabilities()]);
+      setLoading(false);
+    };
+
+    fetchData();
   }, [profileId]);
 
   const toggleModal = () => {
@@ -103,7 +120,7 @@ const ArtistUserProfile = () => {
                   <p className="lead">{artist.county}</p>
                 </div>
 
-                {userId === profileId && (
+                {userId === profileId && artistOrVenue === "A" && (
                   <div className="text-center mt-5">
                     <Button
                       variant="outline-light"
@@ -119,17 +136,29 @@ const ArtistUserProfile = () => {
                     >
                       My Bookings
                     </Button>
+                    <div className="text-center mt-4">
+                      <Button
+                        variant="outline-light"
+                        onClick={() => navigate("/artistadvertisegig")}
+                      >
+                        Advertise Gig
+                      </Button>
+                    </div>
                   </div>
                 )}
 
-                <div className="text-center mt-4">
-                  <Button
-                    variant="outline-light"
-                    onClick={() => navigate("/artistadvertisegig")}
-                  >
-                    Advertise Gig
-                  </Button>
-                </div>
+                {userId !== profileId && (
+                  <div className="text-center pt-4 mb-4">
+                    <Button
+                      variant="outline-light"
+                      onClick={() =>
+                        navigate(`/artistwritereview?venueId=${venue.id}`)
+                      }
+                    >
+                      Leave Feedback
+                    </Button>
+                  </div>
+                )}
 
                 <div className="text-center mt-5">
                   <h4>About</h4>
@@ -239,7 +268,7 @@ const ArtistUserProfile = () => {
     );
   };
 
-  if (!artist) {
+  if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center">
         <LoadingSpinner />
