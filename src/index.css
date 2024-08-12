@@ -532,3 +532,39 @@
 .suggestion-item:active {
   background-color: #e0e0e0;
 }
+
+/* GIG TRANSFER REVIEW */
+
+/* Custom CSS for ListGroup.Item */
+.custom-list-group-item {
+  background-color: transparent; /* Keep the item background transparent */
+  border: 1px solid #dee2e6; /* Optional border styling */
+  border-radius: 0.25rem; /* Match border radius */
+  padding: 1rem; /* Ensure padding consistency */
+  position: relative; /* For proper positioning of child elements */
+}
+
+/* Container for buttons and chevron */
+.button-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 0.5rem; /* Space between buttons and chevron */
+  background-color: white; /* White background for the button area */
+  padding: 0.5rem; /* Add padding for spacing */
+  border-radius: 0.25rem; /* Match border radius */
+}
+
+/* Chevron icon styling */
+.chevron-icon {
+  color: black; /* Adjust color if needed */
+  background-color: white; /* White background for consistency */
+  padding-left: 0.5rem; /* Add padding if needed */
+  border-radius: 0.25rem; /* Optional: match button radius */
+  cursor: pointer; /* Indicate it's clickable if needed */
+}
+
+/* Maintain original styling of artist name area */
+.artist-name {
+  background-color: transparent; /* Ensure artist name background is unchanged */
+  padding: 0; /* Remove extra padding if necessary */
+}

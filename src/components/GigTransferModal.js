@@ -93,11 +93,7 @@ const GigTransferModal = ({
           <Button variant="success" onClick={handleYesButtonClick}>
             Yes
           </Button>
-          <Button
-            variant="danger"
-            onClick={handleNoButtonClick}
-            style={noButtonStyle}
-          >
+          <Button variant="danger" onClick={handleClose} style={noButtonStyle}>
             No
           </Button>
         </div>

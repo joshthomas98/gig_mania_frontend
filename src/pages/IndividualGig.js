@@ -197,7 +197,7 @@ const IndividualGig = () => {
           <p className="text-center lead">
             Reason for {gigDetails.artist_name} advertising this gig:<br></br>
           </p>
-          <p className="text-center container pb-5 mx-auto w-50">
+          <p className="text-center container pb-4 mx-auto w-50">
             {gigDetails.description}
           </p>
 

@@ -131,17 +131,20 @@ const GigTransferReview = () => {
       <Card>
         <Card.Body>
           <Card.Title className="pb-2">Applicants</Card.Title>
-          <ListGroup>
+          <ListGroup className="list-group-flush">
             {artistGigApplications.map((application) => (
               <ListGroup.Item
                 key={application.id}
-                className="d-flex justify-content-between align-items-center"
+                className="d-flex justify-content-between align-items-center custom-list-group-item"
               >
-                {artistsDetails[application.artist]?.artist_name ||
-                  application.artist}
-                <div>
+                <span className="artist-name">
+                  {artistsDetails[application.artist]?.artist_name ||
+                    application.artist}
+                </span>
+                <div className="button-container">
                   <Button
                     variant="info"
+                    className="rounded-pill"
                     onClick={() =>
                       navigate(`/artistuserprofile/${application.artist}`)
                     }
@@ -150,18 +153,24 @@ const GigTransferReview = () => {
                   </Button>
                   <Button
                     variant="success"
-                    className="ml-2"
+                    className="ml-2 rounded-pill"
                     onClick={() => handleShowModal(application, "approve")}
                   >
                     Approve
                   </Button>
                   <Button
                     variant="danger"
-                    className="ml-2"
+                    className="ml-2 rounded-pill"
                     onClick={() => handleShowModal(application, "decline")}
                   >
                     Decline
                   </Button>
+                  <i
+                    className="bi bi-chevron-down chevron-icon"
+                    onClick={() =>
+                      handleChevronClick(application)
+                    } /* Add handler if needed */
+                  ></i>
                 </div>
               </ListGroup.Item>
             ))}
