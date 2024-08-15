@@ -49,8 +49,8 @@ const GigTransferredToNewArtistSuccessfully = () => {
           <Link
             to={`/artistuserprofile/${artist.id}`}
             style={{
-              textDecoration: "none", // Remove underline
-              color: "#4AC4FF", // Slightly darker light blue
+              textDecoration: "none",
+              color: "#4AC4FF",
             }}
           >
             {artist.artist_name}
