@@ -66,6 +66,7 @@ import { ArtistGigApplicationsProvider } from "./contexts/ArtistGigApplicationsC
 import GigTransferReview from "./pages/GigTransferReview";
 
 import Footer from "./components/Footer";
+import GigTransferredToNewArtistSuccessfully from "./pages/GigTransferredToNewArtistSuccessfully";
 
 export const LoginContext = createContext();
 
@@ -287,6 +288,11 @@ const App = () => {
                 <Route
                   path="gigtransferreview/:gigId"
                   element={<GigTransferReview />}
+                />
+
+                <Route
+                  path="/gigtransferredtonewartistsuccessfully/:artistId"
+                  element={<GigTransferredToNewArtistSuccessfully />}
                 />
               </Routes>
             </BrowserRouter>

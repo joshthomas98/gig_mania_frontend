@@ -568,3 +568,30 @@
   background-color: transparent; /* Ensure artist name background is unchanged */
   padding: 0; /* Remove extra padding if necessary */
 }
+
+.custom-list-group-item {
+  border: none;
+  padding: 15px 20px;
+  background-color: white; /* Background for list group items */
+}
+
+.artist-name {
+  color: black; /* Text color for artist names */
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.chevron-icon {
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.application-details {
+  background-color: white; /* Background for expanded details */
+  color: black; /* Text color for expanded details */
+  padding: 10px;
+  transition: max-height 0.3s ease-out;
+}

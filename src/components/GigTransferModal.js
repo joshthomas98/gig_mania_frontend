@@ -8,6 +8,8 @@ const GigTransferModal = ({
   action,
   artist,
   artistName,
+  onApprove,
+  onDecline,
 }) => {
   const modalStyle = {
     backgroundColor: "#121212",
@@ -31,47 +33,13 @@ const GigTransferModal = ({
   };
 
   const handleYesButtonClick = () => {
-    // fetch(`http://localhost:8000/artist_listed_gigs/${gigId}/`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => {
-    //     // Check if the DELETE request was successful
-    //     if (response.ok) {
-    //       // Do something if successful, e.g., update the UI or handle the response
-    //       console.log("DELETE request successful");
-    //     } else {
-    //       // Handle errors if the DELETE request fails
-    //       console.error("DELETE request failed");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     // Handle network errors or other exceptions
-    //     console.error("Error occurred while processing DELETE request:", error);
-    //   });
-
-    console.log("APPROVED");
-  };
-
-  const handleNoButtonClick = () => {
-    // fetch(`http://localhost:8000/artist_listed_gigs/${gigId}/`, {
-    //   method: "DELETE",
-    // })
-    //   .then((response) => {
-    //     // Check if the DELETE request was successful
-    //     if (response.ok) {
-    //       // Do something if successful, e.g., update the UI or handle the response
-    //       console.log("DELETE request successful");
-    //     } else {
-    //       // Handle errors if the DELETE request fails
-    //       console.error("DELETE request failed");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     // Handle network errors or other exceptions
-    //     console.error("Error occurred while processing DELETE request:", error);
-    //   });
-
-    console.log("DECLINED");
+    if (action === "approve") {
+      // Call the onApprove function if action is "approve"
+      if (onApprove) onApprove();
+    } else if (action === "decline") {
+      // Call the onDecline function if action is "decline"
+      if (onDecline) onDecline();
+    }
   };
 
   return (
