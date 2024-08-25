@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import DeleteListedGig from "../components/DeleteListedGigModal";
+import DeleteListedGig from "../components/modals/DeleteArtistGigModal";
 
 const MyListedGigs = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const MyListedGigs = () => {
 
   useEffect(() => {
     if (storedUserType === "A") {
-      fetch(`http://localhost:8000/artists/${storedUserId}/listed_gigs/`)
+      fetch(`http://localhost:8000/artists/${storedUserId}/gigs/`)
         .then((response) => response.json())
         .then((data) => {
           setArtistGigs(data);
@@ -70,7 +70,7 @@ const MyListedGigs = () => {
 
   const handleDeleteGig = () => {
     if (storedUserType === "A") {
-      fetch(`http://localhost:8000/artist_listed_gigs/${selectedGigId}/`, {
+      fetch(`http://localhost:8000/artist_gigs/${selectedGigId}/`, {
         method: "DELETE",
       })
         .then((response) => {

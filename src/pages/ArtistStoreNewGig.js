@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-function ArtistAdvertiseGig() {
+function ArtistStoreNewGig() {
   const { userId, artistOrVenue } = useContext(LoginContext);
   const navigate = useNavigate();
 
@@ -19,13 +19,15 @@ function ArtistAdvertiseGig() {
   const [fetchedArtistDetails, setFetchedArtistDetails] = useState();
   const [artistName, setArtistName] = useState("");
   const [dateOfGig, setDateOfGig] = useState("");
+  const [timeOfGig, setTimeOfGig] = useState(""); // New state for Time of Gig
+  const [durationOfGig, setDurationOfGig] = useState(""); // New state for Duration of Gig
   const [venueName, setVenueName] = useState("");
   const [venue, setVenue] = useState(""); // New state for venue ID
   const [countryOfVenue, setCountryOfVenue] = useState("");
   const [genreOfGig, setGenreOfGig] = useState("");
   const [typeOfGig, setTypeOfGig] = useState("");
   const [payment, setPayment] = useState("");
-  const [description, setDescription] = useState("");
+  const [notesAboutGig, setNotesAboutGig] = useState(""); // Notes about gig the artist wants to add
 
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -111,8 +113,10 @@ function ArtistAdvertiseGig() {
     const date = dateObj.toISOString().slice(0, 10);
 
     const data = {
-      artist: fetchedArtistDetails ? fetchedArtistDetails.id : "",
+      original_artist: fetchedArtistDetails ? fetchedArtistDetails.id : "",
       date_of_gig: date,
+      time_of_gig: timeOfGig,
+      duration_of_gig: durationOfGig,
       venue_name: venueName,
       venue: venue, // Use venue ID here
       country_of_venue: countryOfVenue,
@@ -122,7 +126,7 @@ function ArtistAdvertiseGig() {
         ? fetchedArtistDetails.type_of_artist
         : "",
       payment: payment,
-      description: description,
+      notes_about_gig: notesAboutGig,
       user_type: artistOrVenue === "A" ? "Artist" : "",
     };
 
@@ -152,6 +156,8 @@ function ArtistAdvertiseGig() {
       });
   };
 
+  console.log(timeOfGig);
+
   return (
     <>
       {isLoading && (
@@ -180,7 +186,9 @@ function ArtistAdvertiseGig() {
       )}
 
       <div className="container-fluid">
-        <h1 className="text-white text-center mb-4 px-3">Advertise Your Gig</h1>
+        <h1 className="text-white text-center mb-4 px-3">
+          Create a New Gig In Your Bookings
+        </h1>
 
         <Form
           onSubmit={handleSubmit}
@@ -207,6 +215,31 @@ function ArtistAdvertiseGig() {
                   name="dateOfGig"
                   value={dateOfGig}
                   onChange={(event) => setDateOfGig(event.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md={6}>
+              <Form.Group className="p-3 text-center" controlId="timeOfGig">
+                <Form.Label>Time of Gig:</Form.Label>
+                <Form.Control
+                  type="time"
+                  name="timeOfGig"
+                  value={timeOfGig}
+                  onChange={(event) => setTimeOfGig(event.target.value)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="p-3 text-center" controlId="durationOfGig">
+                <Form.Label>Duration of Gig (In Minutes):</Form.Label>
+                <Form.Control
+                  placeholder='e.g., "45"'
+                  type="number"
+                  min="1" // Minimum value of 1 minute
+                  value={durationOfGig}
+                  onChange={(event) => setDurationOfGig(event.target.value)}
                 />
               </Form.Group>
             </Col>
@@ -296,22 +329,6 @@ function ArtistAdvertiseGig() {
               </Form.Group>
             </Col>
           </Row>
-          <Row>
-            <Col md={12}>
-              <Form.Group className="p-3 text-center">
-                <Form.Label className="text-white">
-                  Reason for advertising this gig:
-                </Form.Label>
-                <Form.Control
-                  as="textarea" // Change to textarea
-                  rows={5} // Set the number of visible rows
-                  placeholder="Tell us a bit more about why you can no longer play this gig."
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
           <Row className="justify-content-center">
             <Col md={6}>
               <Form.Group className="p-3 text-center">
@@ -325,8 +342,22 @@ function ArtistAdvertiseGig() {
               </Form.Group>
             </Col>
           </Row>
+          <Row className="justify-content-center">
+            <Col md={12}>
+              <Form.Group className="p-3 text-center" controlId="notesAboutGig">
+                <Form.Label>Any Notes About The Gig:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Add any notes you want to about the gig"
+                  value={notesAboutGig}
+                  onChange={(event) => setNotesAboutGig(event.target.value)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <div className="text-center">
-            <Button className="mt-4 mx-3" variant="primary" type="submit">
+            <Button className="mt-3 mx-3" variant="primary" type="submit">
               Submit
             </Button>
           </div>
@@ -336,4 +367,4 @@ function ArtistAdvertiseGig() {
   );
 }
 
-export default ArtistAdvertiseGig;
+export default ArtistStoreNewGig;

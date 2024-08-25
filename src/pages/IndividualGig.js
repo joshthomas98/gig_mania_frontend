@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
-import ConfirmGigApplicationModal from "../components/ConfirmGigApplicationModal";
+import ConfirmGigApplicationModal from "../components/modals/ConfirmGigApplicationModal";
 
 const IndividualGig = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
@@ -36,7 +36,7 @@ const IndividualGig = () => {
       try {
         let url = "";
         if (userType === "Artist") {
-          url = `http://localhost:8000/artist_listed_gigs/${gigId}/`;
+          url = `http://localhost:8000/artist_gigs/${gigId}/`;
         } else if (userType === "Venue") {
           url = `http://localhost:8000/venue_listed_gigs/${gigId}/`;
         }
@@ -150,6 +150,8 @@ const IndividualGig = () => {
     }
   };
 
+  console.log(gigDetails);
+
   return (
     <div className="individual-gig-container text-light">
       <h1 className="individual-gig-heading text-center">About the gig...</h1>
@@ -158,7 +160,7 @@ const IndividualGig = () => {
         <>
           <p className="individual-gig-artist-info mt-5 lead text-center">
             {userType === "Artist"
-              ? `This gig was listed by the artist ${gigDetails.artist_name}`
+              ? `This gig was listed by the artist ${gigDetails.current_artist_name}`
               : `This gig was listed by the venue ${gigDetails.venue_name}`}
           </p>
 

@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import Calendar from "react-calendar";
 import { format } from "date-fns-tz";
+import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const ArtistUserProfile = () => {
@@ -14,7 +15,6 @@ const ArtistUserProfile = () => {
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem("userId");
     const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
-
     if (userIdFromLocalStorage) {
       setUserId(userIdFromLocalStorage);
     }
@@ -116,8 +116,14 @@ const ArtistUserProfile = () => {
                     style={{ width: 150, height: 150, objectFit: "cover" }}
                   />
                   <h2 className="mt-4">{artist.artist_name}</h2>
-                  <p className="mt-4 lead">{artist.genre}</p>
-                  <p className="lead">{artist.county}</p>
+                  <p className="mt-4 lead">
+                    <span style={{ fontWeight: "bold" }}>Genre: </span>
+                    {artist.genre}
+                  </p>
+                  <p className="lead">
+                    <span style={{ fontWeight: "bold" }}>Location: </span>{" "}
+                    {artist.county}
+                  </p>
                 </div>
 
                 {userId === profileId && artistOrVenue === "A" && (
@@ -147,12 +153,12 @@ const ArtistUserProfile = () => {
                   </div>
                 )}
 
-                {userId !== profileId && (
+                {userId && artistOrVenue === "V" && (
                   <div className="text-center pt-4 mb-4">
                     <Button
                       variant="outline-light"
                       onClick={() =>
-                        navigate(`/artistwritereview?venueId=${venue.id}`)
+                        navigate(`/venuewritereview?artistId=${artist.id}`)
                       }
                     >
                       Leave Feedback

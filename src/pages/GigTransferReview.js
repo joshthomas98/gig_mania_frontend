@@ -12,7 +12,7 @@ import { LoginContext } from "../App";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
 import LoadingSpinner from "../components/LoadingSpinner";
-import GigTransferModal from "../components/GigTransferModal";
+import GigTransferModal from "../components/modals/GigTransferModal";
 
 const GigTransferReview = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
@@ -57,16 +57,25 @@ const GigTransferReview = () => {
   const handleApproveYesClick = () => {
     if (selectedArtist && selectedArtist.id) {
       setIsLoading(true);
-      fetch(`http://localhost:8000/artist_listed_gigs/${gigId}/`, {
+
+      // Prepare the payload object
+      const payload = {
+        artist: selectedArtist.id,
+        description: null,
+        // Include other fields as necessary
+      };
+
+      // Conditionally set type_of_artist if it's different
+      if (selectedArtist.type_of_artist !== gigDetails.type_of_artist) {
+        payload.type_of_artist = selectedArtist.type_of_artist;
+      }
+
+      fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          artist: selectedArtist.id,
-          description: null,
-          // Include other fields as necessary
-        }),
+        body: JSON.stringify(payload),
       })
         .then((response) => {
           if (response.ok) {
@@ -121,11 +130,9 @@ const GigTransferReview = () => {
   };
 
   useEffect(() => {
-    const fetchArtistListedGigData = async () => {
+    const fetchArtistGigData = async () => {
       try {
-        const response = await fetch(
-          `${SERVER_BASE_URL}artist_listed_gigs/${gigId}/`
-        );
+        const response = await fetch(`${SERVER_BASE_URL}artist_gigs/${gigId}/`);
         if (!response.ok) {
           throw new Error("Failed to fetch gig data");
         }
@@ -140,7 +147,7 @@ const GigTransferReview = () => {
     const fetchApplications = async (gigId) => {
       try {
         const response = await fetch(
-          `${SERVER_BASE_URL}artist_listed_gigs/${gigId}/applications/`
+          `${SERVER_BASE_URL}artist_gigs/${gigId}/applications/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch applications");
@@ -172,7 +179,7 @@ const GigTransferReview = () => {
       }
     };
 
-    fetchArtistListedGigData();
+    fetchArtistGigData();
   }, [gigId, fetchTrigger]);
 
   const handleChevronClick = (applicationId) => {

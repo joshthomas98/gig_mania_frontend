@@ -78,7 +78,7 @@ const NavbarComponent = () => {
       let gigExists = true;
       if (notification.if_gig_advertised_by_artist) {
         const gigResponse = await fetch(
-          `${SERVER_BASE_URL}artist_listed_gigs/${notification.if_gig_advertised_by_artist}/`
+          `${SERVER_BASE_URL}artist_gigs/${notification.if_gig_advertised_by_artist}/`
         );
         if (!gigResponse.ok) {
           gigExists = false;

@@ -106,116 +106,149 @@ const VenueWriteReview = () => {
   };
 
   return (
-    <div className="awr-grid-container">
-      <div className="text-light">
-        <section>
-          <h1 className="pb-3 px-5">
-            Write your review for<br></br>
-            {artist.artist_name}
-          </h1>
-        </section>
-
-        <section className="awr-create-review-section py-3 px-5">
-          <h3>What rating would you give this venue?</h3>
-          <StarRating
-            selectedRating={selectedRating}
-            setSelectedRating={setSelectedRating}
-          />
-
-          <Form onSubmit={handleSubmit} className="rounded-3 mt-4">
-            <Form.Group className="text-white" controlId="date">
-              <Form.Label>Date of Performance:</Form.Label>
-              <p>Enter the date you performed at the venue</p>
-              <Form.Control
-                type="date"
-                name="dateOfPerformance"
-                value={dateOfPerformance}
-                onChange={(event) => setDateOfPerformance(event.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label htmlFor="venueName" className="text-light mb-2 mt-3">
-                Venue Name:
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your venue name"
-                id="venueName"
-                value={venueName}
-                readOnly // Make the input field non-editable
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label htmlFor="artistName" className="text-light mb-2 mt-3">
-                Artist Name:
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter the name of the artist you're reviewing"
-                id="artistName"
-                value={artistName}
-                readOnly
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label htmlFor="review" className="text-light mb-2 mt-3">
-                Review:
-              </Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={5}
-                placeholder="Enter your review here"
-                id="review"
-                value={review}
-                onChange={(event) => setReview(event.target.value)}
-              />
-            </Form.Group>
-
-            <div className="d-flex justify-content-between">
-              {isLoading ? (
-                <div className="py-4">
-                  <LoadingSpinner />
-                </div>
-              ) : (
-                <Button className="mt-4" variant="primary" type="submit">
-                  Submit
-                </Button>
-              )}
-            </div>
-          </Form>
-        </section>
-      </div>
-
-      <section className="awr-review-subject-box-section">
-        <div>
+    <>
+      {isLoading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backdropFilter: "blur(5px)",
+            zIndex: 1,
+          }}
+        >
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <h3 className="text-light text-center mb-5">
-              How was your experience with<br></br>
-              {artistName}?
-            </h3>
-            <VenueReviewBox
-              artistInfo={{
-                image: artist.image,
-                artistName: artist.artist_name,
-                facebook: artist.facebook,
-                youtube: artist.youtube,
-                twitter: artist.twitter,
-              }}
-            />
+            <LoadingSpinner />
           </div>
         </div>
-      </section>
-    </div>
+      )}
+
+      <div className="awr-grid-container">
+        <div className="text-light">
+          <section>
+            <h1 className="pb-3 px-5">
+              Write your review for<br></br>
+              {artist.artist_name}
+            </h1>
+          </section>
+
+          <section className="awr-create-review-section py-3 px-5">
+            <h3>What rating would you give this artist?</h3>
+            <StarRating
+              selectedRating={selectedRating}
+              setSelectedRating={setSelectedRating}
+            />
+
+            <Form onSubmit={handleSubmit} className="rounded-3 mt-4">
+              <Form.Group className="text-white" controlId="date">
+                <Form.Label>Date of Performance:</Form.Label>
+                <p>Enter the date this artist performed at your venue</p>
+                <Form.Control
+                  type="date"
+                  name="dateOfPerformance"
+                  value={dateOfPerformance}
+                  onChange={(event) => setDateOfPerformance(event.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label
+                  htmlFor="venueName"
+                  className="text-light mb-2 mt-3"
+                >
+                  Venue Name:
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your venue name"
+                  id="venueName"
+                  value={venueName}
+                  readOnly // Make the input field non-editable
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label
+                  htmlFor="artistName"
+                  className="text-light mb-2 mt-3"
+                >
+                  Artist Name:
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the name of the artist you're reviewing"
+                  id="artistName"
+                  value={artistName}
+                  readOnly
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label htmlFor="review" className="text-light mb-2 mt-3">
+                  Review:
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  placeholder="Enter your review here"
+                  id="review"
+                  value={review}
+                  onChange={(event) => setReview(event.target.value)}
+                />
+              </Form.Group>
+
+              <div className="d-flex justify-content-between">
+                {isLoading ? (
+                  <div className="py-4">
+                    <LoadingSpinner />
+                  </div>
+                ) : (
+                  <Button className="mt-4" variant="primary" type="submit">
+                    Submit
+                  </Button>
+                )}
+              </div>
+            </Form>
+          </section>
+        </div>
+
+        <section className="awr-review-subject-box-section">
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <h3 className="text-light text-center mb-5">
+                How was your experience with<br></br>
+                {artistName}?
+              </h3>
+              <VenueReviewBox
+                artistInfo={{
+                  image: artist.image,
+                  artistName: artist.artist_name,
+                  facebook: artist.facebook,
+                  youtube: artist.youtube,
+                  twitter: artist.twitter,
+                }}
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 

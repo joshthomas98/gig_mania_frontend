@@ -99,17 +99,67 @@
 
 /* CONTACT US */
 
-.contact-us-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto;
-  grid-gap: 2rem;
-  padding: 2rem;
+@import url(//fonts.googleapis.com/css?family=Montserrat:300,400,500);
+.contact3 {
+  font-family: "Montserrat", sans-serif;
+  color: #8d97ad;
+  font-weight: 300;
 }
 
-.contact-us-section {
-  padding: 1rem;
-  text-align: center;
+.contact3 h1,
+.contact3 h2,
+.contact3 h3,
+.contact3 h4,
+.contact3 h5,
+.contact3 h6 {
+  color: #ffffff;
+}
+
+.contact3 .font-weight-medium {
+  font-weight: 500;
+}
+
+.contact3 .card-shadow {
+  -webkit-box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);
+  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);
+}
+
+.contact3 .btn-danger-gradiant {
+  background: #ff4d7e;
+  background: -webkit-linear-gradient(
+    legacy-direction(to right),
+    #ff4d7e 0%,
+    #ff6a5b 100%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#ff4d7e),
+    to(#ff6a5b)
+  );
+  background: -webkit-linear-gradient(left, #ff4d7e 0%, #ff6a5b 100%);
+  background: -o-linear-gradient(left, #ff4d7e 0%, #ff6a5b 100%);
+  background: linear-gradient(to right, #ff4d7e 0%, #ff6a5b 100%);
+}
+
+.contact3 .btn-danger-gradiant:hover {
+  background: #ff6a5b;
+  background: -webkit-linear-gradient(
+    legacy-direction(to right),
+    #ff6a5b 0%,
+    #ff4d7e 100%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#ff6a5b),
+    to(#ff4d7e)
+  );
+  background: -webkit-linear-gradient(left, #ff6a5b 0%, #ff4d7e 100%);
+  background: -o-linear-gradient(left, #ff6a5b 0%, #ff4d7e 100%);
+  background: linear-gradient(to right, #ff6a5b 0%, #ff4d7e 100%);
 }
 
 /* FAQS */
@@ -480,29 +530,34 @@
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 20px; /* Adjust the border-radius to your preference */
+  border-radius: 25px; /* Slightly rounder corners */
   background-color: #4caf50; /* Green background color */
   color: #fff; /* White text color */
-  padding: 10px 20px; /* Adjust padding as needed */
-  font-size: 16px; /* Adjust font size as needed */
+  padding: 8px 20px; /* Increased padding for a more spacious look */
+  font-size: 16px; /* Font size for the button text */
+  font-weight: 600; /* Make the text bold */
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth background color transition */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a 3D effect */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for color and transform */
 }
 
 .add-button:hover {
   background-color: #45a049; /* Darker green on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
 }
 
 .plus-icon {
   background-color: #fff; /* White background for the plus symbol */
   color: #4caf50; /* Green color for the plus symbol */
   border-radius: 50%; /* Make it a circle */
-  width: 30px; /* Adjust the size of the plus symbol */
+  width: 30px; /* Size of the plus symbol */
   height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px; /* Spacing between the plus symbol and text */
+  font-size: 18px; /* Increase font size for the plus sign */
+  margin-right: 12px; /* Spacing between the plus symbol and text */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15); /* Add a shadow for the plus icon */
 }
 
 /* Suggestion dropdown styles */
@@ -594,4 +649,18 @@
   color: black; /* Text color for expanded details */
   padding: 10px;
   transition: max-height 0.3s ease-out;
+}
+
+.table td {
+  word-wrap: break-word; /* Ensure text wraps within the cell */
+  overflow-wrap: break-word; /* Break long words if necessary */
+  white-space: normal; /* Allow text to wrap to the next line */
+}
+
+.table td.notes {
+  max-width: 250px; /* Adjust the width as needed */
+  max-height: 100px; /* Adjust the maximum height */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  padding: 10px; /* Add padding for better readability */
+  text-align: left; /* Align text to the left */
 }

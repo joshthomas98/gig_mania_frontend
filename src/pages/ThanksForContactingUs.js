@@ -3,7 +3,7 @@ import SuccessAnimation from "../components/SuccessAnimation";
 import { Button } from "react-bootstrap";
 import { LoginContext } from "../App";
 
-const ThanksForReview = () => {
+const ThanksForContactingUs = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
 
@@ -13,15 +13,15 @@ const ThanksForReview = () => {
         <SuccessAnimation />
       </div>
 
-      <h2 className="pb-4">Thanks for leaving your review!</h2>
+      <h2 className="pb-4">Thanks for getting in touch!</h2>
 
       <p className="lead pb-4">
-        Your review is currently being moderated and should be live shortly.
+        We have received your support query and we aim to respond to you within
+        48 hours. <br />
+        You'll recieve an email from us when we respond to your request.
       </p>
 
-      <p className="pb-3">
-        Need assistance? Contact our <a href="/contactus">support team.</a>
-      </p>
+      <p className="pb-3">The GigSweep support team.</p>
 
       <div className="pt-3">
         <Button
@@ -39,4 +39,4 @@ const ThanksForReview = () => {
   );
 };
 
-export default ThanksForReview;
+export default ThanksForContactingUs;

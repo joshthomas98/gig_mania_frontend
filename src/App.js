@@ -27,7 +27,7 @@ import FeaturedArtists from "./components/FeaturedArtists";
 import ArtistUserProfile from "./pages/ArtistUserProfile";
 import VenueUserProfile from "./pages/VenueUserProfile";
 import GigAdvertised from "./pages/GigAdvertised";
-import IncorrectLoginModal from "./components/IncorrectLoginModal";
+import IncorrectLoginModal from "./components/modals/IncorrectLoginModal";
 import VenueSearchForArtist from "./pages/VenueSearchForArtist";
 import ArtistSearchResultCard from "./components/ArtistSearchResultCard";
 import NewsletterThankYou from "./pages/NewsletterThankYou";
@@ -51,7 +51,7 @@ import MyListedGigs from "./pages/MyListedGigs";
 import ArtistEditGig from "./pages/ArtistEditGig";
 import VenueEditGig from "./pages/VenueEditGig";
 import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
-import DeleteListedGigModal from "./components/DeleteListedGigModal";
+import DeleteListedGigModal from "./components/modals/DeleteArtistGigModal";
 import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
 import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
 import RequestToBookArtist from "./pages/RequestToBookArtist";
@@ -60,13 +60,16 @@ import ArtistEditAvailability from "./pages/ArtistEditAvailability";
 import UnavailabilityCreated from "./pages/UnavailabilityCreated";
 import MyBookings from "./pages/MyBookings";
 import RestrictedPage from "./pages/RestrictedPage";
-import ConfirmGigApplicationModal from "./components/ConfirmGigApplicationModal";
+import ConfirmGigApplicationModal from "./components/modals/ConfirmGigApplicationModal";
 import ArtistGigApplicationReview from "./pages/ArtistGigApplicationReview";
 import { ArtistGigApplicationsProvider } from "./contexts/ArtistGigApplicationsContext";
 import GigTransferReview from "./pages/GigTransferReview";
+import GigTransferredToNewArtistSuccessfully from "./pages/GigTransferredToNewArtistSuccessfully";
+import ArtistStoreNewGig from "./pages/ArtistStoreNewGig";
+import ThanksForContactingUs from "./pages/ThanksForContactingUs";
+import ConfirmGigAdvertisement from "./pages/ConfirmGigAdvertisement";
 
 import Footer from "./components/Footer";
-import GigTransferredToNewArtistSuccessfully from "./pages/GigTransferredToNewArtistSuccessfully";
 
 export const LoginContext = createContext();
 
@@ -293,6 +296,21 @@ const App = () => {
                 <Route
                   path="/gigtransferredtonewartistsuccessfully/:artistId"
                   element={<GigTransferredToNewArtistSuccessfully />}
+                />
+
+                <Route
+                  path="artiststorenewgig/"
+                  element={<ArtistStoreNewGig />}
+                />
+
+                <Route
+                  path="thanksforcontactingus"
+                  element={<ThanksForContactingUs />}
+                />
+
+                <Route
+                  path="/confirmgigadvertisement/:gigId"
+                  element={<ConfirmGigAdvertisement />}
                 />
               </Routes>
             </BrowserRouter>

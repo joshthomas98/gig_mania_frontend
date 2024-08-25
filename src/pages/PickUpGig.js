@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 
@@ -51,7 +51,7 @@ const PickUpGig = () => {
         if (response.ok) {
           response.json().then((data) => {
             const combinedResults = [
-              ...data.artist_listed_gigs,
+              ...data.artist_gigs,
               ...data.venue_listed_gigs,
             ];
             setSearchResults(combinedResults);
@@ -78,99 +78,122 @@ const PickUpGig = () => {
     <>
       <section className="artist-search-area">
         <div className="container-fluid">
-          <h1 className="text-white px-3">Search For Your Next Gig</h1>
+          <h1 className="text-white px-3 text-center">
+            Search For Your Next Gig
+          </h1>
 
-          <Form onSubmit={handleSubmit} className="rounded-3 w-50 text-light">
-            <Form.Group className="p-3 text-white" controlId="date">
-              <Form.Label>Date of Gig:</Form.Label>
-              <p>Enter the date that you want the gig</p>
-              <Form.Control
-                type="date"
-                name="dateOfGig"
-                value={dateOfGig}
-                onChange={(event) => setDateOfGig(event.target.value)}
-              />
-            </Form.Group>
+          <Form
+            onSubmit={handleSubmit}
+            className="rounded-3 w-75 mx-auto text-light"
+          >
+            <Row className="justify-content-center">
+              <Col md={6} lg={6}>
+                <Form.Group className="p-3 text-white" controlId="date">
+                  <Form.Label>Date of Gig:</Form.Label>
+                  <p>Enter the date that you want the gig</p>
+                  <Form.Control
+                    type="date"
+                    name="dateOfGig"
+                    value={dateOfGig}
+                    onChange={(event) => setDateOfGig(event.target.value)}
+                  />
+                </Form.Group>
+              </Col>
 
-            <Form.Group className="p-3">
-              <Form.Label className="text-white">Country of venue:</Form.Label>
-              <p>What country do you want the gig to be in?</p>
-              <Form.Select
-                value={countryOfVenue}
-                onChange={(event) => setCountryOfVenue(event.target.value)}
-              >
-                <option value="">Please select a country</option>
-                <option value="England">England</option>
-                <option value="Wales">Wales</option>
-                <option value="Scotland">Scotland</option>
-                <option value="Northern Ireland">Northern Ireland</option>
-                {/* <option value="Any">Any</option> */}
-              </Form.Select>
-            </Form.Group>
+              <Col md={6} lg={6}>
+                <Form.Group className="p-3">
+                  <Form.Label className="text-white">
+                    Country of Venue:
+                  </Form.Label>
+                  <p>What country do you want the gig to be in?</p>
+                  <Form.Select
+                    value={countryOfVenue}
+                    onChange={(event) => setCountryOfVenue(event.target.value)}
+                  >
+                    <option value="">Please select a country</option>
+                    <option value="England">England</option>
+                    <option value="Wales">Wales</option>
+                    <option value="Scotland">Scotland</option>
+                    <option value="Northern Ireland">Northern Ireland</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
-            <Form.Group className="p-3">
-              <Form.Label className="text-white">Select a Genre:</Form.Label>
-              <p>
-                What genre artist are you? We'll only show you gigs that fit
-                your genre.
-              </p>
-              <Form.Select
-                value={genreOfGig}
-                onChange={(event) => setGenreOfGig(event.target.value)}
-              >
-                <option value="">Please select a genre</option>
-                <option value="Rock">Rock</option>
-                <option value="Pop">Pop</option>
-                <option value="Jazz">Jazz</option>
-                <option value="Country">Country</option>
-                <option value="Hip Hop">Hip Hop</option>
-                <option value="R&B">R&B</option>
-                <option value="Electronic">Electronic</option>
-                <option value="Classical">Classical</option>
-                <option value="Reggae">Reggae</option>
-                <option value="Metal">Metal</option>
-                <option value="Folk">Folk</option>
-                <option value="Blues">Blues</option>
-                <option value="World Music">World Music</option>
-              </Form.Select>
-            </Form.Group>
+            <Row className="justify-content-center">
+              <Col md={6} lg={6}>
+                <Form.Group className="p-3">
+                  <Form.Label className="text-white">
+                    Select a Genre:
+                  </Form.Label>
+                  <p>What's your genre? We'll show gigs that match.</p>
+                  <Form.Select
+                    value={genreOfGig}
+                    onChange={(event) => setGenreOfGig(event.target.value)}
+                  >
+                    <option value="">Please select a genre</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Jazz">Jazz</option>
+                    <option value="Country">Country</option>
+                    <option value="Hip Hop">Hip Hop</option>
+                    <option value="R&B">R&B</option>
+                    <option value="Electronic">Electronic</option>
+                    <option value="Classical">Classical</option>
+                    <option value="Reggae">Reggae</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Folk">Folk</option>
+                    <option value="Blues">Blues</option>
+                    <option value="World Music">World Music</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
 
-            <Form.Group className="p-3">
-              <Form.Label className="text-white">Type Of Gig:</Form.Label>
-              <Form.Select
-                placeholder="What type of gig are you looking for?"
-                value={typeOfGig}
-                onChange={(event) => setTypeOfGig(event.target.value)}
-              >
-                <option disabled hidden value="">
-                  What type of gig are you looking for?
-                </option>
-                <option value="Original Music">Original Music</option>
-                <option value="Covers">Covers</option>
-                <option value="Both">Both</option>
-                {/* <option value="Any">Any</option> */}
-              </Form.Select>
-            </Form.Group>
+              <Col md={6} lg={6}>
+                <Form.Group className="p-3">
+                  <Form.Label className="text-white">Type Of Gig:</Form.Label>
+                  <p>Original music, covers or both?</p>
+                  <Form.Select
+                    placeholder="What type of gig are you looking for?"
+                    value={typeOfGig}
+                    onChange={(event) => setTypeOfGig(event.target.value)}
+                  >
+                    <option disabled hidden value="">
+                      What type of gig are you looking for?
+                    </option>
+                    <option value="Original Music">Original Music</option>
+                    <option value="Covers">Covers</option>
+                    <option value="Both">Both</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
-            <Form.Group className="p-3">
-              <Form.Label className="text-white">Payment For Gig:</Form.Label>
-              <p>Enter the minimum amount you will play for</p>
-              <Form.Control
-                placeholder="£ (If free then enter 0)"
-                type="number"
-                value={payment}
-                onChange={(event) => setPayment(event.target.value)}
-              />
-            </Form.Group>
+            <Row className="justify-content-center text-center">
+              <Col md={6} lg={6}>
+                <Form.Group className="p-3">
+                  <Form.Label className="text-white">
+                    Payment For Gig:
+                  </Form.Label>
+                  <p>Enter the minimum amount you will play for</p>
+                  <Form.Control
+                    placeholder="£ (If you'll play for free then enter 0)"
+                    type="number"
+                    value={payment}
+                    onChange={(event) => setPayment(event.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-center">
               <Button className="my-3 mx-3" variant="primary" type="submit">
                 Search
               </Button>
 
               <Button
                 className="my-3 mx-3"
-                variant="primary"
+                variant="secondary"
                 type="button"
                 onClick={handleResetFilters}
               >
@@ -184,7 +207,7 @@ const PickUpGig = () => {
       <section className="my-5 px-4">
         {searched && searchResults.length > 0 ? (
           <div className="gig-output-area">
-            <h2 className="text-white mb-4">
+            <h2 className="text-white mb-4 text-center">
               Gigs that meet your search criteria:
             </h2>
             <table className="individual-gig-details table table-bordered mt-5 mb-5 text-light">
@@ -224,7 +247,7 @@ const PickUpGig = () => {
             </table>
           </div>
         ) : searched && searchResults.length === 0 && !resetClicked ? (
-          <div className="artist-output-area text-light">
+          <div className="artist-output-area text-light text-center">
             <h3 className="mb-3">Sorry, no gigs were found.</h3>
           </div>
         ) : null}

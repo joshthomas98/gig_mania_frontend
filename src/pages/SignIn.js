@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import IncorrectLoginModal from "../components/IncorrectLoginModal";
+import IncorrectLoginModal from "../components/modals/IncorrectLoginModal";
 import { LoginContext } from "../App";
 import { useArtistGigApplications } from "../contexts/ArtistGigApplicationsContext";
 
