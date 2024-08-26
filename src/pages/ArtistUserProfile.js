@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Container } from "react-bootstrap";
 import Calendar from "react-calendar";
 import { format } from "date-fns-tz";
 import { LoginContext } from "../App";
@@ -168,7 +168,9 @@ const ArtistUserProfile = () => {
 
                 <div className="text-center mt-5">
                   <h4>About</h4>
-                  <p className="mt-4">{artist.bio}</p>
+                  <Container>
+                    <p className="mt-4">{artist.bio}</p>
+                  </Container>
                 </div>
 
                 <div className="text-center mt-5">
