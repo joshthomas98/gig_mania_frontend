@@ -1,30 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Alert } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import moment from "moment";
 
 const ConfirmGigAdvertisement = () => {
-  // Simulated gig details (in a real app, these would come from props or a state management solution)
-  const gigDetails = {
-    date: "2024-09-15",
-    time: "19:00",
-    venue: "The Music Hall",
-    duration: "2 hours",
-    country: "USA",
-    type: "Original Music",
-    payment: "$500",
-    notes: "Looking for artists with an energetic stage presence.",
+  const { gigId } = useParams();
+  const navigate = useNavigate();
+
+  const [gigDetails, setGigDetails] = useState("");
+
+  const fetchGigDetailsByParam = () => {
+    fetch(`http://localhost:8000/artist_gigs/${gigId}/`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setGigDetails(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
+
+  useEffect(() => {
+    fetchGigDetailsByParam();
+  }, []);
 
   // Function to handle gig advertisement confirmation
   const handleConfirm = () => {
-    // Logic to confirm and advertise the gig (e.g., API call)
-    alert("Gig has been successfully advertised!");
+    const data = {
+      is_advertised: true,
+    };
+
+    fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigate("/gigadvertised");
+        } else {
+          console.error("Error editing gig:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error editing gig:", error);
+      });
   };
 
   // Function to handle cancellation or going back
   const handleCancel = () => {
-    // Logic to go back or cancel the action (e.g., navigate to a different page)
-    alert("Gig advertisement cancelled.");
+    navigate("/mybookings");
   };
+
+  console.log(gigDetails);
 
   return (
     <Container className="mt-5 text-light">
@@ -44,28 +75,31 @@ const ConfirmGigAdvertisement = () => {
               <h5 className="mt-4">Gig Details</h5>
               <ul className="list-unstyled">
                 <li>
-                  <strong>Date:</strong> {gigDetails.date}
+                  <strong>Date:</strong> {gigDetails.date_of_gig}
                 </li>
                 <li>
-                  <strong>Time:</strong> {gigDetails.time}
+                  <strong>Time:</strong>{" "}
+                  {gigDetails.time_of_gig
+                    ? moment(gigDetails.time_of_gig, "HH:mm:ss").format("HH:mm")
+                    : ""}
                 </li>
                 <li>
-                  <strong>Venue:</strong> {gigDetails.venue}
+                  <strong>Venue:</strong> {gigDetails.venue_name}
                 </li>
                 <li>
-                  <strong>Duration:</strong> {gigDetails.duration}
+                  <strong>Duration:</strong> {gigDetails.duration_of_gig}
                 </li>
                 <li>
-                  <strong>Country:</strong> {gigDetails.country}
+                  <strong>Country:</strong> {gigDetails.country_of_venue}
                 </li>
                 <li>
-                  <strong>Type:</strong> {gigDetails.type}
+                  <strong>Type:</strong> {gigDetails.type_of_gig}
                 </li>
                 <li>
                   <strong>Payment:</strong> {gigDetails.payment}
                 </li>
                 <li>
-                  <strong>Notes:</strong> {gigDetails.notes}
+                  <strong>Notes:</strong> {gigDetails.notes_about_gig}
                 </li>
               </ul>
 

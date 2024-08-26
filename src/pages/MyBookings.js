@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import DeleteArtistGigModal from "../components/modals/DeleteArtistGigModal";
 import moment from "moment";
@@ -122,8 +121,6 @@ const MyBookings = () => {
     }
   };
 
-  const handleEditGigClick = async () => {};
-
   const handleAdvertiseGigClick = async () => {};
 
   console.log(selectedGig);
@@ -203,6 +200,9 @@ const MyBookings = () => {
                         <i
                           className="bi bi-badge-ad h5 mx-1"
                           style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            navigate(`/confirmgigadvertisement/${gig.id}`)
+                          }
                         ></i>
                       </div>
                     </td>
