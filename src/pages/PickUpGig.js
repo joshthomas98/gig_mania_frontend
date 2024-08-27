@@ -50,10 +50,7 @@ const PickUpGig = () => {
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            const combinedResults = [
-              ...data.artist_gigs,
-              ...data.venue_listed_gigs,
-            ];
+            const combinedResults = [...data.artist_gigs, ...data.venue_gigs];
             setSearchResults(combinedResults);
             setSearched(true);
           });

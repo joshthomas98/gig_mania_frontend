@@ -69,7 +69,7 @@ function VenueAdvertiseGig() {
       user_type: artistOrVenue === "V" ? "Venue" : "",
     };
 
-    fetch("http://localhost:8000/venue_listed_gigs/", {
+    fetch("http://localhost:8000/venue_gigs/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

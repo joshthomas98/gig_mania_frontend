@@ -38,7 +38,7 @@ const IndividualGig = () => {
         if (userType === "Artist") {
           url = `http://localhost:8000/artist_gigs/${gigId}/`;
         } else if (userType === "Venue") {
-          url = `http://localhost:8000/venue_listed_gigs/${gigId}/`;
+          url = `http://localhost:8000/venue_gigs/${gigId}/`;
         }
 
         const response = await fetch(url);

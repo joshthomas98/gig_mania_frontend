@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import DeleteListedGig from "../components/modals/DeleteArtistGigModal";
+import DeleteArtistGigModal from "../components/modals/DeleteArtistGigModal";
 
 const MyListedGigs = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const MyListedGigs = () => {
           console.log(error);
         });
     } else if (storedUserType === "V") {
-      fetch(`http://localhost:8000/venues/${storedUserId}/listed_gigs/`)
+      fetch(`http://localhost:8000/venues/${storedUserId}/gigs/`)
         .then((response) => response.json())
         .then((data) => {
           setVenueGigs(data);
@@ -89,7 +89,7 @@ const MyListedGigs = () => {
           );
         });
     } else if (storedUserType === "V") {
-      fetch(`http://localhost:8000/venue_listed_gigs/${selectedGigId}/`, {
+      fetch(`http://localhost:8000/venue_gigs/${selectedGigId}/`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -217,7 +217,7 @@ const MyListedGigs = () => {
       </table>
 
       {showModal && (
-        <DeleteListedGig
+        <DeleteArtistGigModal
           show={showModal}
           handleClose={handleCloseModal}
           gigId={selectedGigId}

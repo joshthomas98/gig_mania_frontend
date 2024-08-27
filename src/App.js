@@ -51,7 +51,8 @@ import MyListedGigs from "./pages/MyListedGigs";
 import ArtistEditGig from "./pages/ArtistEditGig";
 import VenueEditGig from "./pages/VenueEditGig";
 import GigSuccessfullyUpdated from "./pages/GigSuccessfullyUpdated";
-import DeleteListedGigModal from "./components/modals/DeleteArtistGigModal";
+import DeleteArtistGigModal from "./components/modals/DeleteArtistGigModal";
+import DeleteVenueGigModal from "./components/modals/DeleteVenueGigModal";
 import ProfileSuccessfullyUpdated from "./pages/ProfileSuccessfullyUpdated";
 import AlreadyAppliedForGig from "./pages/AlreadyAppliedForGig";
 import RequestToBookArtist from "./pages/RequestToBookArtist";
@@ -235,8 +236,13 @@ const App = () => {
                 <Route path="/venueeditgig/:gigId" element={<VenueEditGig />} />
 
                 <Route
-                  path="deletelistedgigmodal"
-                  element={<DeleteListedGigModal />}
+                  path="deleteartistgigmodal"
+                  element={<DeleteArtistGigModal />}
+                />
+
+                <Route
+                  path="deletevenuegigmodal"
+                  element={<DeleteVenueGigModal />}
                 />
 
                 <Route

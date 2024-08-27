@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const VenueUserProfile = () => {
@@ -83,9 +83,9 @@ const VenueUserProfile = () => {
                     <Button
                       variant="outline-light"
                       className="mx-2"
-                      onClick={() => navigate("/mylistedgigs")}
+                      onClick={() => navigate("/mybookings")}
                     >
-                      View My Listed Gigs
+                      View My Gigs
                     </Button>
                   </div>
                 )}
@@ -105,7 +105,9 @@ const VenueUserProfile = () => {
 
                 <div className="text-center mt-5 mb-4">
                   <h4>About</h4>
-                  <p className="container">{venue.bio}</p>
+                  <Container>
+                    <p className="mt-4">{venue.bio}</p>
+                  </Container>
                 </div>
 
                 <div className="text-center mt-5 mb-4">
