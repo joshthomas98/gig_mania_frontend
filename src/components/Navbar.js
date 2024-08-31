@@ -156,7 +156,7 @@ const NavbarComponent = () => {
             src="../../images/gigsweep_logo.png"
             width="320"
             height="170"
-            className="d-inline-block align-top mb-5 mt-3"
+            className="d-inline-block align-top mb-4 mt-2"
             alt="Gig Mania Logo"
           />
         </Navbar.Brand>
@@ -169,11 +169,11 @@ const NavbarComponent = () => {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="navbar-nav">
-          <div className="mx-auto pb-4" style={{ paddingRight: "50px" }}>
+          <div className="mx-auto mt-5" style={{ paddingRight: "50px" }}>
             <SearchBar />
           </div>
 
-          <Nav className="ml-auto">
+          <Nav className="ml-auto mt-5">
             {!storedUserId && !storedUserType ? (
               <Nav.Link href="/signin">
                 <i

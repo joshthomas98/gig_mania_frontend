@@ -7,21 +7,11 @@ import { LoginContext } from "../App";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const ArtistUserProfile = () => {
-  const [userId, setUserId] = useState(null);
-  const [artistOrVenue, setArtistOrVenue] = useState(null);
+  const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
+    useContext(LoginContext);
+
   const { profileId } = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem("userId");
-    const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
-    if (userIdFromLocalStorage) {
-      setUserId(userIdFromLocalStorage);
-    }
-    if (artistOrVenueFromLocalStorage) {
-      setArtistOrVenue(artistOrVenueFromLocalStorage);
-    }
-  }, []);
 
   const SERVER_BASE_URL = "http://localhost:8000/";
 
@@ -126,7 +116,7 @@ const ArtistUserProfile = () => {
                   </p>
                 </div>
 
-                {userId === profileId && artistOrVenue === "A" && (
+                {userId && artistOrVenue === "A" && (
                   <div className="text-center mt-5">
                     <Button
                       variant="outline-light"

@@ -53,7 +53,7 @@ const VenueUserProfile = () => {
 
   return (
     <div className="text-light">
-      <h1 className="text-center mt-5 mb-4">My Profile</h1>
+      <h1 className="text-center mb-4">My Profile</h1>
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-8">
