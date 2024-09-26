@@ -69,6 +69,8 @@ import GigTransferredToNewArtistSuccessfully from "./pages/GigTransferredToNewAr
 import ArtistStoreNewGig from "./pages/ArtistStoreNewGig";
 import ThanksForContactingUs from "./pages/ThanksForContactingUs";
 import ConfirmGigAdvertisement from "./pages/ConfirmGigAdvertisement";
+import VenueCreateGig from "./pages/VenueCreateGig";
+import UnadvertiseGigModal from "./components/modals/UnadvertiseGigModal";
 
 import Footer from "./components/Footer";
 
@@ -317,6 +319,13 @@ const App = () => {
                 <Route
                   path="/confirmgigadvertisement/:gigId"
                   element={<ConfirmGigAdvertisement />}
+                />
+
+                <Route path="venuecreategig" element={<VenueCreateGig />} />
+
+                <Route
+                  path="unadvertisegigmodal"
+                  element={<UnadvertiseGigModal />}
                 />
               </Routes>
             </BrowserRouter>

@@ -27,8 +27,6 @@ const DeleteArtistGigModal = ({
     marginLeft: "auto",
   };
 
-  console.log(gig);
-
   return (
     <Modal show={show} onHide={handleClose} style={modalStyle}>
       <Modal.Header closeButton>

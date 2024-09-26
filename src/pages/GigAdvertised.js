@@ -15,7 +15,7 @@ const GigAdvertised = () => {
       <Container>
         <Row className="justify-content-center">
           <Col md={8} lg={7}>
-            <h2 className="pb-5">Your gig has been successfully advertised!</h2>
+            <h2 className="pb-4">Your gig has been successfully advertised!</h2>
 
             <p className="lead pb-4">
               Congratulations! Your gig is now live and visible to other
@@ -30,15 +30,8 @@ const GigAdvertised = () => {
       </Container>
 
       <div className="pt-3">
-        <Button
-          variant="primary"
-          href={
-            artistOrVenue === "A"
-              ? `artistuserprofile/${userId}`
-              : `venueuserprofile/${userId}`
-          }
-        >
-          Back to my profile
+        <Button variant="primary" href="/mybookings">
+          Back to my bookings
         </Button>
       </div>
     </div>

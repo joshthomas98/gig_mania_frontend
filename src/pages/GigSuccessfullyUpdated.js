@@ -31,15 +31,8 @@ const GigSuccessfullyUpdated = () => {
       </Container>
 
       <div className="pt-3">
-        <Button
-          variant="primary"
-          href={
-            artistOrVenue === "A"
-              ? `artistuserprofile/${userId}`
-              : `venueuserprofile/${userId}`
-          }
-        >
-          Back to my profile
+        <Button variant="primary" href="/mybookings">
+          Back to my bookings
         </Button>
       </div>
     </div>

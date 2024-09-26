@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, Alert } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Alert,
+  Form,
+  FormControl,
+} from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 
@@ -8,6 +17,8 @@ const ConfirmGigAdvertisement = () => {
   const navigate = useNavigate();
 
   const [gigDetails, setGigDetails] = useState("");
+
+  const [reasonForAdvertising, setReasonForAdvertising] = useState("");
 
   const fetchGigDetailsByParam = () => {
     fetch(`http://localhost:8000/artist_gigs/${gigId}/`)
@@ -29,6 +40,7 @@ const ConfirmGigAdvertisement = () => {
   const handleConfirm = () => {
     const data = {
       is_advertised: true,
+      reason_for_advertising: reasonForAdvertising,
     };
 
     fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
@@ -57,8 +69,10 @@ const ConfirmGigAdvertisement = () => {
 
   console.log(gigDetails);
 
+  console.log(reasonForAdvertising);
+
   return (
-    <Container className="mt-5 text-light">
+    <Container className="mt-2 text-light">
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-sm">
@@ -102,6 +116,23 @@ const ConfirmGigAdvertisement = () => {
                   <strong>Notes:</strong> {gigDetails.notes_about_gig}
                 </li>
               </ul>
+
+              <Row className="justify-content-center">
+                <Col md={8}>
+                  <Form.Group className="p-3 text-center position-relative">
+                    <Form.Label className="text-white">
+                      Reason For Advertising:
+                    </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={5} // Adjust the number of rows to control the height
+                      placeholder="Enter the reason you can no longer perform"
+                      value={reasonForAdvertising}
+                      onChange={(e) => setReasonForAdvertising(e.target.value)}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
               <div className="d-flex justify-content-end mt-4">
                 <Button

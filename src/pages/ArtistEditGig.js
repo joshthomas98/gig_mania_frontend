@@ -26,6 +26,7 @@ const ArtistEditGig = () => {
   const [timeOfGig, setTimeOfGig] = useState("");
   const [durationOfGig, setDurationOfGig] = useState("");
   const [notesAboutGig, setNotesAboutGig] = useState("");
+  const [reasonForAdvertising, setReasonForAdvertising] = useState("");
 
   // Fetches data for the form fields from the server based on gigId parameter in the URL
   const fetchDataForFormFields = () => {
@@ -59,6 +60,7 @@ const ArtistEditGig = () => {
       setTimeOfGig(gigFormFieldData.time_of_gig);
       setDurationOfGig(gigFormFieldData.duration_of_gig);
       setNotesAboutGig(gigFormFieldData.notes_about_gig);
+      setReasonForAdvertising(gigFormFieldData.reason_for_advertising);
     }
   }, [gigFormFieldData]);
 
@@ -78,7 +80,9 @@ const ArtistEditGig = () => {
       payment: payment,
       time_of_gig: timeOfGig,
       duration_of_gig: durationOfGig,
-      notes_about_gig: notesAboutGig,
+      ...(gigFormFieldData.is_advertised === true
+        ? { reason_for_advertising: reasonForAdvertising }
+        : { notes_about_gig: notesAboutGig }),
     };
 
     fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
@@ -217,16 +221,32 @@ const ArtistEditGig = () => {
           </Form.Group>
         </Col>
       </Row>
-      <Form.Group className="mb-3">
-        <Form.Label className="text-white">Notes About Gig:</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          placeholder="Enter notes"
-          value={notesAboutGig}
-          onChange={(e) => setNotesAboutGig(e.target.value)}
-        />
-      </Form.Group>
+      {gigFormFieldData.is_advertised !== true ? (
+        <Form.Group className="mb-3">
+          <Form.Label className="text-white">Notes About Gig:</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            placeholder="Enter notes"
+            value={notesAboutGig}
+            onChange={(e) => setNotesAboutGig(e.target.value)}
+          />
+        </Form.Group>
+      ) : (
+        <Form.Group className="mb-3">
+          <Form.Label className="text-white">
+            Reason For Advertising:
+          </Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            placeholder="Enter notes"
+            value={reasonForAdvertising}
+            onChange={(e) => setReasonForAdvertising(e.target.value)}
+          />
+        </Form.Group>
+      )}
+
       <Button variant="primary" type="submit" className="w-100">
         Save Changes
       </Button>

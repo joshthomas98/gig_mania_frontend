@@ -16,7 +16,7 @@ const VenueProfileSettings = () => {
 
   if (!userId || !artistOrVenue) {
     navigate("/signin");
-  } else if (userId && artistOrVenue === "A") {
+  } else if (userId && artistOrVenue !== "V") {
     navigate("/restrictedpage");
   }
 

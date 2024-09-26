@@ -2,16 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App";
 import axios from "axios";
+import { Tab, Tabs, Table, Alert, Button } from "react-bootstrap";
+import moment from "moment";
 import DeleteArtistGigModal from "../components/modals/DeleteArtistGigModal";
 import DeleteVenueGigModal from "../components/modals/DeleteVenueGigModal";
-import moment from "moment";
+import UnadvertiseGigModal from "../components/modals/UnadvertiseGigModal";
 
 const MyBookings = () => {
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
-
   const navigate = useNavigate();
-
   const SERVER_BASE_URL = "http://localhost:8000/";
 
   const [artist, setArtist] = useState({});
@@ -20,6 +20,8 @@ const MyBookings = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedGig, setSelectedGig] = useState(null);
+  const [activeTab, setActiveTab] = useState("confirmed");
+  const [showUnadvertiseModal, setShowUnadvertiseModal] = useState(false);
 
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem("userId");
@@ -31,7 +33,7 @@ const MyBookings = () => {
       setUserId(userIdFromLocalStorage);
       setArtistOrVenue(artistOrVenueFromLocalStorage);
     }
-  }, []);
+  }, [navigate, setUserId, setArtistOrVenue]);
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -41,7 +43,6 @@ const MyBookings = () => {
           throw new Error("Failed to fetch artist data");
         }
         const data = await response.json();
-        console.log(data);
         setArtist(data);
       } catch (error) {
         console.log(error);
@@ -53,46 +54,32 @@ const MyBookings = () => {
 
   useEffect(() => {
     const fetchGigsByUserId = async () => {
-      if (userId && artistOrVenue === "A") {
+      if (userId) {
         try {
-          const response = await fetch(
-            `${SERVER_BASE_URL}artists/${userId}/gigs/`
-          );
+          const url =
+            artistOrVenue === "A"
+              ? `${SERVER_BASE_URL}artists/${userId}/gigs/`
+              : `${SERVER_BASE_URL}venues/${userId}/gigs/`;
+
+          const response = await fetch(url);
           if (!response.ok) {
-            throw new Error("Failed to fetch gigs for this artist");
+            throw new Error("Failed to fetch gigs");
           }
           const data = await response.json();
-          console.log(data);
-          setArtistGigs(data);
-        } catch (error) {
-          console.log(error);
-        }
-      } else if (userId && artistOrVenue === "V") {
-        try {
-          const response = await fetch(
-            `${SERVER_BASE_URL}venues/${userId}/gigs/`
-          );
-          if (!response.ok) {
-            throw new Error("Failed to fetch gigs for this venue");
+
+          if (artistOrVenue === "A") {
+            setArtistGigs(data);
+          } else if (artistOrVenue === "V") {
+            setVenueGigs(data);
           }
-          const data = await response.json();
-          console.log(data);
-          setVenueGigs(data);
         } catch (error) {
           console.log(error);
         }
       }
     };
 
-    fetchGigsByUserId(); // Call the function inside useEffect
-  }, [userId, artistOrVenue]); // Add a dependency array to ensure useEffect runs when userId or artistOrVenue changes
-
-  const showAlert = (message) => {
-    setAlertMessage(message);
-    setTimeout(() => {
-      setAlertMessage(null);
-    }, 5000);
-  };
+    fetchGigsByUserId();
+  }, [userId, artistOrVenue]);
 
   const handleShowModal = (gig) => {
     setSelectedGig(gig);
@@ -104,7 +91,17 @@ const MyBookings = () => {
     setSelectedGig(null);
   };
 
-  const handleYesClick = async () => {
+  const handleShowUnadvertiseModal = (gig) => {
+    setSelectedGig(gig);
+    setShowUnadvertiseModal(true);
+  };
+
+  const handleCloseUnadvertiseModal = () => {
+    setShowUnadvertiseModal(false);
+    setSelectedGig(null);
+  };
+
+  const handleYesDeleteClick = async () => {
     try {
       if (selectedGig) {
         let response;
@@ -112,20 +109,13 @@ const MyBookings = () => {
           response = await axios.delete(
             `${SERVER_BASE_URL}artist_gigs/${selectedGig.id}/`
           );
-        } else if (artistOrVenue === "V") {
-          response = await axios.delete(
-            `${SERVER_BASE_URL}venue_gigs/${selectedGig.id}/`
-          );
-        }
-
-        console.log("Gig deleted successfully:", response.data);
-
-        // Update the state based on artistOrVenue
-        if (artistOrVenue === "A") {
           setArtistGigs((prevGigs) =>
             prevGigs.filter((gig) => gig.id !== selectedGig.id)
           );
         } else if (artistOrVenue === "V") {
+          response = await axios.delete(
+            `${SERVER_BASE_URL}venue_gigs/${selectedGig.id}/`
+          );
           setVenueGigs((prevGigs) =>
             prevGigs.filter((gig) => gig.id !== selectedGig.id)
           );
@@ -140,211 +130,501 @@ const MyBookings = () => {
     }
   };
 
-  console.log(selectedGig);
+  // Function to unadvertise gig
+  const handleConfirmUnadvertise = async () => {
+    const data = {
+      is_advertised: false,
+      reason_for_advertising: null,
+    };
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/artist_gigs/${selectedGig.id}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        // Update the gig in the state locally
+        if (artistOrVenue === "A") {
+          setArtistGigs((prevGigs) =>
+            prevGigs.map((gig) =>
+              gig.id === selectedGig.id ? { ...gig, is_advertised: false } : gig
+            )
+          );
+        } else if (artistOrVenue === "V") {
+          setVenueGigs((prevGigs) =>
+            prevGigs.map((gig) =>
+              gig.id === selectedGig.id ? { ...gig, is_advertised: false } : gig
+            )
+          );
+        }
+
+        // Close the modal
+        handleCloseUnadvertiseModal();
+
+        // Show alert for success
+        showAlert(
+          `Your gig has been successfully unadvertised and moved back to the "confirmed" gigs section.`
+        );
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Error editing gig:", error);
+    }
+  };
+
+  const showAlert = (message) => {
+    setAlertMessage(message);
+    setTimeout(() => {
+      setAlertMessage(null);
+    }, 5000);
+  };
+
+  const getFilteredGigs = (gigs) => {
+    return {
+      confirmed: gigs.filter((gig) => !gig.is_advertised),
+      advertised: gigs.filter((gig) => gig.is_advertised),
+    };
+  };
+
+  const filteredArtistGigs =
+    artistOrVenue === "A"
+      ? getFilteredGigs(artistGigs)
+      : { confirmed: [], advertised: [] };
+  const filteredVenueGigs =
+    artistOrVenue === "V"
+      ? getFilteredGigs(venueGigs)
+      : { confirmed: [], advertised: [] };
 
   return (
     <>
       {alertMessage && (
-        <div
-          className="alert alert-success alert-dismissible fade show"
-          role="alert"
+        <Alert
+          variant="success"
+          onClose={() => setAlertMessage(null)}
+          dismissible
         >
           {alertMessage}
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
-        </div>
+        </Alert>
       )}
 
       <div>
-        <h1 className="text-light text-center">My Bookings</h1>
-        <button
-          className="add-button mt-3"
-          onClick={() => {
-            if (artistOrVenue === "A") {
-              navigate("/artiststorenewgig");
-            } else if (artistOrVenue === "V") {
-              navigate("/");
-            }
-          }}
-        >
-          <div className="plus-icon">+</div>
-          Add
-        </button>
-        {userId && artistOrVenue === "A" && artistGigs.length === 0 && (
-          <h2 className="text-light">No gigs to show yet</h2>
-        )}
-        :
-        {userId && artistOrVenue === "A" && artistGigs.length > 0 && (
-          <table className="table table-bordered mb-5 text-light">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Venue</th>
-                <th>Time</th>
-                <th>Duration</th>
-                <th>Country</th>
-                <th>Type</th>
-                <th>Payment</th>
-                <th>Notes</th>
-                <th></th> {/* Empty header for the action buttons */}
-              </tr>
-            </thead>
-            <tbody>
-              {userId &&
-                artistOrVenue === "A" &&
-                artistGigs.map((gig, index) => (
-                  <tr key={index}>
-                    <td>{moment(gig.date_of_gig).format("DD/MM/YYYY")}</td>
-                    <td>{gig.venue_name}</td>
-                    <td>{gig.time_of_gig.slice(0, 5)}</td>
-                    <td>{gig.duration_of_gig} minutes</td>
-                    <td>{gig.country_of_venue}</td>
-                    <td>{gig.type_of_gig}</td>
-                    <td>£{gig.payment}</td>
-                    <td>{gig.notes_about_gig}</td>
-                    <td>
-                      <div className="d-flex justify-content-center pt-2">
-                        <i
-                          className="bi bi-trash h5 mx-1"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleShowModal(gig)}
-                        ></i>
+        <h1 className="text-light text-center mb-4">My Bookings</h1>
 
-                        <i
-                          className="bi bi-pencil h5 mx-1"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => navigate(`/artisteditgig/${gig.id}`)}
-                        ></i>
+        <div>
+          <div className="d-flex flex-column mb-3">
+            <div className="underline">
+              <Tabs
+                activeKey={activeTab}
+                onSelect={(tab) => setActiveTab(tab)}
+                id="tab-nav"
+              >
+                <Tab eventKey="confirmed" title="Confirmed Gigs">
+                  {/* Content for Confirmed Gigs tab */}
+                </Tab>
+                <Tab eventKey="advertised" title="Advertised Gigs">
+                  {/* Content for Advertised Gigs tab */}
+                </Tab>
+              </Tabs>
+            </div>
 
-                        {gig.is_advertised === true ? (
-                          <i
-                            className="bi bi-badge-ad h5 mx-1"
-                            style={{ cursor: "pointer", color: "#66ff00" }}
-                            onClick={() =>
-                              navigate(`/confirmgigadvertisement/${gig.id}`)
-                            }
-                          ></i>
-                        ) : (
-                          <i
-                            className="bi bi-badge-ad h5 mx-1"
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              navigate(`/confirmgigadvertisement/${gig.id}`)
-                            }
-                          ></i>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        )}
-        :{" "}
-        {userId && artistOrVenue === "V" && venueGigs.length === 0 && (
-          <h2 className="text-light">No gigs to show yet</h2>
-        )}
-        :
-        {userId && artistOrVenue === "V" && venueGigs.length > 0 && (
-          <table className="table table-bordered mb-5 text-light">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Duration</th>
-                <th>Genre</th>
-                <th>Type</th>
-                <th>Artist Type</th>
-                <th>Payment</th>
-                <th>Description</th>
-                <th></th> {/* Empty header for the action buttons */}
-              </tr>
-            </thead>
-            <tbody>
-              {userId &&
-                artistOrVenue === "V" &&
-                venueGigs.map((gig, index) => (
-                  <tr key={index}>
-                    <td>{moment(gig.date_of_gig).format("DD/MM/YYYY")}</td>
-                    <td>{gig.time_of_gig.slice(0, 5)}</td>
-                    <td>{gig.duration_of_gig} minutes</td>
-                    <td>{gig.genre_of_gig}</td>
-                    <td>{gig.type_of_gig}</td>
-                    <td>{gig.artist_type}</td>
-                    <td>£{gig.payment}</td>
-                    <td>{gig.description}</td>
-                    <td>
-                      <div className="d-flex justify-content-center pt-2">
-                        <i
-                          className="bi bi-trash h5 mx-1"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleShowModal(gig)}
-                        ></i>
+            <div className="d-flex justify-content-end align-items-center mt-4 mb-2">
+              <div className="mx-1">
+                <Button
+                  onClick={() => {
+                    if (artistOrVenue === "A") {
+                      navigate("/artiststorenewgig");
+                    } else if (artistOrVenue === "V") {
+                      navigate("/venuecreategig");
+                    }
+                  }}
+                  className="d-flex align-items-center"
+                  style={{ padding: "0.5rem 1rem", fontSize: "1rem" }}
+                >
+                  <div
+                    className="plus-icon"
+                    style={{
+                      fontSize: "1.5rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    +
+                  </div>
+                  Add Confirmed Gig
+                </Button>
+              </div>
 
-                        <i
-                          className="bi bi-pencil h5 mx-1"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => navigate(`/venueeditgig/${gig.id}`)}
-                        ></i>
+              <div className="mx-1">
+                <Button
+                  onClick={() => {
+                    if (artistOrVenue === "A") {
+                      navigate("/artistadvertisegig");
+                    } else if (artistOrVenue === "V") {
+                      navigate("/venuecreategig");
+                    }
+                  }}
+                  className="d-flex align-items-center"
+                  style={{ padding: "0.5rem 1rem", fontSize: "1rem" }}
+                >
+                  <div
+                    className="plus-icon"
+                    style={{
+                      fontSize: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <i
+                      className="bi bi-megaphone"
+                      style={{ background: "transparent", color: "black" }}
+                    ></i>
+                  </div>
+                  Advertise Your Gig
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                        {gig.is_advertised === true ? (
-                          <i
-                            className="bi bi-badge-ad h5 mx-1"
-                            style={{ cursor: "pointer", color: "#66ff00" }}
-                            onClick={() =>
-                              navigate(`/confirmgigadvertisement/${gig.id}`)
-                            }
-                          ></i>
-                        ) : (
-                          <i
-                            className="bi bi-badge-ad h5 mx-1"
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              navigate(`/confirmgigadvertisement/${gig.id}`)
-                            }
-                          ></i>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        )}
-        {artistOrVenue === "A" && showModal && selectedGig && (
-          <DeleteArtistGigModal
-            show={showModal}
-            handleClose={handleCloseModal}
-            gig={selectedGig}
-            onYesDelete={handleYesClick}
-            onNoDoNotDelete={handleCloseModal}
-          />
-        )}
-        :
-        {artistOrVenue === "V" && showModal && selectedGig && (
-          <DeleteVenueGigModal
-            show={showModal}
-            handleClose={handleCloseModal}
-            gig={selectedGig}
-            onYesDelete={handleYesClick}
-            onNoDoNotDelete={handleCloseModal}
-          />
-        )}
-        <p className="text-light text-center">
-          <span style={{ fontWeight: "bold" }}>Note:</span> If the{" "}
-          <span>
-            <i
-              className="bi bi-badge-ad h4 mx-1"
-              style={{ cursor: "pointer", color: "#ffffff" }}
-            ></i>
-          </span>{" "}
-          button is green it means that the gig has been advertised.
-        </p>
+        <Tab.Content>
+          {activeTab === "confirmed" && (
+            <>
+              {artistOrVenue === "A" &&
+                filteredArtistGigs.confirmed.length === 0 && (
+                  <h2 className="text-light text-center pt-3">
+                    No confirmed gigs to show yet
+                  </h2>
+                )}
+              {artistOrVenue === "A" &&
+                filteredArtistGigs.confirmed.length > 0 && (
+                  <Table
+                    striped
+                    bordered
+                    hover
+                    variant="dark"
+                    className="text-light"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Venue</th>
+                        <th>Time</th>
+                        <th>Duration</th>
+                        <th>Country</th>
+                        <th>Type</th>
+                        <th>Payment</th>
+                        <th>Notes</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredArtistGigs.confirmed.map((gig, index) => (
+                        <tr key={index}>
+                          <td>
+                            {moment(gig.date_of_gig).format("DD/MM/YYYY")}
+                          </td>
+                          <td>{gig.venue_name}</td>
+                          <td>{gig.time_of_gig.slice(0, 5)}</td>
+                          <td>{gig.duration_of_gig} minutes</td>
+                          <td>{gig.country_of_venue}</td>
+                          <td>{gig.type_of_gig}</td>
+                          <td>£{gig.payment}</td>
+                          <td>{gig.notes_about_gig}</td>
+                          <td>
+                            <div className="d-flex justify-content-center pt-2 bg-transparent">
+                              <i
+                                className="bi bi-trash h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleShowModal(gig)}
+                              ></i>
+                              <i
+                                className="bi bi-pencil h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  navigate(`/artisteditgig/${gig.id}`)
+                                }
+                              ></i>
+                              <i
+                                className="bi bi-badge-ad h5 mx-1 bg-transparent"
+                                style={{
+                                  cursor: "pointer",
+                                  color: gig.is_advertised
+                                    ? "#66ff00"
+                                    : "currentColor",
+                                }}
+                                onClick={() => {
+                                  if (gig.is_advertised) {
+                                    handleShowUnadvertiseModal(gig);
+                                  } else {
+                                    navigate(
+                                      `/confirmgigadvertisement/${gig.id}`
+                                    );
+                                  }
+                                }}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
+              {artistOrVenue === "V" &&
+                filteredVenueGigs.confirmed.length === 0 && (
+                  <h2 className="text-light text-center pt-3">
+                    No confirmed gigs to show yet
+                  </h2>
+                )}
+              {artistOrVenue === "V" &&
+                filteredVenueGigs.confirmed.length > 0 && (
+                  <Table
+                    striped
+                    bordered
+                    hover
+                    variant="dark"
+                    className="text-light"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Duration</th>
+                        <th>Genre</th>
+                        <th>Type</th>
+                        <th>Artist Type</th>
+                        <th>Payment</th>
+                        <th>Description</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredVenueGigs.confirmed.map((gig, index) => (
+                        <tr key={index}>
+                          <td>
+                            {moment(gig.date_of_gig).format("DD/MM/YYYY")}
+                          </td>
+                          <td>{gig.time_of_gig.slice(0, 5)}</td>
+                          <td>{gig.duration_of_gig} minutes</td>
+                          <td>{gig.genre}</td>
+                          <td>{gig.type}</td>
+                          <td>{gig.artist_type}</td>
+                          <td>£{gig.payment}</td>
+                          <td>{gig.description}</td>
+                          <td>
+                            <div className="d-flex justify-content-center pt-2 bg-transparent">
+                              <i
+                                className="bi bi-trash h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleShowModal(gig)}
+                              ></i>
+                              <i
+                                className="bi bi-pencil h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  navigate(`/venueeditgig/${gig.id}`)
+                                }
+                              ></i>
+                              <i
+                                className="bi bi-badge-ad h5 mx-1 bg-transparent"
+                                style={{
+                                  cursor: "pointer",
+                                  color: gig.is_advertised
+                                    ? "#66ff00"
+                                    : "currentColor",
+                                }}
+                                onClick={() =>
+                                  navigate(`/confirmgigadvertisement/${gig.id}`)
+                                }
+                              ></i>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
+            </>
+          )}
+
+          {activeTab === "advertised" && (
+            <>
+              {artistOrVenue === "A" &&
+                filteredArtistGigs.advertised.length === 0 && (
+                  <h2 className="text-light text-center pt-3">
+                    No advertised gigs to show yet
+                  </h2>
+                )}
+              {artistOrVenue === "A" &&
+                filteredArtistGigs.advertised.length > 0 && (
+                  <Table
+                    striped
+                    bordered
+                    hover
+                    variant="dark"
+                    className="text-light"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Venue</th>
+                        <th>Time</th>
+                        <th>Duration</th>
+                        <th>Country</th>
+                        <th>Type</th>
+                        <th>Payment</th>
+                        <th>Reason For Advertising</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredArtistGigs.advertised.map((gig, index) => (
+                        <tr key={index}>
+                          <td>
+                            {moment(gig.date_of_gig).format("DD/MM/YYYY")}
+                          </td>
+                          <td>{gig.venue_name}</td>
+                          <td>{gig.time_of_gig.slice(0, 5)}</td>
+                          <td>{gig.duration_of_gig} minutes</td>
+                          <td>{gig.country_of_venue}</td>
+                          <td>{gig.type_of_gig}</td>
+                          <td>£{gig.payment}</td>
+                          <td>{gig.reason_for_advertising}</td>
+                          <td>
+                            <div className="d-flex justify-content-center pt-2 bg-transparent">
+                              <i
+                                className="bi bi-trash h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleShowModal(gig)}
+                              ></i>
+                              <i
+                                className="bi bi-pencil h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  navigate(`/artisteditgig/${gig.id}`)
+                                }
+                              ></i>
+                              <i
+                                className="bi bi-badge-ad h5 mx-1 bg-transparent"
+                                style={{
+                                  cursor: "pointer",
+                                  color: gig.is_advertised
+                                    ? "#66ff00"
+                                    : "currentColor",
+                                }}
+                                onClick={() => handleShowUnadvertiseModal(gig)}
+                              ></i>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
+              {artistOrVenue === "V" &&
+                filteredVenueGigs.advertised.length === 0 && (
+                  <h2 className="text-light text-center pt-3">
+                    No advertised gigs to show yet
+                  </h2>
+                )}
+              {artistOrVenue === "V" &&
+                filteredVenueGigs.advertised.length > 0 && (
+                  <Table
+                    striped
+                    bordered
+                    hover
+                    variant="dark"
+                    className="text-light"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Duration</th>
+                        <th>Genre</th>
+                        <th>Type</th>
+                        <th>Artist Type</th>
+                        <th>Payment</th>
+                        <th>Description</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredVenueGigs.advertised.map((gig, index) => (
+                        <tr key={index}>
+                          <td>
+                            {moment(gig.date_of_gig).format("DD/MM/YYYY")}
+                          </td>
+                          <td>{gig.time_of_gig.slice(0, 5)}</td>
+                          <td>{gig.duration_of_gig} minutes</td>
+                          <td>{gig.genre}</td>
+                          <td>{gig.type}</td>
+                          <td>{gig.artist_type}</td>
+                          <td>£{gig.payment}</td>
+                          <td>{gig.description}</td>
+                          <td>
+                            <div className="d-flex justify-content-center pt-2 bg-transparent">
+                              <i
+                                className="bi bi-trash h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleShowModal(gig)}
+                              ></i>
+                              <i
+                                className="bi bi-pencil h5 mx-1 bg-transparent"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  navigate(`/venueeditgig/${gig.id}`)
+                                }
+                              ></i>
+                              <i
+                                className="bi bi-badge-ad h5 mx-1 bg-transparent"
+                                style={{
+                                  cursor: "pointer",
+                                  color: gig.is_advertised
+                                    ? "#66ff00"
+                                    : "currentColor",
+                                }}
+                                onClick={() =>
+                                  navigate(`/confirmgigadvertisement/${gig.id}`)
+                                }
+                              ></i>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
+            </>
+          )}
+        </Tab.Content>
       </div>
+
+      <DeleteArtistGigModal
+        show={showModal}
+        onClose={handleCloseModal}
+        onYesDelete={handleYesDeleteClick}
+        gig={selectedGig}
+      />
+
+      <DeleteVenueGigModal
+        show={showModal}
+        onClose={handleCloseModal}
+        onYesDelete={handleYesDeleteClick}
+        gig={selectedGig}
+      />
+
+      <UnadvertiseGigModal
+        show={showUnadvertiseModal}
+        onClose={handleCloseUnadvertiseModal}
+        onConfirm={handleConfirmUnadvertise}
+        gig={selectedGig}
+      />
     </>
   );
 };
