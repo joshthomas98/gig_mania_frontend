@@ -249,12 +249,12 @@ const Homepage = () => {
       ) : null}
 
       {/* Featured artists section */}
-      <section>
+      <section className="pt-3">
         <FeaturedArtists />
       </section>
 
       {/* Testimonials section */}
-      <section>
+      <section className="pt-4">
         <Testimonials />
       </section>
 

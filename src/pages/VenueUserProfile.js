@@ -71,7 +71,7 @@ const VenueUserProfile = () => {
                   <p className="lead">{venue.genre}</p>
                 </div>
 
-                {userId === profileId && (
+                {artistOrVenue === "V" && userId === profileId && (
                   <div className="text-center pt-3 mb-4">
                     <Button
                       variant="outline-light"
@@ -90,7 +90,7 @@ const VenueUserProfile = () => {
                   </div>
                 )}
 
-                {userId !== profileId && (
+                {artistOrVenue !== "V" && (
                   <div className="text-center mb-4">
                     <Button
                       variant="outline-light"

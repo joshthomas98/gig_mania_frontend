@@ -146,7 +146,7 @@ const App = () => {
 
                 <Route path="termsofuse" element={<TermsOfUse />} />
 
-                <Route path="privacy" element={<PrivacyPolicy />} />
+                <Route path="privacypolicy" element={<PrivacyPolicy />} />
 
                 <Route
                   path="artistprofilesettings"
