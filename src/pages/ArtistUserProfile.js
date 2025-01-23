@@ -14,6 +14,7 @@ const ArtistUserProfile = () => {
   const navigate = useNavigate();
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const SERVER_BASE_URL_WITHOUT_TRAILING_SLASH = "http://localhost:8000";
 
   const [artist, setArtist] = useState(null);
   const [unavailabilities, setUnavailabilities] = useState([]);
@@ -92,6 +93,8 @@ const ArtistUserProfile = () => {
       return <LoadingSpinner />;
     }
 
+    console.log(artist.image + " " + "HERE");
+
     return (
       <div className="container mt-5">
         <div className="row justify-content-center">
@@ -100,11 +103,12 @@ const ArtistUserProfile = () => {
               <div className="card-body">
                 <div className="text-center">
                   <img
-                    src={SERVER_BASE_URL + artist.image}
+                    src={SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + artist.image}
                     alt="Profile"
                     className="img-fluid rounded-circle border border-light"
                     style={{ width: 150, height: 150, objectFit: "cover" }}
                   />
+
                   <h2 className="mt-4">{artist.artist_name}</h2>
                   <p className="mt-4 lead">
                     <span style={{ fontWeight: "bold" }}>Genre: </span>

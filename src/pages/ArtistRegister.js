@@ -57,14 +57,13 @@ function ArtistRegister() {
   const [youtube, setYoutube] = useState("");
   const [image, setImage] = useState(null);
 
+  console.log(youtube);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Create a FormData object
     const formData = new FormData();
-
-    // Append the image file to the FormData object
-    formData.append("image", image);
 
     // Append the other data fields to the FormData object
     formData.append("artist_name", artistName);
@@ -77,13 +76,14 @@ function ArtistRegister() {
     formData.append("country", country);
     formData.append("county", county);
     formData.append("type_of_artist", typeOfArtist);
+    formData.append("facebook", facebook);
+    formData.append("twitter", twitter);
+    formData.append("youtube", youtube);
+    formData.append("image", image);
     formData.append(
       "user_type",
       artistMembershipType === 1 || artistMembershipType === 3 ? "Artist" : ""
     );
-    formData.append("facebook", facebook);
-    formData.append("twitter", twitter);
-    formData.append("youtube", youtube);
     formData.append("artist_membership_type", artistMembershipType);
 
     // Send the FormData object in the request

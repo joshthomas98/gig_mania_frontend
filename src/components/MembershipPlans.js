@@ -77,14 +77,17 @@ const MembershipPlans = () => {
                   </h2>
                   <h4 className="text-center mt-3">{membership.title}</h4>
                   <Card.Text className="text-left mt-4">
-                    <h6 className="text-light text-left px-3 mb-3 lead">
-                      {membership.id === 1 || membership.id === 2
+                    <h6 className="text-light text-center px-3 mb-3 lead">
+                      {membership.membership_id === 1 ||
+                      membership.membership_id === 2
                         ? "GigSweep Standard benefits:"
-                        : membership.id === 3 || membership.id === 4
+                        : membership.membership_id === 3 ||
+                          membership.membership_id === 4
                         ? "GigSweep Pro benefits:"
                         : "Invalid membership option"}
                     </h6>
                     <div
+                      className="text-center"
                       dangerouslySetInnerHTML={{
                         __html: membership.description,
                       }}
@@ -94,7 +97,7 @@ const MembershipPlans = () => {
                   </Card.Text>
 
                   <div className="text-center">
-                    {renderButton(membership.id, "Select")}
+                    {renderButton(membership.membership_id, "Select")}
                   </div>
                 </Card.Body>
               </Card>

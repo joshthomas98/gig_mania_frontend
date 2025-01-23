@@ -471,7 +471,7 @@ function ArtistAdvertiseGig() {
       is_advertised: true,
     };
 
-    fetch("http://localhost:8000/artist_gigs/", {
+    fetch("http://localhost:8000/artists/artist_gigs/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

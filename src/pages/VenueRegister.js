@@ -36,9 +36,12 @@ function VenueRegister() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [postcode, setPostcode] = useState("");
   const [bio, setBio] = useState("");
   const [country, setCountry] = useState("");
   const [county, setCounty] = useState("");
+  const [genre, setGenre] = useState(null);
   const [typeOfAct, setTypeOfAct] = useState(null);
   const [facebook, setFacebook] = useState("");
   const [twitter, setTwitter] = useState("");
@@ -51,17 +54,17 @@ function VenueRegister() {
     // Create a FormData object
     const formData = new FormData();
 
-    // Append the image file to the FormData object
-    formData.append("image", image);
-
     // Append the other data fields to the FormData object
     formData.append("venue_name", venueName);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("phone_number", phoneNumber);
+    formData.append("address", address);
+    formData.append("postcode", postcode);
     formData.append("bio", bio);
     formData.append("country", country);
     formData.append("county", county);
+    formData.append("genre", genre);
     formData.append("type_of_act", typeOfAct);
     formData.append(
       "user_type",
@@ -70,6 +73,7 @@ function VenueRegister() {
     formData.append("facebook", facebook);
     formData.append("twitter", twitter);
     formData.append("youtube", youtube);
+    formData.append("image", image);
     formData.append("venue_membership_type", venueMembershipType);
 
     // Send the FormData object in the request
@@ -297,12 +301,40 @@ function VenueRegister() {
         </div>
 
         <div className="form-group">
+          <label htmlFor="address" className="text-light mb-2 mt-3">
+            Address:
+          </label>
+          <input
+            type="text"
+            placeholder="Enter the address of your venue"
+            className="form-control"
+            id="address"
+            value={address}
+            onChange={(event) => setAddress(event.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="postcode" className="text-light mb-2 mt-3">
+            Postcode:
+          </label>
+          <input
+            type="text"
+            placeholder="Enter the postcode of your venue"
+            className="form-control"
+            id="postcode"
+            value={postcode}
+            onChange={(event) => setPostcode(event.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
           <label htmlFor="bio" className="text-light mb-2 mt-3">
             Bio:
           </label>
           <input
             type="text"
-            placeholder="Create an artist bio"
+            placeholder="Create a venue bio"
             className="form-control"
             id="bio"
             value={bio}
@@ -422,6 +454,35 @@ function VenueRegister() {
             </select>
           </div>
         )}
+
+        <div className="form-group">
+          <label htmlFor="genre" className="text-light mb-2 mt-3">
+            Genre:
+          </label>
+          <select
+            className="form-control"
+            id="genre"
+            value={genre}
+            onChange={(event) => setGenre(event.target.value)}
+          >
+            <option value="">
+              What genre of music do you primarily have at your venue?
+            </option>
+            <option value="Rock">Rock</option>
+            <option value="Pop">Pop</option>
+            <option value="Jazz">Jazz</option>
+            <option value="Country">Country</option>
+            <option value="Hip Hop">Hip Hop</option>
+            <option value="R&B">R&B</option>
+            <option value="Electronic">Electronic</option>
+            <option value="Classical">Classical</option>
+            <option value="Reggae">Reggae</option>
+            <option value="Metal">Metal</option>
+            <option value="Folk">Folk</option>
+            <option value="Blues">Blues</option>
+            <option value="World Music">World Music</option>
+          </select>
+        </div>
 
         <div className="form-group">
           <label htmlFor="typeOfAct" className="text-light mb-2 mt-3">

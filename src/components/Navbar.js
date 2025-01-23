@@ -34,6 +34,7 @@ const NavbarComponent = () => {
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const SERVER_BASE_URL_WITHOUT_TRAILING_SLASH = "http://localhost:8000";
 
   const [artist, setArtist] = useState([]);
   const [venue, setVenue] = useState([]);
@@ -185,7 +186,9 @@ const NavbarComponent = () => {
               <Nav.Link href={`/artistuserprofile/${storedUserId}`}>
                 {artist.length > 0 && (
                   <img
-                    src={SERVER_BASE_URL + artist[0].image}
+                    src={
+                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + artist[0].image
+                    }
                     alt="..."
                     width={50}
                     className="rounded mb-2 img-thumbnail mt-2 mx-2"
@@ -196,7 +199,9 @@ const NavbarComponent = () => {
               <Nav.Link href={`/venueuserprofile/${storedUserId}`}>
                 {venue.length > 0 && (
                   <img
-                    src={SERVER_BASE_URL + venue[0].image}
+                    src={
+                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + venue[0].image
+                    }
                     alt="..."
                     width={60}
                     className="rounded mb-2 img-thumbnail mx-2"

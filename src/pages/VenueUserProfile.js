@@ -11,6 +11,9 @@ const VenueUserProfile = () => {
   const [venue, setVenue] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const SERVER_BASE_URL = "http://localhost:8000/";
+  const SERVER_BASE_URL_WITHOUT_TRAILING_SLASH = "http://localhost:8000";
+
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem("userId");
     const artistOrVenueFromLocalStorage = localStorage.getItem("artistOrVenue");
@@ -61,7 +64,7 @@ const VenueUserProfile = () => {
               <div className="card-body">
                 <div className="text-center mt-3 mb-4">
                   <img
-                    src={`http://localhost:8000/${venue.image}`}
+                    src={SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + venue.image}
                     alt="Venue"
                     className="img-fluid rounded-circle border border-light"
                     style={{ width: 150, height: 150, objectFit: "cover" }}

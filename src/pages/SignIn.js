@@ -202,7 +202,6 @@ const SignIn = () => {
             </ul>
 
             <a
-              target={"_blank"}
               href="/membershipplans"
               className="btn btn-secondary mt-4"
               style={{ width: "300px" }}
