@@ -15,6 +15,8 @@ const ArtistUserProfile = () => {
 
   const SERVER_BASE_URL = "http://localhost:8000/";
   const SERVER_BASE_URL_WITHOUT_TRAILING_SLASH = "http://localhost:8000";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [artist, setArtist] = useState(null);
   const [unavailabilities, setUnavailabilities] = useState([]);
@@ -26,7 +28,9 @@ const ArtistUserProfile = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artists/${profileId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${profileId}/`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch artist data");
         }
@@ -40,7 +44,7 @@ const ArtistUserProfile = () => {
     const fetchUnavailabilities = async () => {
       try {
         const response = await fetch(
-          `${SERVER_BASE_URL}unavailabilities/${profileId}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/unavailabilities/${profileId}/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch unavailabilities data");
@@ -92,8 +96,6 @@ const ArtistUserProfile = () => {
     if (!artist) {
       return <LoadingSpinner />;
     }
-
-    console.log(artist.image + " " + "HERE");
 
     return (
       <div className="container mt-5">

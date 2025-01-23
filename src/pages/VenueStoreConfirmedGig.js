@@ -8,6 +8,9 @@ function VenueStoreConfirmedGig() {
   const { userId, artistOrVenue } = useContext(LoginContext);
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   if (!userId || !artistOrVenue) {
     navigate("/signin");
   } else if (userId && artistOrVenue !== "V") {
@@ -35,7 +38,7 @@ function VenueStoreConfirmedGig() {
   const [typingTimeout, setTypingTimeout] = useState(null);
 
   const fetchArtistName = () => {
-    fetch(`http://localhost:8000/artists/${userId}/`)
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/`)
       .then((response) => response.json())
       .then((data) => {
         setFetchedArtistDetails(data);
@@ -80,7 +83,7 @@ function VenueStoreConfirmedGig() {
   const fetchSuggestions = async (query) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/venues/search/?q=${query}`
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/search/?q=${query}`
       );
       const venueData = await response.json();
       const venueSuggestions = venueData.map((venue) => ({
@@ -130,7 +133,7 @@ function VenueStoreConfirmedGig() {
       user_type: artistOrVenue === "A" ? "Artist" : "",
     };
 
-    fetch("http://localhost:8000/artist_gigs/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -155,8 +158,6 @@ function VenueStoreConfirmedGig() {
         }, 1500); // Ensure spinner is shown for at least 2 seconds
       });
   };
-
-  console.log(timeOfGig);
 
   return (
     <>

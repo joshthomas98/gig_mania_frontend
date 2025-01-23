@@ -8,6 +8,10 @@ import { useArtistGigApplications } from "../contexts/ArtistGigApplicationsConte
 
 const SignIn = () => {
   const navigate = useNavigate();
+
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const { userId, setUserId, artistOrVenue, setArtistOrVenue } =
     useContext(LoginContext);
   const { updateArtistGigApplications } = useArtistGigApplications();
@@ -23,8 +27,8 @@ const SignIn = () => {
     e.preventDefault();
     const url =
       artistOrVenue === "A"
-        ? "http://localhost:8000/artists/validate/"
-        : "http://localhost:8000/venues/validate/";
+        ? `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/validate/`
+        : `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/validate/`;
 
     fetch(url, {
       method: "POST",
@@ -61,7 +65,9 @@ const SignIn = () => {
   };
 
   const fetchArtistGigApplications = (userId) => {
-    fetch(`http://localhost:8000/artistgigapplications/?venue_id=${userId}`)
+    fetch(
+      `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artistgigapplications/?venue_id=${userId}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch artist gig applications");

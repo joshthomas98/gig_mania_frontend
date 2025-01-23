@@ -10,6 +10,9 @@ const VenueSearchForArtist = () => {
 
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   if (!userId || !artistOrVenue) {
     navigate("/signin");
   } else if (userId && artistOrVenue === "A") {
@@ -39,7 +42,7 @@ const VenueSearchForArtist = () => {
       country: country,
     };
 
-    fetch("http://localhost:8000/artist_search/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_search/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

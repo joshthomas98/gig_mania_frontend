@@ -18,6 +18,8 @@ const RequestToBook = () => {
   const location = useLocation();
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [artist, setArtist] = useState([]);
 
@@ -48,7 +50,9 @@ const RequestToBook = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artists/${resultId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${resultId}/`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch artist data");
         }

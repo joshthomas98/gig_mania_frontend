@@ -8,6 +8,9 @@ function ApplyForGig() {
 
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   if (!userId || !artistOrVenue) {
     navigate("/signin");
   } else if (userId && artistOrVenue === "V") {
@@ -28,7 +31,7 @@ function ApplyForGig() {
     formData.append("email", email);
 
     // Send the FormData object in the request
-    fetch("http://localhost:8000/gigapplications/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/gigapplications/`, {
       method: "POST",
       body: formData,
     })

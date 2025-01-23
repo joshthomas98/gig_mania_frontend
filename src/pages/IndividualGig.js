@@ -16,6 +16,8 @@ const IndividualGig = () => {
   const navigate = useNavigate();
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const { userType, gigId } = useParams();
 
@@ -36,9 +38,9 @@ const IndividualGig = () => {
       try {
         let url = "";
         if (userType === "Artist") {
-          url = `http://localhost:8000/artist_gigs/${gigId}/`;
+          url = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`;
         } else if (userType === "Venue") {
-          url = `http://localhost:8000/venue_gigs/${gigId}/`;
+          url = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_gigs/${gigId}/`;
         }
 
         const response = await fetch(url);
@@ -60,7 +62,7 @@ const IndividualGig = () => {
     const fetchVenueData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/gigapplications/${gigId}`,
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/gigapplications/${gigId}`,
           {
             method: "GET",
             headers: {
@@ -86,7 +88,7 @@ const IndividualGig = () => {
     const fetchApplyingArtist = async () => {
       try {
         const response = await fetch(
-          `${SERVER_BASE_URL}artists/${storedUserId}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${storedUserId}/`
         );
         const data = await response.json();
         console.log(data);
@@ -109,7 +111,7 @@ const IndividualGig = () => {
       let endpoint, bodyData;
 
       if (gigDetails.user_type === "Artist") {
-        endpoint = "http://localhost:8000/artistgigapplications/";
+        endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artistgigapplications/`;
         bodyData = {
           artist: applyingArtist.id,
           artist_gig: gigDetails.id,
@@ -118,7 +120,7 @@ const IndividualGig = () => {
           message: message,
         };
       } else {
-        endpoint = "http://localhost:8000/venuegigapplications/";
+        endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venuegigapplications/`;
         bodyData = {
           artist: applyingArtist.id,
           venue_gig: gigDetails.id,

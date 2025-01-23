@@ -6,6 +6,9 @@ import DeleteArtistGigModal from "../components/modals/DeleteArtistGigModal";
 const MyListedGigs = () => {
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
 
@@ -17,7 +20,9 @@ const MyListedGigs = () => {
 
   useEffect(() => {
     if (storedUserType === "A") {
-      fetch(`http://localhost:8000/artists/${storedUserId}/gigs/`)
+      fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${storedUserId}/gigs/`
+      )
         .then((response) => response.json())
         .then((data) => {
           setArtistGigs(data);
@@ -26,7 +31,9 @@ const MyListedGigs = () => {
           console.log(error);
         });
     } else if (storedUserType === "V") {
-      fetch(`http://localhost:8000/venues/${storedUserId}/gigs/`)
+      fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${storedUserId}/gigs/`
+      )
         .then((response) => response.json())
         .then((data) => {
           setVenueGigs(data);
@@ -70,9 +77,12 @@ const MyListedGigs = () => {
 
   const handleDeleteGig = () => {
     if (storedUserType === "A") {
-      fetch(`http://localhost:8000/artist_gigs/${selectedGigId}/`, {
-        method: "DELETE",
-      })
+      fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${selectedGigId}/`,
+        {
+          method: "DELETE",
+        }
+      )
         .then((response) => {
           if (response.ok) {
             console.log("DELETE request successful");
@@ -89,9 +99,12 @@ const MyListedGigs = () => {
           );
         });
     } else if (storedUserType === "V") {
-      fetch(`http://localhost:8000/venue_gigs/${selectedGigId}/`, {
-        method: "DELETE",
-      })
+      fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_gigs/${selectedGigId}/`,
+        {
+          method: "DELETE",
+        }
+      )
         .then((response) => {
           if (response.ok) {
             console.log("DELETE request successful");

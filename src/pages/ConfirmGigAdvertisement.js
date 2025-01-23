@@ -16,12 +16,15 @@ const ConfirmGigAdvertisement = () => {
   const { gigId } = useParams();
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const [gigDetails, setGigDetails] = useState("");
 
   const [reasonForAdvertising, setReasonForAdvertising] = useState("");
 
   const fetchGigDetailsByParam = () => {
-    fetch(`http://localhost:8000/artist_gigs/${gigId}/`)
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -43,13 +46,16 @@ const ConfirmGigAdvertisement = () => {
       reason_for_advertising: reasonForAdvertising,
     };
 
-    fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           navigate("/gigadvertised");

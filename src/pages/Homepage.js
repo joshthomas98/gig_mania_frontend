@@ -13,6 +13,9 @@ const Homepage = () => {
 
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   if (!userId || !artistOrVenue) {
     navigate("/signin");
   }
@@ -51,7 +54,7 @@ const Homepage = () => {
       email: email,
     };
 
-    fetch("http://localhost:8000/newslettersignups/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/newslettersignups/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

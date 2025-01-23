@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 function TestFetch() {
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const [bands, setBands] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/bands/")
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/bands/`)
       .then((response) => response.json())
       .then((data) => setBands(data))
       .catch((error) => console.log(error));

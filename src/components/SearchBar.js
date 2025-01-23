@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -36,7 +39,7 @@ const SearchBar = () => {
   const fetchSuggestions = async (query) => {
     try {
       const artistResponse = await fetch(
-        `http://localhost:8000/artists/search/?q=${query}`
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/search/?q=${query}`
       );
       const artistData = await artistResponse.json();
       const artistSuggestions = artistData.map((artist) => ({
@@ -46,7 +49,7 @@ const SearchBar = () => {
       }));
 
       const venueResponse = await fetch(
-        `http://localhost:8000/venues/search/?q=${query}`
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/search/?q=${query}`
       );
       const venueData = await venueResponse.json();
       const venueSuggestions = venueData.map((venue) => ({

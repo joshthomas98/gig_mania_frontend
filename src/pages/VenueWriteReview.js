@@ -23,6 +23,8 @@ const VenueWriteReview = () => {
   const artistIdFromURL = searchParams.get("artistId");
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [artist, setArtist] = useState("");
   const [venue, setVenue] = useState("");
@@ -38,7 +40,9 @@ const VenueWriteReview = () => {
   useEffect(() => {
     const fetchVenue = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}venues/${userId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${userId}/`
+        );
         const data = await response.json();
         console.log(data);
         setVenue(data); // Store the entire venue data
@@ -59,7 +63,9 @@ const VenueWriteReview = () => {
 
   const fetchArtistData = async (artistId) => {
     try {
-      const response = await fetch(`${SERVER_BASE_URL}artists/${artistId}/`);
+      const response = await fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${artistId}/`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch artist data");
       }
@@ -87,13 +93,16 @@ const VenueWriteReview = () => {
       rating: selectedRating,
     };
 
-    fetch("http://localhost:8000/venue_written_review_check_profanities/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_written_review_check_profanities/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           setIsLoading(false);

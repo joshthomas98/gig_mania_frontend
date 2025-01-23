@@ -13,6 +13,8 @@ const VenueUserProfile = () => {
 
   const SERVER_BASE_URL = "http://localhost:8000/";
   const SERVER_BASE_URL_WITHOUT_TRAILING_SLASH = "http://localhost:8000";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem("userId");
@@ -29,7 +31,7 @@ const VenueUserProfile = () => {
     const fetchVenue = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/venues/${profileId}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${profileId}/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch venue data");

@@ -21,6 +21,8 @@ const ArtistProfileSettings = () => {
   }
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const userIdFromLocalStorage = localStorage.getItem("userId");
 
@@ -57,7 +59,9 @@ const ArtistProfileSettings = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artists/${userId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/`
+        );
         const data = await response.json();
         console.log(data);
         setArtist([data]);
@@ -72,7 +76,7 @@ const ArtistProfileSettings = () => {
   const handleProfileSaveClick = async (event) => {
     event.preventDefault();
 
-    const endpoint = `${SERVER_BASE_URL}artists/${userId}/`;
+    const endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/`;
 
     const formData = new FormData();
     formData.append("image", selectedImage || artist[0].image);

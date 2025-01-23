@@ -35,6 +35,8 @@ const NavbarComponent = () => {
   const storedUserType = localStorage.getItem("artistOrVenue");
   const SERVER_BASE_URL = "http://localhost:8000/";
   const SERVER_BASE_URL_WITHOUT_TRAILING_SLASH = "http://localhost:8000";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [artist, setArtist] = useState([]);
   const [venue, setVenue] = useState([]);
@@ -49,7 +51,9 @@ const NavbarComponent = () => {
           storedUserType === "A"
             ? `artists/${storedUserId}/`
             : `venues/${storedUserId}/`;
-        const response = await fetch(`${SERVER_BASE_URL}${endpoint}`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/${endpoint}`
+        );
         const data = await response.json();
         storedUserType === "A" ? setArtist([data]) : setVenue([data]);
       }
@@ -62,7 +66,7 @@ const NavbarComponent = () => {
     const fetchVenueNotifications = async () => {
       if (storedUserId && storedUserType === "V") {
         const response = await fetch(
-          `${SERVER_BASE_URL}venue_notifications/${storedUserId}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_notifications/${storedUserId}/`
         );
         const data = await response.json();
         const verifiedNotifications = await verifyNotifications(data);
@@ -79,14 +83,14 @@ const NavbarComponent = () => {
       let gigExists = true;
       if (notification.if_gig_advertised_by_artist) {
         const gigResponse = await fetch(
-          `${SERVER_BASE_URL}artist_gigs/${notification.if_gig_advertised_by_artist}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${notification.if_gig_advertised_by_artist}/`
         );
         if (!gigResponse.ok) {
           gigExists = false;
         }
       } else if (notification.if_venue_made_gig) {
         const gigResponse = await fetch(
-          `${SERVER_BASE_URL}venue_gigs/${notification.if_venue_made_gig}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_gigs/${notification.if_venue_made_gig}/`
         );
         if (!gigResponse.ok) {
           gigExists = false;

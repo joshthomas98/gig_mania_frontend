@@ -5,6 +5,9 @@ import { Card, Button } from "react-bootstrap";
 const MembershipPlans = () => {
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const storedUserId = localStorage.getItem("userId");
   const storedUserType = localStorage.getItem("artistOrVenue");
 
@@ -16,7 +19,7 @@ const MembershipPlans = () => {
     const fetchMembershipOptions = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/membershipoptions/"
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/membershipoptions/`
         );
         const data = await response.json();
         setMembershipOptions(data);

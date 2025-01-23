@@ -11,6 +11,9 @@ function VenueRegister() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const membershipType = location.state?.membershipType;
   const [venueMembershipType] = useState(membershipType);
 
@@ -77,7 +80,7 @@ function VenueRegister() {
     formData.append("venue_membership_type", venueMembershipType);
 
     // Send the FormData object in the request
-    fetch("http://localhost:8000/venues/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/`, {
       method: "POST",
       body: formData,
     })

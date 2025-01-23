@@ -9,6 +9,9 @@ const ArtistEditGig = () => {
   const navigate = useNavigate();
   const { gigId } = useParams();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   if (!userId || !artistOrVenue) {
     navigate("/signin");
   } else if (userId && artistOrVenue === "V") {
@@ -30,7 +33,7 @@ const ArtistEditGig = () => {
 
   // Fetches data for the form fields from the server based on gigId parameter in the URL
   const fetchDataForFormFields = () => {
-    fetch(`http://localhost:8000/artist_gigs/${gigId}/`)
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`)
       .then((response) => response.json())
       .then((data) => {
         setGigFormFieldData(data);
@@ -85,13 +88,16 @@ const ArtistEditGig = () => {
         : { notes_about_gig: notesAboutGig }),
     };
 
-    fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           navigate("/gigsuccessfullyupdated");

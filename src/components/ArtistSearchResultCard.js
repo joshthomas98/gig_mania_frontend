@@ -6,6 +6,8 @@ function ArtistSearchResultCard(props) {
   const result = props.result;
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const handleMoreInfoClick = () => {
     navigate(`/artistuserprofile/${result.id}`);
@@ -20,7 +22,10 @@ function ArtistSearchResultCard(props) {
   return (
     <div className="artist-search-result-card-container">
       <Card className="text-light text-center" style={{ width: "20rem" }}>
-        <Card.Img variant="top" src={SERVER_BASE_URL + result.image} />
+        <Card.Img
+          variant="top"
+          src={PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH + "/" + result.image}
+        />
         <Card.Body>
           <Card.Title className="mb-3">{result.artist_name}</Card.Title>
           <Card.Text className="mb-3">{result.summary}</Card.Text>

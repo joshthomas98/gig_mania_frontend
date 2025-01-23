@@ -20,6 +20,8 @@ const GigTransferReview = () => {
   const { gigId } = useParams();
   const navigate = useNavigate();
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
@@ -70,13 +72,16 @@ const GigTransferReview = () => {
         payload.type_of_artist = selectedArtist.type_of_artist;
       }
 
-      fetch(`http://localhost:8000/artist_gigs/${gigId}/`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      })
+      fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      )
         .then((response) => {
           if (response.ok) {
             console.log("PUT request successful");
@@ -101,7 +106,7 @@ const GigTransferReview = () => {
     if (selectedArtist && selectedArtist.id) {
       setIsLoading(true);
       fetch(
-        `http://localhost:8000/artistgigapplications/${selectedArtist.id}/`,
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artistgigapplications/${selectedArtist.id}/`,
         {
           method: "DELETE",
         }
@@ -132,7 +137,9 @@ const GigTransferReview = () => {
   useEffect(() => {
     const fetchArtistGigData = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artist_gigs/${gigId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch gig data");
         }
@@ -147,7 +154,7 @@ const GigTransferReview = () => {
     const fetchApplications = async (gigId) => {
       try {
         const response = await fetch(
-          `${SERVER_BASE_URL}artist_gigs/${gigId}/applications/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${gigId}/applications/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch applications");
@@ -165,7 +172,7 @@ const GigTransferReview = () => {
         const artistDetails = {};
         for (const artistId of artistIds) {
           const response = await fetch(
-            `${SERVER_BASE_URL}artists/${artistId}/`
+            `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${artistId}/`
           );
           if (!response.ok) {
             throw new Error(`Failed to fetch artist with id ${artistId}`);

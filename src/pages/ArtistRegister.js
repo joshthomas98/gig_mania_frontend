@@ -17,6 +17,9 @@ function ArtistRegister() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   const membershipType = location.state?.membershipType;
   const [artistMembershipType] = useState(membershipType);
 
@@ -87,7 +90,7 @@ function ArtistRegister() {
     formData.append("artist_membership_type", artistMembershipType);
 
     // Send the FormData object in the request
-    fetch("http://localhost:8000/artists/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/`, {
       method: "POST",
       body: formData,
     })

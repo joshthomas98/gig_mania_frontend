@@ -20,6 +20,8 @@ const ArtistEditAvailability = () => {
   const { profileId } = useParams();
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [artist, setArtist] = useState([]);
   const [unavailabilities, setUnavailabilities] = useState([]);
@@ -29,7 +31,9 @@ const ArtistEditAvailability = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artists/${profileId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${profileId}/`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch artist data");
         }
@@ -48,7 +52,7 @@ const ArtistEditAvailability = () => {
     const fetchUnavailabilities = async () => {
       try {
         const response = await fetch(
-          `${SERVER_BASE_URL}unavailabilities/${profileId}/`
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/unavailabilities/${profileId}/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch unavailabilities data");
@@ -106,7 +110,7 @@ const ArtistEditAvailability = () => {
       };
 
       // Send a POST request to create the unavailability
-      fetch(`${SERVER_BASE_URL}unavailabilities/`, {
+      fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/unavailabilities/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

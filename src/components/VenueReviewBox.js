@@ -4,11 +4,17 @@ const VenueReviewBox = ({ artistInfo }) => {
   const { image, artistName, facebook, youtube, twitter } = artistInfo;
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   return (
     <div className="text-light">
       <div className="review-box">
         <div className="review-image">
-          <img src={SERVER_BASE_URL + image} alt="Image" />
+          <img
+            src={PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH + "/" + image}
+            alt="Image"
+          />
         </div>
         <div className="review-content">
           <h3 className="review-title mt-2">{artistName}</h3>

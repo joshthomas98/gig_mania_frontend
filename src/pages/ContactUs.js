@@ -14,6 +14,8 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 function ContactUs() {
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -39,7 +41,7 @@ function ContactUs() {
 
     try {
       const response = await axios.post(
-        `${SERVER_BASE_URL}contactqueries/`,
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/contactqueries/`,
         formData
       );
       console.log("Form submitted successfully:", response.data);

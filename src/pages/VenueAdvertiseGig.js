@@ -10,6 +10,9 @@ function VenueAdvertiseGig() {
 
   const navigate = useNavigate();
 
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
+
   if (!userId || !artistOrVenue) {
     navigate("/signin");
   } else if (userId && artistOrVenue === "A") {
@@ -27,7 +30,7 @@ function VenueAdvertiseGig() {
   const [payment, setPayment] = useState("");
 
   const fetchVenueName = () => {
-    fetch(`http://localhost:8000/venues/${userId}/`)
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${userId}/`)
       .then((response) => response.json())
       .then((data) => {
         setFetchedVenueDetails(data);
@@ -69,7 +72,7 @@ function VenueAdvertiseGig() {
       user_type: artistOrVenue === "V" ? "Venue" : "",
     };
 
-    fetch("http://localhost:8000/venue_gigs/", {
+    fetch(`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_gigs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

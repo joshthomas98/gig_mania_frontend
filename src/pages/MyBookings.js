@@ -13,6 +13,8 @@ const MyBookings = () => {
     useContext(LoginContext);
   const navigate = useNavigate();
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [artist, setArtist] = useState({});
   const [artistGigs, setArtistGigs] = useState([]);
@@ -38,7 +40,9 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artists/${userId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch artist data");
         }
@@ -58,8 +62,8 @@ const MyBookings = () => {
         try {
           const url =
             artistOrVenue === "A"
-              ? `${SERVER_BASE_URL}artists/${userId}/gigs/`
-              : `${SERVER_BASE_URL}venues/${userId}/gigs/`;
+              ? `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/gigs/`
+              : `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${userId}/gigs/`;
 
           const response = await fetch(url);
           if (!response.ok) {
@@ -107,14 +111,14 @@ const MyBookings = () => {
         let response;
         if (artistOrVenue === "A") {
           response = await axios.delete(
-            `${SERVER_BASE_URL}artist_gigs/${selectedGig.id}/`
+            `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${selectedGig.id}/`
           );
           setArtistGigs((prevGigs) =>
             prevGigs.filter((gig) => gig.id !== selectedGig.id)
           );
         } else if (artistOrVenue === "V") {
           response = await axios.delete(
-            `${SERVER_BASE_URL}venue_gigs/${selectedGig.id}/`
+            `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venue_gigs/${selectedGig.id}/`
           );
           setVenueGigs((prevGigs) =>
             prevGigs.filter((gig) => gig.id !== selectedGig.id)
@@ -139,7 +143,7 @@ const MyBookings = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/artist_gigs/${selectedGig.id}/`,
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artist_gigs/${selectedGig.id}/`,
         {
           method: "PUT",
           headers: {

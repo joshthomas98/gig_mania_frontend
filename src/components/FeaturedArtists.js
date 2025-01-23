@@ -4,11 +4,15 @@ const FeaturedArtists = () => {
   const [featuredArtists, setFeaturedArtists] = useState([]);
 
   const SERVER_BASE_URL = "http://localhost:8000";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   useEffect(() => {
     const fetchFeaturedArtists = async () => {
       try {
-        const response = await fetch("http://localhost:8000/featuredartists/");
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/featuredartists/`
+        );
         const data = await response.json();
         setFeaturedArtists(data);
         console.log(featuredArtists);

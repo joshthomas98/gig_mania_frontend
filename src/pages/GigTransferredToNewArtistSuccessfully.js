@@ -10,11 +10,15 @@ const GigTransferredToNewArtistSuccessfully = () => {
   const [artist, setArtist] = useState(null);
   const { artistId } = useParams();
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   useEffect(() => {
     const fetchArtist = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}artists/${artistId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${artistId}/`
+        );
         console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch artist");
@@ -28,8 +32,6 @@ const GigTransferredToNewArtistSuccessfully = () => {
 
     fetchArtist();
   }, [artistId]);
-
-  console.log(artist);
 
   return (
     <div className="text-light text-center">

@@ -21,6 +21,8 @@ const VenueProfileSettings = () => {
   }
 
   const SERVER_BASE_URL = "http://localhost:8000/";
+  const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
+    "https://gigsweep-express.vercel.app/";
 
   const [venue, setVenue] = useState([]);
 
@@ -37,7 +39,9 @@ const VenueProfileSettings = () => {
   useEffect(() => {
     const fetchVenue = async () => {
       try {
-        const response = await fetch(`${SERVER_BASE_URL}venues/${userId}/`);
+        const response = await fetch(
+          `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${userId}/`
+        );
         const data = await response.json();
         console.log(data);
         setVenue([data]);
@@ -52,7 +56,7 @@ const VenueProfileSettings = () => {
   const handleProfileSaveClick = async (event) => {
     event.preventDefault();
 
-    const endpoint = `${SERVER_BASE_URL}venues/${userId}/`;
+    const endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/venues/${userId}/`;
 
     const formData = new FormData();
     formData.append("image", selectedImage || venue[0].image);
