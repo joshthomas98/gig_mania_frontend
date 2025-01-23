@@ -5,7 +5,7 @@ const FeaturedArtists = () => {
 
   const SERVER_BASE_URL = "http://localhost:8000";
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app";
+    "gigsweep-express-19uihky44-josh-thomas-projects.vercel.app";
 
   useEffect(() => {
     const fetchFeaturedArtists = async () => {
