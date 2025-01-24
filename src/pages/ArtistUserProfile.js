@@ -106,7 +106,7 @@ const ArtistUserProfile = () => {
                 <div className="text-center">
                   <img
                     src={
-                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH +
+                      PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH +
                       "/" +
                       artist.image
                     }
