@@ -66,7 +66,9 @@ const VenueUserProfile = () => {
               <div className="card-body">
                 <div className="text-center mt-3 mb-4">
                   <img
-                    src={SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + venue.image}
+                    src={
+                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + "/" + venue.image
+                    }
                     alt="Venue"
                     className="img-fluid rounded-circle border border-light"
                     style={{ width: 150, height: 150, objectFit: "cover" }}

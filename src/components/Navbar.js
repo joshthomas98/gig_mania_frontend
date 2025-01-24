@@ -191,7 +191,9 @@ const NavbarComponent = () => {
                 {artist.length > 0 && (
                   <img
                     src={
-                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + artist[0].image
+                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH +
+                      "/" +
+                      artist[0].image
                     }
                     alt="..."
                     width={50}
@@ -204,7 +206,9 @@ const NavbarComponent = () => {
                 {venue.length > 0 && (
                   <img
                     src={
-                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH + venue[0].image
+                      SERVER_BASE_URL_WITHOUT_TRAILING_SLASH +
+                      "/" +
+                      venue[0].image
                     }
                     alt="..."
                     width={60}
