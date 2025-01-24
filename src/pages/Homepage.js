@@ -14,7 +14,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app/";
+    "https://gigsweep-express.vercel.app";
 
   if (!userId || !artistOrVenue) {
     navigate("/signin");

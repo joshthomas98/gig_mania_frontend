@@ -6,7 +6,7 @@ const SearchBar = () => {
   const navigate = useNavigate();
 
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app/";
+    "https://gigsweep-express.vercel.app";
 
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);

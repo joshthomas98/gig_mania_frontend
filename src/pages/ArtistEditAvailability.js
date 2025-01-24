@@ -21,7 +21,7 @@ const ArtistEditAvailability = () => {
 
   const SERVER_BASE_URL = "http://localhost:8000/";
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app/";
+    "https://gigsweep-express.vercel.app";
 
   const [artist, setArtist] = useState([]);
   const [unavailabilities, setUnavailabilities] = useState([]);

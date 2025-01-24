@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function TestFetch() {
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app/";
+    "https://gigsweep-express.vercel.app";
 
   const [bands, setBands] = useState([]);
 

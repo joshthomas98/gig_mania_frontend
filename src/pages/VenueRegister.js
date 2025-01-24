@@ -12,7 +12,7 @@ function VenueRegister() {
   const location = useLocation();
 
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app/";
+    "https://gigsweep-express.vercel.app";
 
   const membershipType = location.state?.membershipType;
   const [venueMembershipType] = useState(membershipType);

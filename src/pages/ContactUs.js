@@ -15,7 +15,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 function ContactUs() {
   const SERVER_BASE_URL = "http://localhost:8000/";
   const PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH =
-    "https://gigsweep-express.vercel.app/";
+    "https://gigsweep-express.vercel.app";
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
