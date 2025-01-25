@@ -105,7 +105,9 @@ const ArtistUserProfile = () => {
               <div className="card-body">
                 <div className="text-center">
                   <img
-                    src={`${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/${artist.image}`}
+                    src={
+                      PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH + artist.image
+                    }
                     alt="Profile"
                     className="img-fluid rounded-circle border border-light"
                     style={{ width: 150, height: 150, objectFit: "cover" }}

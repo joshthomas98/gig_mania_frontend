@@ -76,7 +76,7 @@ const ArtistProfileSettings = () => {
   const handleProfileSaveClick = async (event) => {
     event.preventDefault();
 
-    const endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/`;
+    const endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}`;
 
     const formData = new FormData();
     formData.append("image", selectedImage || artist[0].image);

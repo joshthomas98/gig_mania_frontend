@@ -67,9 +67,7 @@ const VenueUserProfile = () => {
                 <div className="text-center mt-3 mb-4">
                   <img
                     src={
-                      PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH +
-                      "/" +
-                      venue.image
+                      PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH + venue.image
                     }
                     alt="Venue"
                     className="img-fluid rounded-circle border border-light"
