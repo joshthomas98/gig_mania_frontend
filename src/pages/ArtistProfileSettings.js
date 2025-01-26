@@ -76,40 +76,70 @@ const ArtistProfileSettings = () => {
   const handleProfileSaveClick = async (event) => {
     event.preventDefault();
 
-    const endpoint = `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}`;
-
-    const formData = new FormData();
-    formData.append("image", selectedImage || artist[0].image);
-    formData.append("artist_name", editedArtistName || artist[0].artist_name);
-    formData.append("email", editedEmail || artist[0].email);
-    formData.append("password", editedPassword || artist[0].password);
-    formData.append(
-      "phone_number",
-      editedPhoneNumber || artist[0].phone_number
-    );
-    formData.append("genre", editedGenre || artist[0].genre);
-    formData.append("country", editedCountry || artist[0].country);
-    formData.append("county", editedCounty || artist[0].county);
-    formData.append("summary", editedSummary || artist[0].summary);
-    formData.append("bio", editedBio || artist[0].bio);
-
-    // Remove empty fields from formData
-    for (const [key, value] of formData.entries()) {
-      if (!value) {
-        formData.delete(key);
-      }
-    }
-
     try {
-      const response = await fetch(endpoint, {
-        method: "PUT",
-        body: formData,
-      });
+      // Destructure artist[0] for cleaner fallback values
+      const {
+        artist_name,
+        email,
+        password,
+        phone_number,
+        genre,
+        country,
+        county,
+        summary,
+        bio,
+      } = artist[0] || {};
+
+      // Prepare data with fallbacks
+      const data = {
+        artist_name: editedArtistName || artist_name,
+        email: editedEmail || email,
+        password: editedPassword || password,
+        phone_number: editedPhoneNumber || phone_number,
+        genre: editedGenre || genre,
+        country: editedCountry || country,
+        county: editedCounty || county,
+        summary: editedSummary || summary,
+        bio: editedBio || bio,
+      };
+
+      // Include the selected image (if applicable) in FormData
+      const formData = new FormData();
+      formData.append("image", selectedImage || artist[0]?.image);
+
+      // Remove empty fields from FormData
+      for (const [key, value] of formData.entries()) {
+        if (!value) {
+          formData.delete(key);
+        }
+      }
+
+      // Add remaining fields to FormData (if using FormData for images)
+      for (const [key, value] of Object.entries(data)) {
+        formData.append(key, value);
+      }
+
+      // Define headers (Content-Type for JSON or omit for FormData)
+      const headers = selectedImage
+        ? undefined // FormData sets its own Content-Type
+        : { "Content-Type": "application/json" };
+
+      const response = await fetch(
+        `${PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH}/artists/${userId}/`,
+        {
+          method: "PUT",
+          headers,
+          body: selectedImage ? formData : JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         navigate("/profilesuccessfullyupdated");
+        console.log("Profile updated successfully");
       } else {
-        console.error("Error editing profile:", response.status);
+        // Parse and log error response if available
+        const errorResponse = await response.json();
+        console.error("Error editing profile:", errorResponse);
       }
     } catch (error) {
       console.error("Error editing profile:", error);
@@ -131,7 +161,8 @@ const ArtistProfileSettings = () => {
                     src={
                       selectedImage
                         ? URL.createObjectURL(selectedImage)
-                        : SERVER_BASE_URL + artistData.image
+                        : PRODUCTION_BASE_URL_WITHOUT_TRAILING_SLASH +
+                          artistData.image
                     }
                     alt="Profile picture"
                   />
